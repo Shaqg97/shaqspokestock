@@ -52,10 +52,6 @@ nav button {
   cursor: pointer;
 }
 
-nav button:hover {
-  color: white;
-}
-
 .container {
   max-width: 1100px;
   margin: auto;
@@ -141,7 +137,6 @@ nav button:hover {
 .filter-buttons button.active {
   background: #111;
   color: white;
-  border-color: #111;
 }
 
 .products {
@@ -240,13 +235,13 @@ nav button:hover {
   background: #ffd21f;
 }
 
+.loading,
 .empty {
   background: white;
   padding: 30px;
   border-radius: 15px;
   text-align: center;
   color: #777;
-  display: none;
 }
 
 footer {
@@ -278,10 +273,6 @@ footer {
   .products {
     grid-template-columns: 1fr;
   }
-
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 </style>
 </head>
@@ -294,7 +285,6 @@ footer {
 
     <nav>
       <button onclick="scrollToSection('deals')">Deals</button>
-      <button onclick="scrollToSection('restocks')">Restocks</button>
       <button onclick="scrollToSection('stores')">Stores</button>
     </nav>
   </div>
@@ -302,219 +292,234 @@ footer {
 
 <main class="container">
 
-  <section class="hero">
-    <h1>Find Pokémon stock & deals 🇦🇺</h1>
-    <p>Compare Pokémon products, prices and availability across Australia.</p>
+<section class="hero">
+  <h1>Find Pokémon stock & deals 🇦🇺</h1>
+  <p>Compare Pokémon products, prices and availability across Australia.</p>
 
-    <input
-      class="search"
-      id="search"
-      type="text"
-      placeholder="🔎 Search booster boxes, ETBs, packs..."
-      oninput="searchProducts()"
-    >
-  </section>
+  <input
+    class="search"
+    id="search"
+    type="text"
+    placeholder="🔎 Search booster boxes, ETBs, packs..."
+    oninput="renderProducts()"
+  >
+</section>
 
-  <section class="stats">
+<section class="stats">
 
-    <div class="stat">
-      <small>Products tracked</small>
-      <strong id="productCount">6</strong>
-    </div>
-
-    <div class="stat">
-      <small>Best price</small>
-      <strong>$59</strong>
-    </div>
-
-    <div class="stat">
-      <small>Stores tracked</small>
-      <strong id="storeCount">4</strong>
-    </div>
-
-    <div class="stat">
-      <small>Last checked</small>
-      <strong>Today</strong>
-    </div>
-
-  </section>
-
-  <section id="deals">
-
-    <div class="section-header">
-      <h2>🔥 Best Deals</h2>
-    </div>
-
-    <div class="filter-buttons">
-      <button class="active" onclick="filterProducts('all', this)">All</button>
-      <button onclick="filterProducts('booster', this)">Booster Boxes</button>
-      <button onclick="filterProducts('etb', this)">ETBs</button>
-      <button onclick="filterProducts('packs', this)">Packs</button>
-    </div>
-
-  </section>
-
-  <br>
-
-  <div class="products" id="products">
-
-    <div class="product" data-type="booster" data-name="Delta Reign Booster Box">
-      <button class="watch" onclick="saveProduct(this)">☆</button>
-      <div class="product-icon">📦</div>
-      <h3>Delta Reign Booster Box</h3>
-      <div class="set">Delta Reign • English</div>
-
-      <div class="price-row">
-        <span class="price">$360</span>
-        <span class="stock">In Stock</span>
-      </div>
-
-      <div class="store">🏪 EB Games</div>
-      <div class="deal">🔥 Deal price</div>
-    </div>
-
-    <div class="product" data-type="etb" data-name="Delta Reign ETB">
-      <button class="watch" onclick="saveProduct(this)">☆</button>
-      <div class="product-icon">🎁</div>
-      <h3>Delta Reign ETB</h3>
-      <div class="set">Delta Reign • English</div>
-
-      <div class="price-row">
-        <span class="price">$79</span>
-        <span class="stock low">Low Stock</span>
-      </div>
-
-      <div class="store">🏪 Australian retailers</div>
-      <div class="deal">🔥 Watch this</div>
-    </div>
-
-    <div class="product" data-type="booster" data-name="Mega Brave Booster Box">
-      <button class="watch" onclick="saveProduct(this)">☆</button>
-      <div class="product-icon">📦</div>
-      <h3>Mega Brave Booster Box</h3>
-      <div class="set">Mega Brave • Japanese</div>
-
-      <div class="price-row">
-        <span class="price">$110</span>
-        <span class="stock">In Stock</span>
-      </div>
-
-      <div class="store">🏪 Japanese import stores</div>
-    </div>
-
-    <div class="product" data-type="etb" data-name="Mega Evolution ETB">
-      <button class="watch" onclick="saveProduct(this)">☆</button>
-      <div class="product-icon">🎁</div>
-      <h3>Mega Evolution ETB</h3>
-      <div class="set">Mega Evolution • English</div>
-
-      <div class="price-row">
-        <span class="price">$69</span>
-        <span class="stock">In Stock</span>
-      </div>
-
-      <div class="store">🏪 Australian retailers</div>
-    </div>
-
-    <div class="product" data-type="packs" data-name="Japanese Pokémon Pack">
-      <button class="watch" onclick="saveProduct(this)">☆</button>
-      <div class="product-icon">🃏</div>
-      <h3>Japanese Booster Pack</h3>
-      <div class="set">Various Japanese sets</div>
-
-      <div class="price-row">
-        <span class="price">$6</span>
-        <span class="stock">In Stock</span>
-      </div>
-
-      <div class="store">🏪 Australian sellers</div>
-      <div class="deal">💰 Great price</div>
-    </div>
-
-    <div class="product" data-type="packs" data-name="Pokémon Collection Pack">
-      <button class="watch" onclick="saveProduct(this)">☆</button>
-      <div class="product-icon">🃏</div>
-      <h3>Pokémon Collection Pack</h3>
-      <div class="set">Special Promo</div>
-
-      <div class="price-row">
-        <span class="price">$12</span>
-        <span class="stock out">Sold Out</span>
-      </div>
-
-      <div class="store">🏪 Australian retailers</div>
-    </div>
-
+  <div class="stat">
+    <small>Products tracked</small>
+    <strong id="productCount">Loading...</strong>
   </div>
 
-  <div class="empty" id="empty">
-    No Pokémon products found.
+  <div class="stat">
+    <small>Best price</small>
+    <strong id="bestPrice">Loading...</strong>
   </div>
 
-  <section id="restocks">
-    <div class="section-header">
-      <h2>🔄 Latest Restocks</h2>
-    </div>
+  <div class="stat">
+    <small>Stores tracked</small>
+    <strong id="storeCount">Loading...</strong>
+  </div>
 
-    <div class="product">
-      <h3>⚡ Restock monitoring coming next</h3>
-      <p class="set">
-        We'll connect this section to real Australian Pokémon stock data.
-      </p>
-    </div>
-  </section>
+  <div class="stat">
+    <small>Last checked</small>
+    <strong>Today</strong>
+  </div>
 
-  <section id="stores">
-    <div class="section-header">
-      <h2>🏪 Stores</h2>
-    </div>
+</section>
 
-    <div class="product">
-      <h3>Australian Pokémon retailers</h3>
-      <p class="set">
-        Store comparison and live stock checking will be added next.
-      </p>
-    </div>
-  </section>
+<section id="deals">
+
+  <div class="section-header">
+    <h2>🔥 Best Deals</h2>
+  </div>
+
+  <div class="filter-buttons">
+    <button class="active" onclick="setFilter('all', this)">All</button>
+    <button onclick="setFilter('booster', this)">Booster Boxes</button>
+    <button onclick="setFilter('etb', this)">ETBs</button>
+    <button onclick="setFilter('packs', this)">Packs</button>
+  </div>
+
+</section>
+
+<br>
+
+<div id="products" class="products">
+  <div class="loading">Loading Pokémon products...</div>
+</div>
+
+<section id="stores">
+
+  <div class="section-header">
+    <h2>🏪 Stores</h2>
+  </div>
+
+  <div class="product">
+    <h3>Australian Pokémon retailers</h3>
+    <p class="set">
+      Store comparison will be connected next.
+    </p>
+  </div>
+
+</section>
 
 </main>
 
 <footer>
-  © 2026 Shaqs Poke Stock • Built for Pokémon collectors 🇦🇺
+© 2026 Shaqs Poke Stock • Built for Pokémon collectors 🇦🇺
 </footer>
 
 <script>
 
-function searchProducts() {
+let products = [];
+let currentFilter = "all";
 
-  const search = document
-    .getElementById("search")
-    .value
-    .toLowerCase();
+async function loadProducts() {
 
-  const products = document.querySelectorAll(".product[data-type]");
-  let visible = 0;
+  try {
 
-  products.forEach(product => {
+    const response = await fetch("products.json");
 
-    const name = product
-      .getAttribute("data-name")
-      .toLowerCase();
-
-    if (name.includes(search)) {
-      product.style.display = "block";
-      visible++;
-    } else {
-      product.style.display = "none";
+    if (!response.ok) {
+      throw new Error("Could not load products");
     }
+
+    products = await response.json();
+
+    updateStats();
+    renderProducts();
+
+  } catch (error) {
+
+    document.getElementById("products").innerHTML =
+      '<div class="empty">Unable to load products right now.</div>';
+
+    console.error(error);
+
+  }
+
+}
+
+function updateStats() {
+
+  document.getElementById("productCount").innerText =
+    products.length;
+
+  const prices = products
+    .map(product => Number(product.price))
+    .filter(price => price > 0);
+
+  if (prices.length) {
+
+    const cheapest = Math.min(...prices);
+
+    document.getElementById("bestPrice").innerText =
+      "$" + cheapest;
+
+  }
+
+  const stores = new Set(
+    products.map(product => product.store)
+  );
+
+  document.getElementById("storeCount").innerText =
+    stores.size;
+
+}
+
+function renderProducts() {
+
+  const container = document.getElementById("products");
+
+  const search =
+    document.getElementById("search").value.toLowerCase();
+
+  const filtered = products.filter(product => {
+
+    const matchesSearch =
+      product.name.toLowerCase().includes(search) ||
+      product.set.toLowerCase().includes(search) ||
+      product.store.toLowerCase().includes(search);
+
+    const matchesFilter =
+      currentFilter === "all" ||
+      product.type === currentFilter;
+
+    return matchesSearch && matchesFilter;
 
   });
 
-  document.getElementById("empty").style.display =
-    visible === 0 ? "block" : "none";
+  if (!filtered.length) {
+
+    container.innerHTML =
+      '<div class="empty">No Pokémon products found.</div>';
+
+    return;
+
+  }
+
+  container.innerHTML = filtered.map(product => {
+
+    let stockClass = "";
+
+    if (product.stock === "Low Stock") {
+      stockClass = "low";
+    }
+
+    if (
+      product.stock === "Sold Out" ||
+      product.stock === "Out of Stock"
+    ) {
+      stockClass = "out";
+    }
+
+    return `
+      <div class="product">
+
+        <button
+          class="watch"
+          onclick="saveProduct(this)"
+        >☆</button>
+
+        <div class="product-icon">
+          ${product.type === "packs" ? "🃏" :
+            product.type === "etb" ? "🎁" : "📦"}
+        </div>
+
+        <h3>${product.name}</h3>
+
+        <div class="set">
+          ${product.set}
+        </div>
+
+        <div class="price-row">
+
+          <span class="price">
+            $${Number(product.price).toFixed(2)}
+          </span>
+
+          <span class="stock ${stockClass}">
+            ${product.stock}
+          </span>
+
+        </div>
+
+        <div class="store">
+          🏪 ${product.store}
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
+
 }
 
-function filterProducts(type, button) {
+function setFilter(filter, button) {
+
+  currentFilter = filter;
 
   document
     .querySelectorAll(".filter-buttons button")
@@ -522,33 +527,17 @@ function filterProducts(type, button) {
 
   button.classList.add("active");
 
-  const products = document.querySelectorAll(".product[data-type]");
-  let visible = 0;
+  renderProducts();
 
-  products.forEach(product => {
-
-    if (type === "all" || product.dataset.type === type) {
-      product.style.display = "block";
-      visible++;
-    } else {
-      product.style.display = "none";
-    }
-
-  });
-
-  document.getElementById("empty").style.display =
-    visible === 0 ? "block" : "none";
 }
 
 function saveProduct(button) {
 
   button.classList.toggle("saved");
 
-  if (button.classList.contains("saved")) {
-    button.innerText = "★";
-  } else {
-    button.innerText = "☆";
-  }
+  button.innerText =
+    button.classList.contains("saved") ? "★" : "☆";
+
 }
 
 function scrollToSection(id) {
@@ -560,6 +549,8 @@ function scrollToSection(id) {
     });
 
 }
+
+loadProducts();
 
 </script>
 
