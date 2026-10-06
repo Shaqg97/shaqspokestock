@@ -1,231 +1,567 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shaqs Poke Stock</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shaqs Poke Stock</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-    body {
-      background: #f5f5f5;
-      color: #222;
-    }
+body {
+  background: #f4f5f7;
+  color: #171717;
+}
 
-    header {
-      background: #111;
-      color: white;
-      padding: 22px 18px;
-      text-align: center;
-    }
+header {
+  background: #111;
+  color: white;
+  padding: 18px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
 
-    header h1 {
-      font-size: 28px;
-    }
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    header p {
-      margin-top: 6px;
-      color: #bbb;
-    }
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+}
 
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px;
-    }
+.logo span {
+  color: #ffd21f;
+}
 
-    .search {
-      width: 100%;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
+nav button {
+  background: none;
+  border: none;
+  color: #ccc;
+  margin-left: 15px;
+  cursor: pointer;
+}
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-    }
+nav button:hover {
+  color: white;
+}
 
-    .stat {
-      background: white;
-      padding: 18px;
-      border-radius: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 25px 18px 50px;
+}
 
-    .stat small {
-      color: #777;
-    }
+.hero {
+  background: linear-gradient(135deg, #181818, #303030);
+  color: white;
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 22px;
+}
 
-    .stat strong {
-      display: block;
-      font-size: 24px;
-      margin-top: 5px;
-    }
+.hero h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
 
-    .section-title {
-      margin: 25px 0 12px;
-      font-size: 21px;
-    }
+.hero p {
+  color: #bbb;
+  margin-bottom: 22px;
+}
 
-    .card {
-      background: white;
-      padding: 18px;
-      border-radius: 14px;
-      margin-bottom: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
+.search {
+  width: 100%;
+  padding: 15px 17px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+}
 
-    .card h3 {
-      margin-bottom: 8px;
-    }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
 
-    .price {
-      font-size: 20px;
-      font-weight: bold;
-    }
+.stat {
+  background: white;
+  border-radius: 15px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
 
-    .status {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 6px 10px;
-      border-radius: 20px;
-      background: #e8f5e9;
-      color: #2e7d32;
-      font-size: 13px;
-    }
+.stat small {
+  color: #777;
+}
 
-    .button {
-      display: block;
-      width: 100%;
-      border: none;
-      background: #111;
-      color: white;
-      padding: 15px;
-      border-radius: 12px;
-      font-size: 16px;
-      margin-top: 20px;
-      cursor: pointer;
-    }
+.stat strong {
+  display: block;
+  font-size: 25px;
+  margin-top: 7px;
+}
 
-    .button:hover {
-      opacity: 0.85;
-    }
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 25px 0 14px;
+}
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: #888;
-      font-size: 13px;
-    }
+.section-header h2 {
+  font-size: 22px;
+}
 
-    @media (min-width: 700px) {
-      .stats {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-  </style>
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-buttons button {
+  border: 1px solid #ddd;
+  background: white;
+  padding: 9px 13px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.filter-buttons button.active {
+  background: #111;
+  color: white;
+  border-color: #111;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.product {
+  background: white;
+  border-radius: 17px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  position: relative;
+}
+
+.product-icon {
+  height: 130px;
+  background: #f0f0f0;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 55px;
+  margin-bottom: 15px;
+}
+
+.product h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.set {
+  color: #777;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.stock {
+  padding: 6px 9px;
+  border-radius: 20px;
+  font-size: 12px;
+  background: #e5f7e9;
+  color: #217a35;
+}
+
+.stock.low {
+  background: #fff2d8;
+  color: #9a6100;
+}
+
+.stock.out {
+  background: #f5e5e5;
+  color: #a12b2b;
+}
+
+.store {
+  margin-top: 12px;
+  color: #666;
+  font-size: 13px;
+}
+
+.deal {
+  color: #14853d;
+  font-weight: bold;
+  margin-top: 7px;
+  font-size: 13px;
+}
+
+.watch {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: white;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 17px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.12);
+}
+
+.watch.saved {
+  background: #ffd21f;
+}
+
+.empty {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  color: #777;
+  display: none;
+}
+
+footer {
+  text-align: center;
+  color: #888;
+  padding: 30px;
+  font-size: 13px;
+}
+
+@media (max-width: 800px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .products {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  nav {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero h1 {
+    font-size: 25px;
+  }
+
+  .products {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>⚡ Shaqs Poke Stock</h1>
-    <p>Pokémon stock, prices & deals in one place</p>
-  </header>
+<header>
+  <div class="header-inner">
+    <div class="logo">⚡ Shaqs <span>Poke Stock</span></div>
 
-  <main class="container">
+    <nav>
+      <button onclick="scrollToSection('deals')">Deals</button>
+      <button onclick="scrollToSection('restocks')">Restocks</button>
+      <button onclick="scrollToSection('stores')">Stores</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <h1>Find Pokémon stock & deals 🇦🇺</h1>
+    <p>Compare Pokémon products, prices and availability across Australia.</p>
 
     <input
       class="search"
-      type="text"
-      placeholder="Search Pokémon products..."
       id="search"
-      onkeyup="searchProducts()"
+      type="text"
+      placeholder="🔎 Search booster boxes, ETBs, packs..."
+      oninput="searchProducts()"
     >
+  </section>
 
-    <div class="stats">
-      <div class="stat">
-        <small>Products tracked</small>
-        <strong>0</strong>
-      </div>
+  <section class="stats">
 
-      <div class="stat">
-        <small>Best deal</small>
-        <strong>$0</strong>
-      </div>
-
-      <div class="stat">
-        <small>Stores</small>
-        <strong>0</strong>
-      </div>
-
-      <div class="stat">
-        <small>Last checked</small>
-        <strong>Today</strong>
-      </div>
+    <div class="stat">
+      <small>Products tracked</small>
+      <strong id="productCount">6</strong>
     </div>
 
-    <h2 class="section-title">🔥 Featured Stock</h2>
-
-    <div id="products">
-
-      <div class="card product">
-        <h3>Pokémon Booster Box</h3>
-        <p>Example product — we'll replace this with live stock.</p>
-        <br>
-        <span class="price">$0.00</span>
-        <br>
-        <span class="status">Checking stock</span>
-      </div>
-
-      <div class="card product">
-        <h3>Pokémon Elite Trainer Box</h3>
-        <p>Example product — we'll replace this with live stock.</p>
-        <br>
-        <span class="price">$0.00</span>
-        <br>
-        <span class="status">Checking stock</span>
-      </div>
-
+    <div class="stat">
+      <small>Best price</small>
+      <strong>$59</strong>
     </div>
 
-    <button class="button" onclick="alert('More features coming soon!')">
-      + Add Product
-    </button>
+    <div class="stat">
+      <small>Stores tracked</small>
+      <strong id="storeCount">4</strong>
+    </div>
 
-  </main>
+    <div class="stat">
+      <small>Last checked</small>
+      <strong>Today</strong>
+    </div>
 
-  <footer>
-    © 2026 Shaqs Poke Stock
-  </footer>
+  </section>
 
-  <script>
-    function searchProducts() {
-      const search = document.getElementById("search").value.toLowerCase();
-      const products = document.querySelectorAll(".product");
+  <section id="deals">
 
-      products.forEach(product => {
-        const text = product.innerText.toLowerCase();
+    <div class="section-header">
+      <h2>🔥 Best Deals</h2>
+    </div>
 
-        if (text.includes(search)) {
-          product.style.display = "block";
-        } else {
-          product.style.display = "none";
-        }
-      });
+    <div class="filter-buttons">
+      <button class="active" onclick="filterProducts('all', this)">All</button>
+      <button onclick="filterProducts('booster', this)">Booster Boxes</button>
+      <button onclick="filterProducts('etb', this)">ETBs</button>
+      <button onclick="filterProducts('packs', this)">Packs</button>
+    </div>
+
+  </section>
+
+  <br>
+
+  <div class="products" id="products">
+
+    <div class="product" data-type="booster" data-name="Delta Reign Booster Box">
+      <button class="watch" onclick="saveProduct(this)">☆</button>
+      <div class="product-icon">📦</div>
+      <h3>Delta Reign Booster Box</h3>
+      <div class="set">Delta Reign • English</div>
+
+      <div class="price-row">
+        <span class="price">$360</span>
+        <span class="stock">In Stock</span>
+      </div>
+
+      <div class="store">🏪 EB Games</div>
+      <div class="deal">🔥 Deal price</div>
+    </div>
+
+    <div class="product" data-type="etb" data-name="Delta Reign ETB">
+      <button class="watch" onclick="saveProduct(this)">☆</button>
+      <div class="product-icon">🎁</div>
+      <h3>Delta Reign ETB</h3>
+      <div class="set">Delta Reign • English</div>
+
+      <div class="price-row">
+        <span class="price">$79</span>
+        <span class="stock low">Low Stock</span>
+      </div>
+
+      <div class="store">🏪 Australian retailers</div>
+      <div class="deal">🔥 Watch this</div>
+    </div>
+
+    <div class="product" data-type="booster" data-name="Mega Brave Booster Box">
+      <button class="watch" onclick="saveProduct(this)">☆</button>
+      <div class="product-icon">📦</div>
+      <h3>Mega Brave Booster Box</h3>
+      <div class="set">Mega Brave • Japanese</div>
+
+      <div class="price-row">
+        <span class="price">$110</span>
+        <span class="stock">In Stock</span>
+      </div>
+
+      <div class="store">🏪 Japanese import stores</div>
+    </div>
+
+    <div class="product" data-type="etb" data-name="Mega Evolution ETB">
+      <button class="watch" onclick="saveProduct(this)">☆</button>
+      <div class="product-icon">🎁</div>
+      <h3>Mega Evolution ETB</h3>
+      <div class="set">Mega Evolution • English</div>
+
+      <div class="price-row">
+        <span class="price">$69</span>
+        <span class="stock">In Stock</span>
+      </div>
+
+      <div class="store">🏪 Australian retailers</div>
+    </div>
+
+    <div class="product" data-type="packs" data-name="Japanese Pokémon Pack">
+      <button class="watch" onclick="saveProduct(this)">☆</button>
+      <div class="product-icon">🃏</div>
+      <h3>Japanese Booster Pack</h3>
+      <div class="set">Various Japanese sets</div>
+
+      <div class="price-row">
+        <span class="price">$6</span>
+        <span class="stock">In Stock</span>
+      </div>
+
+      <div class="store">🏪 Australian sellers</div>
+      <div class="deal">💰 Great price</div>
+    </div>
+
+    <div class="product" data-type="packs" data-name="Pokémon Collection Pack">
+      <button class="watch" onclick="saveProduct(this)">☆</button>
+      <div class="product-icon">🃏</div>
+      <h3>Pokémon Collection Pack</h3>
+      <div class="set">Special Promo</div>
+
+      <div class="price-row">
+        <span class="price">$12</span>
+        <span class="stock out">Sold Out</span>
+      </div>
+
+      <div class="store">🏪 Australian retailers</div>
+    </div>
+
+  </div>
+
+  <div class="empty" id="empty">
+    No Pokémon products found.
+  </div>
+
+  <section id="restocks">
+    <div class="section-header">
+      <h2>🔄 Latest Restocks</h2>
+    </div>
+
+    <div class="product">
+      <h3>⚡ Restock monitoring coming next</h3>
+      <p class="set">
+        We'll connect this section to real Australian Pokémon stock data.
+      </p>
+    </div>
+  </section>
+
+  <section id="stores">
+    <div class="section-header">
+      <h2>🏪 Stores</h2>
+    </div>
+
+    <div class="product">
+      <h3>Australian Pokémon retailers</h3>
+      <p class="set">
+        Store comparison and live stock checking will be added next.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 Shaqs Poke Stock • Built for Pokémon collectors 🇦🇺
+</footer>
+
+<script>
+
+function searchProducts() {
+
+  const search = document
+    .getElementById("search")
+    .value
+    .toLowerCase();
+
+  const products = document.querySelectorAll(".product[data-type]");
+  let visible = 0;
+
+  products.forEach(product => {
+
+    const name = product
+      .getAttribute("data-name")
+      .toLowerCase();
+
+    if (name.includes(search)) {
+      product.style.display = "block";
+      visible++;
+    } else {
+      product.style.display = "none";
     }
-  </script>
+
+  });
+
+  document.getElementById("empty").style.display =
+    visible === 0 ? "block" : "none";
+}
+
+function filterProducts(type, button) {
+
+  document
+    .querySelectorAll(".filter-buttons button")
+    .forEach(btn => btn.classList.remove("active"));
+
+  button.classList.add("active");
+
+  const products = document.querySelectorAll(".product[data-type]");
+  let visible = 0;
+
+  products.forEach(product => {
+
+    if (type === "all" || product.dataset.type === type) {
+      product.style.display = "block";
+      visible++;
+    } else {
+      product.style.display = "none";
+    }
+
+  });
+
+  document.getElementById("empty").style.display =
+    visible === 0 ? "block" : "none";
+}
+
+function saveProduct(button) {
+
+  button.classList.toggle("saved");
+
+  if (button.classList.contains("saved")) {
+    button.innerText = "★";
+  } else {
+    button.innerText = "☆";
+  }
+}
+
+function scrollToSection(id) {
+
+  document
+    .getElementById(id)
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+</script>
 
 </body>
 </html>
