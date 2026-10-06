@@ -4,7 +4,7 @@
     "set": "Delta Reign",
     "type": "booster",
     "store": "EB Games",
-    "price": 360,
+    "price": 0,
     "stock": "In Stock",
     "url": ""
   },
@@ -13,7 +13,7 @@
     "set": "Delta Reign",
     "type": "etb",
     "store": "Australian retailers",
-    "price": 79,
+    "price": 0,
     "stock": "Low Stock",
     "url": ""
   },
@@ -22,7 +22,7 @@
     "set": "Mega Brave",
     "type": "booster",
     "store": "Japanese import stores",
-    "price": 110,
+    "price": 0,
     "stock": "In Stock",
     "url": ""
   },
@@ -31,7 +31,7 @@
     "set": "Mega Evolution",
     "type": "etb",
     "store": "Australian retailers",
-    "price": 69,
+    "price": 0,
     "stock": "In Stock",
     "url": ""
   },
@@ -40,7 +40,7 @@
     "set": "Various Japanese sets",
     "type": "packs",
     "store": "Australian sellers",
-    "price": 6,
+    "price": 0,
     "stock": "In Stock",
     "url": ""
   },
@@ -49,7 +49,7 @@
     "set": "Special Promo",
     "type": "packs",
     "store": "Australian retailers",
-    "price": 12,
+    "price": 0,
     "stock": "Sold Out",
     "url": ""
   }
