@@ -2,55 +2,73 @@
   {
     "name": "Delta Reign Booster Box",
     "set": "Delta Reign",
-    "type": "booster",
+    "language": "English",
+    "type": "Booster Box",
     "store": "EB Games",
     "price": 0,
     "stock": "In Stock",
-    "url": ""
+    "releaseDate": "",
+    "url": "",
+    "restock": false
   },
   {
     "name": "Delta Reign ETB",
     "set": "Delta Reign",
-    "type": "etb",
-    "store": "Australian retailers",
+    "language": "English",
+    "type": "ETB",
+    "store": "Australian Retailers",
     "price": 0,
     "stock": "Low Stock",
-    "url": ""
+    "releaseDate": "",
+    "url": "",
+    "restock": false
   },
   {
     "name": "Mega Brave Booster Box",
     "set": "Mega Brave",
-    "type": "booster",
-    "store": "Japanese import stores",
+    "language": "Japanese",
+    "type": "Booster Box",
+    "store": "Japanese Import Stores",
     "price": 0,
     "stock": "In Stock",
-    "url": ""
+    "releaseDate": "",
+    "url": "",
+    "restock": false
   },
   {
     "name": "Mega Evolution ETB",
     "set": "Mega Evolution",
-    "type": "etb",
-    "store": "Australian retailers",
+    "language": "English",
+    "type": "ETB",
+    "store": "Australian Retailers",
     "price": 0,
     "stock": "In Stock",
-    "url": ""
+    "releaseDate": "",
+    "url": "",
+    "restock": false
   },
   {
     "name": "Japanese Booster Pack",
-    "set": "Various Japanese sets",
-    "type": "packs",
-    "store": "Australian sellers",
+    "set": "Various Japanese Sets",
+    "language": "Japanese",
+    "type": "Booster Pack",
+    "store": "Australian Sellers",
     "price": 0,
     "stock": "In Stock",
-    "url": ""
+    "releaseDate": "",
+    "url": "",
+    "restock": false
   },
   {
     "name": "Pokémon Collection Pack",
     "set": "Special Promo",
-    "type": "packs",
-    "store": "Australian retailers",
+    "language": "English",
+    "type": "Collection Box",
+    "store": "Australian Retailers",
     "price": 0,
     "stock": "Sold Out",
-    "url": ""
+    "releaseDate": "",
+    "url": "",
+    "restock": false
   }
 ]
