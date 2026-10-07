@@ -7,9 +7,17 @@
     "store": "EB Games",
     "price": 389.95,
     "stock": "Pre-Order",
-    "releaseDate": "",
-    "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game",
-    "restock": false
+    "releaseDate": "2026-11-06",
+"status": "Pre-Order",
+"retailers": [
+  {
+    "name": "EB Games",
+    "price": 389.95,
+    "stock": "Pre-Order",
+    "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game"
+  }
+],
+"restock": false
   },
   {
     "name": "Delta Reign ETB",
