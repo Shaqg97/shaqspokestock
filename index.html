@@ -336,12 +336,33 @@ footer {
     <h2>🔥 Best Deals</h2>
   </div>
 
-  <div class="filter-buttons">
-    <button class="active" onclick="setFilter('all', this)">All</button>
-    <button onclick="setFilter('booster', this)">Booster Boxes</button>
-    <button onclick="setFilter('etb', this)">ETBs</button>
-    <button onclick="setFilter('packs', this)">Packs</button>
-  </div>
+ <div class="filter-buttons">
+
+  <button class="active" onclick="setFilter('all', this)">
+    All
+  </button>
+
+  <button onclick="setFilter('english', this)">
+    🇬🇧 English
+  </button>
+
+  <button onclick="setFilter('japanese', this)">
+    🇯🇵 Japanese
+  </button>
+
+  <button onclick="setFilter('upcoming', this)">
+    📅 Upcoming
+  </button>
+
+  <button onclick="setFilter('preorder', this)">
+    🛒 Pre-Order
+  </button>
+
+  <button onclick="setFilter('instock', this)">
+    🟢 In Stock
+  </button>
+
+</div>
 
 </section>
 
@@ -447,21 +468,39 @@ function renderProducts() {
 
     const type = product.type.toLowerCase();
 
-    let matchesFilter = true;
+let matchesFilter = true;
 
-    if (currentFilter === "booster") {
-      matchesFilter = type === "booster box";
-    }
+if (currentFilter === "english") {
+  matchesFilter = product.language === "English";
+}
 
-    if (currentFilter === "etb") {
-      matchesFilter = type === "etb";
-    }
+if (currentFilter === "japanese") {
+  matchesFilter = product.language === "Japanese";
+}
 
-    if (currentFilter === "packs") {
-      matchesFilter = type.includes("pack");
-    }
+if (currentFilter === "upcoming") {
+  matchesFilter = product.status === "Upcoming";
+}
 
-    return matchesSearch && matchesFilter;
+if (currentFilter === "preorder") {
+  matchesFilter = product.status === "Pre-Order";
+}
+
+if (currentFilter === "instock") {
+  const retailerHasStock =
+    Array.isArray(product.retailers) &&
+    product.retailers.some(
+      retailer =>
+        typeof retailer.stock === "string" &&
+        retailer.stock.toLowerCase() === "in stock"
+    );
+
+  matchesFilter =
+    product.stock === "In Stock" ||
+    retailerHasStock;
+}
+
+return matchesSearch && matchesFilter;
   });
 
   container.innerHTML = filtered.map(product => {
