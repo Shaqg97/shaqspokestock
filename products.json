@@ -27,9 +27,17 @@
     "store": "Australian Retailers",
     "price": 0,
     "stock": "Low Stock",
-    "releaseDate": "",
-    "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me06-delta-reign-elite-trainer-box-etb",
-    "restock": false
+    "releaseDate": "2026-11-06",
+"status": "Upcoming",
+"retailers": [
+  {
+    "name": "PokéBox",
+    "price": 149.99,
+    "stock": "Coming Soon",
+    "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me06-delta-reign-elite-trainer-box-etb"
+  }
+],
+"restock": false
   },
   {
     "name": "Mega Brave Booster Box",
