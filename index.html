@@ -442,103 +442,223 @@ function renderProducts() {
     const matchesSearch =
       product.name.toLowerCase().includes(search) ||
       product.set.toLowerCase().includes(search) ||
-      product.store.toLowerCase().includes(search);
+      product.language.toLowerCase().includes(search) ||
+      product.type.toLowerCase().includes(search);
 
-    const matchesFilter =
-      currentFilter === "all" ||
-      product.type === currentFilter;
+    const type = product.type.toLowerCase();
+
+    let matchesFilter = true;
+
+    if (currentFilter === "booster") {
+      matchesFilter = type === "booster box";
+    }
+
+    if (currentFilter === "etb") {
+      matchesFilter = type === "etb";
+    }
+
+    if (currentFilter === "packs") {
+      matchesFilter = type.includes("pack");
+    }
 
     return matchesSearch && matchesFilter;
-
   });
-
-  if (!filtered.length) {
-
-    container.innerHTML =
-      '<div class="empty">No Pokémon products found.</div>';
-
-    return;
-
-  }
 
   container.innerHTML = filtered.map(product => {
 
+    const retailers = Array.isArray(product.retailers)
+      ? product.retailers
+      : [];
+
+    const availableRetailers = retailers.filter(
+      retailer => typeof retailer.price === "number" && retailer.price > 0
+    );
+
+    const bestRetailer =
+      availableRetailers.length > 0
+        ? availableRetailers.reduce((best, retailer) =>
+            retailer.price < best.price ? retailer : best
+          )
+        : null;
+
+    const displayPrice = bestRetailer
+      ? bestRetailer.price
+      : Number(product.price || 0);
+
+    const displayStore = bestRetailer
+      ? bestRetailer.name
+      : product.store;
+
+    const displayStock = bestRetailer
+      ? bestRetailer.stock
+      : product.stock;
+
     let stockClass = "";
 
-    if (product.stock === "Low Stock") {
+    if (
+      displayStock === "Low Stock" ||
+      displayStock === "Coming Soon"
+    ) {
       stockClass = "low";
     }
 
     if (
-      product.stock === "Sold Out" ||
-      product.stock === "Out of Stock"
+      displayStock === "Sold Out" ||
+      displayStock === "Out of Stock"
     ) {
       stockClass = "out";
     }
 
+    let statusBadge = "";
+
+    if (product.status) {
+      statusBadge = `
+        <span style="
+          background:#eef2ff;
+          padding:5px 9px;
+          border-radius:999px;
+          font-size:13px;
+        ">
+          ${product.status}
+        </span>
+      `;
+    }
+
+    let releaseDate = "";
+
+    if (product.releaseDate) {
+      const date = new Date(product.releaseDate + "T00:00:00");
+
+      releaseDate = `
+        <div style="
+          margin-top:8px;
+          font-size:13px;
+          color:#666;
+        ">
+          📅 Release:
+          ${date.toLocaleDateString("en-AU", {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+          })}
+        </div>
+      `;
+    }
+
+    const dealUrl = bestRetailer
+      ? bestRetailer.url
+      : product.url;
+
+    const dealButton = dealUrl
+      ? `
+        <a
+          href="${dealUrl}"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="
+            display:block;
+            margin-top:12px;
+            padding:10px;
+            background:#111827;
+            color:white;
+            text-align:center;
+            text-decoration:none;
+            border-radius:8px;
+            font-weight:600;
+          "
+        >
+          🛒 View Deal
+        </a>
+      `
+      : "";
+
     return `
       <div class="product">
 
-        <button
-          class="watch"
-          onclick="saveProduct(this)"
-        >☆</button>
-
-        <div class="product-icon">
-          ${product.type === "packs" ? "🃏" :
-            product.type === "etb" ? "🎁" : "📦"}
+        <div class="product-image">
+          📦
         </div>
+
+        <button class="favorite" onclick="toggleFavorite('${product.name}')">
+          ☆
+        </button>
 
         <h3>${product.name}</h3>
 
         <div class="set">
           ${product.set}
         </div>
-<div style="margin:10px 0; display:flex; gap:8px; flex-wrap:wrap;">
-  <span style="background:#eef2ff; padding:5px 9px; border-radius:999px; font-size:13px;">
-    ${product.language === "Japanese" ? "🇯🇵 Japanese" : "🇬🇧 English"}
-  </span>
-  <span style="background:#f3f4f6; padding:5px 9px; border-radius:999px; font-size:13px;">
-    ${product.type}
-  </span>
-</div>
+
+        <div style="
+          margin:10px 0;
+          display:flex;
+          gap:8px;
+          flex-wrap:wrap;
+        ">
+
+          <span style="
+            background:#eef2ff;
+            padding:5px 9px;
+            border-radius:999px;
+            font-size:13px;
+          ">
+            ${product.language === "Japanese"
+              ? "🇯🇵 Japanese"
+              : "🇬🇧 English"}
+          </span>
+
+          <span style="
+            background:#f3f4f6;
+            padding:5px 9px;
+            border-radius:999px;
+            font-size:13px;
+          ">
+            ${product.type}
+          </span>
+
+          ${statusBadge}
+
+        </div>
+
         <div class="price-row">
 
           <span class="price">
-            $${Number(product.price).toFixed(2)}
+            ${displayPrice > 0
+              ? "$" + Number(displayPrice).toFixed(2)
+              : "Price TBA"}
           </span>
 
           <span class="stock ${stockClass}">
-            ${product.stock}
+            ${displayStock}
           </span>
 
         </div>
 
         <div class="store">
-          🏪 ${product.store}
-        </div>${product.url ? `
-  <a href="${product.url}" target="_blank" style="
-    display:block;
-    margin-top:12px;
-    padding:10px;
-    background:#111827;
-    color:white;
-    text-align:center;
-    text-decoration:none;
-    border-radius:8px;
-    font-weight:600;
-  ">
-    🛒 View Deal
-  </a>
-` : ""}
+          🇦🇺 ${displayStore}
+        </div>
+
+        ${bestRetailer && availableRetailers.length > 1
+          ? `
+            <div style="
+              margin-top:6px;
+              font-size:12px;
+              color:#666;
+            ">
+              🏆 Best price
+            </div>
+          `
+          : ""}
+
+        ${releaseDate}
+
+        ${dealButton}
 
       </div>
     `;
-
   }).join("");
 
 }
-
 function setFilter(filter, button) {
 
   currentFilter = filter;
