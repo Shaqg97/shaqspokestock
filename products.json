@@ -8,47 +8,58 @@
     "price": 389.95,
     "stock": "Pre-Order",
     "releaseDate": "2026-11-06",
-"status": "Pre-Order",
-"retailers": [
-  {
-    "name": "EB Games",
-    "price": 389.95,
-    "stock": "Pre-Order",
-    "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game"
-  }
-],
-"restock": false
+    "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game",
+    "status": "Pre-Order",
+    "retailers": [
+      {
+        "name": "EB Games",
+        "price": 389.95,
+        "stock": "Pre-Order",
+        "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game"
+      }
+    ],
+    "restock": false
   },
   {
     "name": "Delta Reign ETB",
     "set": "Delta Reign",
     "language": "English",
     "type": "ETB",
-    "store": "Australian Retailers",
-    "price": 0,
-    "stock": "Low Stock",
-    "releaseDate": "2026-11-06",
-"status": "Upcoming",
-"retailers": [
-  {
-    "name": "PokéBox",
+    "store": "PokéBox",
     "price": 149.99,
     "stock": "Coming Soon",
-    "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me06-delta-reign-elite-trainer-box-etb"
-  }
-],
-"restock": false
+    "releaseDate": "2026-11-06",
+    "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me06-delta-reign-elite-trainer-box-etb",
+    "status": "Upcoming",
+    "retailers": [
+      {
+        "name": "PokéBox",
+        "price": 149.99,
+        "stock": "Coming Soon",
+        "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me06-delta-reign-elite-trainer-box-etb"
+      }
+    ],
+    "restock": false
   },
   {
     "name": "Mega Brave Booster Box",
     "set": "Mega Brave",
     "language": "Japanese",
     "type": "Booster Box",
-    "store": "Japanese Import Stores",
-    "price": 0,
+    "store": "PokéBox",
+    "price": 169.99,
     "stock": "In Stock",
-    "releaseDate": "",
+    "releaseDate": "2025-08-01",
     "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-box-japanese-pokemon-tcg",
+    "status": "Available",
+    "retailers": [
+      {
+        "name": "PokéBox",
+        "price": 169.99,
+        "stock": "In Stock",
+        "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-box-japanese-pokemon-tcg"
+      }
+    ],
     "restock": false
   },
   {
@@ -56,23 +67,41 @@
     "set": "Mega Evolution",
     "language": "English",
     "type": "ETB",
-    "store": "Australian Retailers",
+    "store": "PokéBox",
     "price": 0,
-    "stock": "In Stock",
+    "stock": "Check Retailer",
     "releaseDate": "",
     "url": "https://www.pokebox.com.au/collections/pokemon-tcg-mega-evolution-elite-trainer-box",
+    "status": "Available",
+    "retailers": [
+      {
+        "name": "PokéBox",
+        "price": 0,
+        "stock": "Check Retailer",
+        "url": "https://www.pokebox.com.au/collections/pokemon-tcg-mega-evolution-elite-trainer-box"
+      }
+    ],
     "restock": false
   },
   {
     "name": "Japanese Booster Pack",
-    "set": "Various Japanese Sets",
+    "set": "Mega Brave",
     "language": "Japanese",
     "type": "Booster Pack",
-    "store": "Australian Sellers",
-    "price": 0,
+    "store": "PokéBox",
+    "price": 6.99,
     "stock": "In Stock",
-    "releaseDate": "",
+    "releaseDate": "2025-08-01",
     "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-pack-japanese-pokemon-tcg",
+    "status": "Available",
+    "retailers": [
+      {
+        "name": "PokéBox",
+        "price": 6.99,
+        "stock": "In Stock",
+        "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-pack-japanese-pokemon-tcg"
+      }
+    ],
     "restock": false
   },
   {
@@ -80,11 +109,20 @@
     "set": "Special Promo",
     "language": "English",
     "type": "Collection Box",
-    "store": "Australian Retailers",
+    "store": "PokéBox",
     "price": 0,
-    "stock": "Sold Out",
+    "stock": "Check Retailer",
     "releaseDate": "",
     "url": "https://www.pokebox.com.au/collections/pokemon-tcg-scarlet-violet-series-collection-box",
+    "status": "Available",
+    "retailers": [
+      {
+        "name": "PokéBox",
+        "price": 0,
+        "stock": "Check Retailer",
+        "url": "https://www.pokebox.com.au/collections/pokemon-tcg-scarlet-violet-series-collection-box"
+      }
+    ],
     "restock": false
   }
-]
+]D
