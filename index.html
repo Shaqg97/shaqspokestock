@@ -516,7 +516,21 @@ function renderProducts() {
 
         <div class="store">
           🏪 ${product.store}
-        </div>
+        </div>${product.url ? `
+  <a href="${product.url}" target="_blank" style="
+    display:block;
+    margin-top:12px;
+    padding:10px;
+    background:#111827;
+    color:white;
+    text-align:center;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:600;
+  ">
+    🛒 View Deal
+  </a>
+` : ""}
 
       </div>
     `;
