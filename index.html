@@ -410,7 +410,7 @@ function updateStats() {
 
   const prices = products
     .map(product => Number(product.price))
-    .filter(price => price >= 0);
+    .filter(price => price > 0);
 
   if (prices.length) {
 
