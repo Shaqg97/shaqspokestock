@@ -494,7 +494,14 @@ function renderProducts() {
         <div class="set">
           ${product.set}
         </div>
-
+<div style="margin:10px 0; display:flex; gap:8px; flex-wrap:wrap;">
+  <span style="background:#eef2ff; padding:5px 9px; border-radius:999px; font-size:13px;">
+    ${product.language === "Japanese" ? "🇯🇵 Japanese" : "🇬🇧 English"}
+  </span>
+  <span style="background:#f3f4f6; padding:5px 9px; border-radius:999px; font-size:13px;">
+    ${product.type}
+  </span>
+</div>
         <div class="price-row">
 
           <span class="price">
