@@ -486,20 +486,13 @@
     "set": "Mega Evolution—Delta Reign",
     "language": "English",
     "type": "Build & Battle Box",
-    "store": "Good Games",
+    "store": "Pokémon TCG Retailers",
     "price": 0,
     "stock": "Coming Soon",
     "releaseDate": "2026-10-24",
-    "url": "https://www.goodgames.com.au/products/pokemon-tcg-mini-portfolio-with-booster-q4-2026",
+    "url": "",
     "status": "Upcoming",
-    "retailers": [
-      {
-        "name": "Good Games",
-        "price": 0,
-        "stock": "Coming Soon",
-        "url": "https://www.goodgames.com.au/products/pokemon-tcg-mini-portfolio-with-booster-q4-2026"
-      }
-    ],
+    "retailers": [],
     "restock": false
   },
   {
