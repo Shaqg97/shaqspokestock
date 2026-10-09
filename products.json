@@ -239,6 +239,18 @@
         "price": 59,
         "stock": "Pre-Order",
         "url": "https://grailborne.com.au/collections/30th-celebration"
+      },
+      {
+        "name": "EB Games",
+        "price": 23,
+        "stock": "Pre-Order",
+        "url": "https://www.ebgames.com.au/product/other/378909-pokemon-tcg-30th-celebration-mini-tin"
+      },
+      {
+        "name": "GD Games",
+        "price": 59.95,
+        "stock": "In Stock",
+        "url": "https://www.gdgames.com.au/products/pokemon-30th-celebration-mini-tin-pokemon-tcg"
       }
     ],
     "restock": false
@@ -451,13 +463,32 @@
     "set": "30th Celebration",
     "language": "English",
     "type": "Binder Collection",
-    "store": "Pokémon TCG Retailers",
-    "price": 0,
-    "stock": "Coming Soon",
+    "store": "Clouts Collectables",
+    "price": 70,
+    "stock": "Sold Out",
     "releaseDate": "2026-12-04",
-    "url": "",
-    "status": "Upcoming",
-    "retailers": [],
+    "url": "https://www.cloutscollectables.com.au/tcggames",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Clouts Collectables",
+        "price": 70,
+        "stock": "Sold Out",
+        "url": "https://www.cloutscollectables.com.au/tcggames"
+      },
+      {
+        "name": "Down Under Trading Cards",
+        "price": 129.99,
+        "stock": "Pre-Order",
+        "url": "https://www.downundertradingcards.com.au/pages/pre-orders"
+      },
+      {
+        "name": "TGE-TV Store",
+        "price": 79.99,
+        "stock": "Check Retailer",
+        "url": "https://store.tge-tv.com/products/pokemon"
+      }
+    ],
     "restock": false
   },
   {
@@ -486,13 +517,20 @@
     "set": "Mega Evolution—Delta Reign",
     "language": "English",
     "type": "Build & Battle Box",
-    "store": "Pokémon TCG Retailers",
-    "price": 0,
-    "stock": "Coming Soon",
+    "store": "TGE-TV Store",
+    "price": 29.99,
+    "stock": "Check Retailer",
     "releaseDate": "2026-10-24",
-    "url": "",
+    "url": "https://store.tge-tv.com/products/pokemon",
     "status": "Upcoming",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "TGE-TV Store",
+        "price": 29.99,
+        "stock": "Check Retailer",
+        "url": "https://store.tge-tv.com/products/pokemon"
+      }
+    ],
     "restock": false
   },
   {
