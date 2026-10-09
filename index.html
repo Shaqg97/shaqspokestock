@@ -741,15 +741,30 @@ ${availableRetailers.length > 0 ? `
       Compare ${availableRetailers.length} retailer${availableRetailers.length === 1 ? "" : "s"}
     </summary>
     <div style="margin-top:8px;display:grid;gap:6px;">
-      ${[...availableRetailers]
-        .sort((a, b) => a.price - b.price)
-        .map(retailer => `
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px;background:#f8fafc;border-radius:8px;">
-            <span>${retailer.name}</span>
-            <strong>$${Number(retailer.price).toFixed(2)}</strong>
-            <a href="${retailer.url || "#"}" target="_blank" rel="noopener noreferrer" style="color:#2563eb;text-decoration:none;">View</a>
-          </div>
-        `).join("")}
+     
+${[...availableRetailers]
+  .sort((a, b) => {
+    const aInStock = typeof a.stock === "string" && a.stock.toLowerCase() === "in stock";
+    const bInStock = typeof b.stock === "string" && b.stock.toLowerCase() === "in stock";
+    if (aInStock !== bInStock) return aInStock ? -1 : 1;
+    return a.price - b.price;
+  })
+  .map(retailer => {
+    const inStock = typeof retailer.stock === "string" && retailer.stock.toLowerCase() === "in stock";
+    const cheapestInStock = inStock && retailer.price === Math.min(
+      ...availableRetailers
+        .filter(r => typeof r.stock === "string" && r.stock.toLowerCase() === "in stock")
+        .map(r => r.price)
+    );
+    return `
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding:8px;background:#f8fafc;border-radius:8px;">
+        <span>${retailer.name}${cheapestInStock ? ' 🏆 Cheapest in stock' : ''}</span>
+        <strong>$${Number(retailer.price).toFixed(2)}</strong>
+        <span style="font-size:11px;color:${inStock ? '#15803d' : '#b45309'};">${retailer.stock || 'Stock unverified'}</span>
+        <a href="${retailer.url || "#"}" target="_blank" rel="noopener noreferrer" style="color:#2563eb;text-decoration:none;">View</a>
+      </div>
+    `;
+  }).join("")}
     </div>
   </details>
 ` : ""}
