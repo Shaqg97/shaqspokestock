@@ -444,19 +444,13 @@
     "set": "Ninja Spinner M4",
     "language": "Japanese",
     "type": "Booster Box",
-    "store": "PokéTrader",
-    "price": 139,
+    "store": "Light of Cards",
+    "price": 134.99,
     "stock": "In Stock",
     "releaseDate": "2026-03-13",
-    "url": "https://www.poketrader.com.au/products/pokemon-tcg-ninja-spinner-booster-box-japanese-copy",
+    "url": "https://lightofcards.com.au/products/sealed-pokemon-tcg-ninja-spinner-m4-japanese-booster-box",
     "status": "Released",
     "retailers": [
-      {
-        "name": "PokéTrader",
-        "price": 139,
-        "stock": "In Stock",
-        "url": "https://www.poketrader.com.au/products/pokemon-tcg-ninja-spinner-booster-box-japanese-copy"
-      },
       {
         "name": "Light of Cards",
         "price": 134.99,
@@ -464,16 +458,10 @@
         "url": "https://lightofcards.com.au/products/sealed-pokemon-tcg-ninja-spinner-m4-japanese-booster-box"
       },
       {
-        "name": "Pocket Games",
-        "price": 165,
+        "name": "PokéTrader",
+        "price": 139,
         "stock": "In Stock",
-        "url": "https://pocketgames.com.au/products/pokemon-tcg-ninja-spinner-m4-booster-box-japanese"
-      },
-      {
-        "name": "Sealed Vault",
-        "price": 140,
-        "stock": "Sold Out",
-        "url": "https://sealedvault.com.au/products/m4-ninja-spinner-booster-box"
+        "url": "https://www.poketrader.com.au/products/pokemon-tcg-ninja-spinner-booster-box-japanese-copy"
       }
     ],
     "restock": false
@@ -507,12 +495,6 @@
         "price": 119,
         "stock": "In Stock",
         "url": "https://pokesource.com.au/products/pokemon-tcg-nihil-zero-m3-booster-box-japanese"
-      },
-      {
-        "name": "Sealed Vault",
-        "price": 105,
-        "stock": "Sold Out",
-        "url": "https://sealedvault.com.au/products/m3-nihil-zero-booster-box"
       }
     ],
     "restock": false
@@ -603,27 +585,21 @@
       },
       {
         "name": "BIG W Marketplace",
+        "price": 114.95,
+        "stock": "In Stock",
+        "url": "https://www.bigw.com.au/product/mega-symphonia-booster-box-japanese-pokemon-tcg/p/9903315904"
+      },
+      {
+        "name": "BIG W Marketplace (alternate listing)",
         "price": 145.75,
         "stock": "In Stock",
         "url": "https://www.bigw.com.au/product/pokemon-tcg-mega-symphonia-booster-box-m1s-japanese/p/9902372204"
-      },
-      {
-        "name": "EC Hobbies",
-        "price": 149.95,
-        "stock": "In Stock",
-        "url": "https://www.echobbies.com.au/product-page/mega-symphonia-m1s-pok%C3%A9mon-tcg-booster-box-japanese"
       },
       {
         "name": "PokéSourceAU",
         "price": 189,
         "stock": "In Stock",
         "url": "https://pokesource.com.au/products/pokemon-tcg-mega-symphonia-m1s-booster-box-japanese"
-      },
-      {
-        "name": "Sealed Vault",
-        "price": 129,
-        "stock": "Sold Out",
-        "url": "https://sealedvault.com.au/products/mega-symp-booster-box"
       }
     ],
     "restock": false
