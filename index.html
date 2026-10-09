@@ -363,6 +363,39 @@ footer {
   </button>
 
 </div>
+  <div style="margin: 16px 0;">
+  <label for="typeFilter" style="font-weight:600; margin-right:10px;">
+    📦 Product Type:
+  </label>
+
+  <select
+    id="typeFilter"
+    onchange="renderProducts()"
+    style="
+      padding:10px 14px;
+      border:1px solid #ddd;
+      border-radius:10px;
+      background:white;
+      font-size:14px;
+    "
+  >
+    <option value="all">All Product Types</option>
+    <option value="booster box">Booster Boxes</option>
+    <option value="etb">ETBs</option>
+    <option value="booster pack">Booster Packs</option>
+    <option value="collection box">Collection Boxes</option>
+    <option value="battle deck">Battle Decks</option>
+    <option value="league battle deck">League Battle Decks</option>
+    <option value="premium collection">Premium Collections</option>
+    <option value="ultra-premium collection">Ultra-Premium Collections</option>
+    <option value="figure collection">Figure Collections</option>
+    <option value="mini tin">Mini Tins</option>
+    <option value="blister">Blisters</option>
+    <option value="mini portfolio">Mini Portfolios</option>
+    <option value="build & battle box">Build & Battle Boxes</option>
+    <option value="binder collection">Binder Collections</option>
+  </select>
+</div>  
 
 </section>
 
@@ -470,20 +503,32 @@ function renderProducts() {
 
 let matchesFilter = true;
 
+const selectedType =
+  document.getElementById("typeFilter").value;
+
+if (selectedType !== "all") {
+  matchesFilter =
+    matchesFilter && type.includes(selectedType);
+}
+
 if (currentFilter === "english") {
-  matchesFilter = product.language === "English";
+  matchesFilter =
+    matchesFilter && product.language === "English";
 }
 
 if (currentFilter === "japanese") {
-  matchesFilter = product.language === "Japanese";
+  matchesFilter =
+    matchesFilter && product.language === "Japanese";
 }
 
 if (currentFilter === "upcoming") {
-  matchesFilter = product.status === "Upcoming";
+  matchesFilter =
+    matchesFilter && product.status === "Upcoming";
 }
 
 if (currentFilter === "preorder") {
-  matchesFilter = product.status === "Pre-Order";
+  matchesFilter =
+    matchesFilter && product.status === "Pre-Order";
 }
 
 if (currentFilter === "instock") {
@@ -496,8 +541,8 @@ if (currentFilter === "instock") {
     );
 
   matchesFilter =
-    product.stock === "In Stock" ||
-    retailerHasStock;
+    matchesFilter &&
+    (product.stock === "In Stock" || retailerHasStock);
 }
 
 return matchesSearch && matchesFilter;
