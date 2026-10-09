@@ -734,7 +734,26 @@ return matchesSearch && matchesFilter;
           `
           : ""}
 
-        ${releaseDate}
+        
+${availableRetailers.length > 0 ? `
+  <details style="margin-top:8px;font-size:12px;">
+    <summary style="cursor:pointer;font-weight:600;color:#334155;">
+      Compare ${availableRetailers.length} retailer${availableRetailers.length === 1 ? "" : "s"}
+    </summary>
+    <div style="margin-top:8px;display:grid;gap:6px;">
+      ${[...availableRetailers]
+        .sort((a, b) => a.price - b.price)
+        .map(retailer => `
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px;background:#f8fafc;border-radius:8px;">
+            <span>${retailer.name}</span>
+            <strong>$${Number(retailer.price).toFixed(2)}</strong>
+            <a href="${retailer.url || "#"}" target="_blank" rel="noopener noreferrer" style="color:#2563eb;text-decoration:none;">View</a>
+          </div>
+        `).join("")}
+    </div>
+  </details>
+` : ""}
+${releaseDate}
 
         ${dealButton}
 
