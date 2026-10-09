@@ -328,5 +328,127 @@
     "status": "Upcoming",
     "retailers": [],
     "restock": false
+  },
+
+  {
+    "name": "30th Celebration Booster Bundle",
+    "set": "30th Celebration",
+    "language": "English",
+    "type": "Booster Bundle",
+    "store": "TCGroup AU",
+    "price": 149.99,
+    "stock": "Sold Out",
+    "releaseDate": "2026-10-02",
+    "url": "https://www.tcgroupau.com.au/products/pokemon-trading-card-game-30th-celebration-booster-bundle-english",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "TCGroup AU",
+        "price": 149.99,
+        "stock": "Sold Out",
+        "url": "https://www.tcgroupau.com.au/products/pokemon-trading-card-game-30th-celebration-booster-bundle-english"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "Storm Emeralda M6 Booster Box",
+    "set": "Storm Emeralda M6",
+    "language": "Japanese",
+    "type": "Booster Box",
+    "store": "Sealed Vault",
+    "price": 210,
+    "stock": "Sold Out",
+    "releaseDate": "2026-07-31",
+    "url": "https://sealedvault.com.au/collections/japanese",
+    "status": "Released",
+    "retailers": [],
+    "restock": false
+  },
+  {
+    "name": "Abyss Eye M5 Booster Box",
+    "set": "Abyss Eye M5",
+    "language": "Japanese",
+    "type": "Booster Box",
+    "store": "Sealed Vault",
+    "price": 135,
+    "stock": "Sold Out",
+    "releaseDate": "2026-05-22",
+    "url": "https://sealedvault.com.au/products/m5-abyss-eye-booster-box",
+    "status": "Released",
+    "retailers": [],
+    "restock": false
+  },
+  {
+    "name": "Ninja Spinner M4 Booster Box",
+    "set": "Ninja Spinner M4",
+    "language": "Japanese",
+    "type": "Booster Box",
+    "store": "Sealed Vault",
+    "price": 140,
+    "stock": "In Stock",
+    "releaseDate": "2026-03-13",
+    "url": "https://sealedvault.com.au/collections/japanese",
+    "status": "Released",
+    "retailers": [],
+    "restock": false
+  },
+  {
+    "name": "Nihil Zero M3 Booster Box",
+    "set": "Nihil Zero M3",
+    "language": "Japanese",
+    "type": "Booster Box",
+    "store": "Sealed Vault",
+    "price": 105,
+    "stock": "In Stock",
+    "releaseDate": "2026-01-23",
+    "url": "https://sealedvault.com.au/collections/japanese",
+    "status": "Released",
+    "retailers": [],
+    "restock": false
+  },
+  {
+    "name": "Mega Dream ex M2a Booster Box",
+    "set": "Mega Dream ex M2a",
+    "language": "Japanese",
+    "type": "Booster Box",
+    "store": "Sealed Vault",
+    "price": 169,
+    "stock": "In Stock",
+    "releaseDate": "2025-11-28",
+    "url": "https://sealedvault.com.au/collections/japanese",
+    "status": "Released",
+    "retailers": [],
+    "restock": false
+  },
+  {
+    "name": "Mega Brave M1L Booster Box",
+    "set": "Mega Brave M1L",
+    "language": "Japanese",
+    "type": "Booster Box",
+    "store": "Sealed Vault",
+    "price": 139,
+    "stock": "In Stock",
+    "releaseDate": "2025-08-01",
+    "url": "https://sealedvault.com.au/collections/japanese",
+    "status": "Released",
+    "retailers": [],
+    "restock": false
+  },
+  {
+    "name": "Mega Symphonia M1S Booster Box",
+    "set": "Mega Symphonia M1S",
+    "language": "Japanese",
+    "type": "Booster Box",
+    "store": "Sealed Vault",
+    "price": 129,
+    "stock": "In Stock",
+    "releaseDate": "2025-08-01",
+    "url": "https://sealedvault.com.au/collections/japanese",
+    "status": "Released",
+    "retailers": [],
+    "restock": false
   }
+
 ]
+
