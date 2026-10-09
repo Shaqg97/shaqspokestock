@@ -167,13 +167,20 @@
     "set": "30th Celebration",
     "language": "English",
     "type": "Mini Portfolio",
-    "store": "Pokémon TCG Retailers",
-    "price": 0,
-    "stock": "Check Retailer",
+    "store": "Good Games",
+    "price": 20,
+    "stock": "Sold Out",
     "releaseDate": "2026-10-02",
-    "url": "",
-    "status": "Available",
-    "retailers": [],
+    "url": "https://www.goodgames.com.au/products/pokemon-mini-portfolio-with-booster-2026",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Good Games",
+        "price": 20,
+        "stock": "Sold Out",
+        "url": "https://www.goodgames.com.au/products/pokemon-mini-portfolio-with-booster-2026"
+      }
+    ],
     "restock": false
   },
   {
@@ -181,13 +188,26 @@
     "set": "30th Celebration",
     "language": "English",
     "type": "Blister",
-    "store": "Pokémon TCG Retailers",
-    "price": 0,
-    "stock": "Check Retailer",
+    "store": "Blindfury Collectables",
+    "price": 49,
+    "stock": "Sold Out",
     "releaseDate": "2026-10-02",
-    "url": "",
-    "status": "Available",
-    "retailers": [],
+    "url": "https://www.blindfury.com.au/products/30th-celebration-2-pack-blister",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Blindfury Collectables",
+        "price": 49,
+        "stock": "Sold Out",
+        "url": "https://www.blindfury.com.au/products/30th-celebration-2-pack-blister"
+      },
+      {
+        "name": "Mad Distribution",
+        "price": 50.99,
+        "stock": "Sold Out",
+        "url": "https://mad-distribution.com.au/products/pok-mon-tcg-2-pack-blister-30th-celebration"
+      }
+    ],
     "restock": false
   },
   {
@@ -466,13 +486,20 @@
     "set": "Mega Evolution—Delta Reign",
     "language": "English",
     "type": "Build & Battle Box",
-    "store": "Pokémon TCG Retailers",
+    "store": "Good Games",
     "price": 0,
     "stock": "Coming Soon",
     "releaseDate": "2026-10-24",
-    "url": "",
+    "url": "https://www.goodgames.com.au/products/pokemon-tcg-mini-portfolio-with-booster-q4-2026",
     "status": "Upcoming",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "Good Games",
+        "price": 0,
+        "stock": "Coming Soon",
+        "url": "https://www.goodgames.com.au/products/pokemon-tcg-mini-portfolio-with-booster-q4-2026"
+      }
+    ],
     "restock": false
   },
   {
