@@ -55,12 +55,6 @@
         "price": 149.99,
         "stock": "Coming Soon",
         "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me06-delta-reign-elite-trainer-box-etb"
-      },
-      {
-        "name": "Gameology",
-        "price": 129.95,
-        "stock": "Sold Out",
-        "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-delta-reign-elite-trainer-box"
       }
     ],
     "restock": false
@@ -588,12 +582,6 @@
         "price": 114.95,
         "stock": "In Stock",
         "url": "https://www.bigw.com.au/product/mega-symphonia-booster-box-japanese-pokemon-tcg/p/9903315904"
-      },
-      {
-        "name": "BIG W Marketplace (alternate listing)",
-        "price": 145.75,
-        "stock": "In Stock",
-        "url": "https://www.bigw.com.au/product/pokemon-tcg-mega-symphonia-booster-box-m1s-japanese/p/9902372204"
       },
       {
         "name": "PokéSourceAU",
