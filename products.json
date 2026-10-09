@@ -10,14 +10,33 @@
     "releaseDate": "2026-11-06",
     "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game",
     "status": "Pre-Order",
-    "retailers": [
-      {
-        "name": "EB Games",
-        "price": 389.95,
-        "stock": "Pre-Order",
-        "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game"
-      }
-    ],
+
+"retailers": [
+  {
+    "name": "EB Games",
+    "price": 389.95,
+    "stock": "Pre-Order",
+    "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game"
+  },
+  {
+    "name": "PokeBox",
+    "price": 349.99,
+    "stock": "Coming Soon",
+    "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me06-delta-reign-booster-box"
+  },
+  {
+    "name": "Gameology",
+    "price": 319.95,
+    "stock": "Pre-Order",
+    "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-delta-reign-booster-box"
+  },
+  {
+    "name": "R&R Hobbies",
+    "price": 324,
+    "stock": "Sold Out",
+    "url": "https://www.rnrhobbies.com.au/products/pokemon-delta-reign-booster-box"
+  }
+],
     "restock": false
   },
   {
