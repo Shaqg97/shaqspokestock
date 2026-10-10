@@ -38,7 +38,7 @@ function readStructuredProduct(html, itemId) {
 
   const candidates = nodes.filter((node) => {
     const sku = String(node.sku ?? node.productID ?? '');
-    return !itemId || !sku || sku.toLowerCase() === itemId.toLowerCase();
+    return Boolean(itemId && sku && sku.toLowerCase() === itemId.toLowerCase());
   });
 
   for (const node of candidates) {
