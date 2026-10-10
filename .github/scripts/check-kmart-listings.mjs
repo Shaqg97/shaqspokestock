@@ -124,6 +124,7 @@ for (const product of products) {
 if (checked === 0) {
   throw new Error('No Kmart listings with valid product URLs were found in products.json.');
 }
+for (const message of skipped) console.warn(`Skipped: ${message}`);
 if (readable === 0) {
   throw new Error('Kmart pages loaded, but no structured price or stock data could be read. Product data was not updated.');
 }
