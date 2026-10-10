@@ -1,0 +1,26 @@
+name: Discord product alerts
+
+on:
+  push:
+    paths:
+      - products.json
+      - .github/scripts/send-discord-alerts.mjs
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out project history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Send product change alerts
+        if: github.event.before != '0000000000000000000000000000000000000000'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          BEFORE_SHA: ${{ github.event.before }}
+        run: node .github/scripts/send-discord-alerts.mjs

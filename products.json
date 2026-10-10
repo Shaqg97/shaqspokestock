@@ -10,33 +10,41 @@
     "releaseDate": "2026-11-06",
     "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game",
     "status": "Pre-Order",
-
-"retailers": [
-  {
-    "name": "EB Games",
-    "price": 389.95,
-    "stock": "Pre-Order",
-    "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game"
-  },
-  {
-    "name": "PokeBox",
-    "price": 349.99,
-    "stock": "Coming Soon",
-    "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me06-delta-reign-booster-box"
-  },
-  {
-    "name": "Gameology",
-    "price": 319.95,
-    "stock": "Pre-Order",
-    "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-delta-reign-booster-box"
-  },
-  {
-    "name": "R&R Hobbies",
-    "price": 324,
-    "stock": "Sold Out",
-    "url": "https://www.rnrhobbies.com.au/products/pokemon-delta-reign-booster-box"
-  }
-],
+    "retailers": [
+      {
+        "name": "EB Games",
+        "price": 389.95,
+        "stock": "Pre-Order",
+        "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game"
+      },
+      {
+        "name": "PokeBox",
+        "price": 349.99,
+        "stock": "Coming Soon",
+        "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me06-delta-reign-booster-box"
+      },
+      {
+        "name": "Gameology",
+        "price": 319.95,
+        "stock": "Pre-Order",
+        "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-delta-reign-booster-box"
+      },
+      {
+        "name": "R&R Hobbies",
+        "price": 324,
+        "stock": "Sold Out",
+        "url": "https://www.rnrhobbies.com.au/products/pokemon-delta-reign-booster-box"
+      },
+      {
+        "name": "Kmart",
+        "price": 299,
+        "stock": "Pre-Order",
+        "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-mega-evolution-delta-reign-36-booster-display-43848669/",
+        "retailerItemId": "P_43848669",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      }
+    ],
     "restock": false
   },
   {
@@ -56,12 +64,21 @@
         "price": 149.99,
         "stock": "Coming Soon",
         "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me06-delta-reign-elite-trainer-box-etb"
+      },
+      {
+        "name": "Kmart",
+        "price": 100.0,
+        "stock": "Pre-Order",
+        "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-mega-evolution-delta-reign-elite-trainer-box-43848737/",
+        "retailerItemId": "P_43848737",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
       }
     ],
     "restock": false
   },
   {
-    "name": "Mega Brave Booster Box",
+    "name": "Mega Brave M1L Booster Box",
     "set": "Mega Brave",
     "language": "Japanese",
     "type": "Booster Box",
@@ -77,6 +94,36 @@
         "price": 169.99,
         "stock": "In Stock",
         "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-box-japanese-pokemon-tcg"
+      },
+      {
+        "name": "GD Games",
+        "price": 150,
+        "stock": "In Stock",
+        "url": "https://www.gdgames.com.au/products/mega-brave-booster-box-japanese-pokemon-tcg-shrink"
+      },
+      {
+        "name": "Pocket Games",
+        "price": 155,
+        "stock": "In Stock",
+        "url": "https://pocketgames.com.au/products/pokemon-tcg-mega-brave-m1l-booster-box-booster-pack"
+      },
+      {
+        "name": "BIG W Marketplace",
+        "price": 129.95,
+        "stock": "In Stock",
+        "url": "https://www.bigw.com.au/product/mega-brave-booster-box-japanese-pokemon-tcg/p/9903315995",
+        "retailerItemId": "9903315995",
+        "retailerItemIdType": "Article Number",
+        "checkedAt": "2026-10-10"
+      },
+      {
+        "name": "JB Hi-Fi Marketplace (SuperGamers)",
+        "price": 128.0,
+        "stock": "In Stock",
+        "url": "https://www.jbhifi.com.au/products/pokemon-tcg-mega-brave-m1l-box-30-booster-packs-japanese-trading-cards",
+        "retailerItemId": "10083799",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
       }
     ],
     "restock": false
@@ -150,13 +197,20 @@
     "set": "30th Celebration",
     "language": "English",
     "type": "Mini Portfolio",
-    "store": "Pokémon TCG Retailers",
-    "price": 0,
-    "stock": "Check Retailer",
+    "store": "Good Games",
+    "price": 20,
+    "stock": "Sold Out",
     "releaseDate": "2026-10-02",
-    "url": "",
-    "status": "Available",
-    "retailers": [],
+    "url": "https://www.goodgames.com.au/products/pokemon-mini-portfolio-with-booster-2026",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Good Games",
+        "price": 20,
+        "stock": "Sold Out",
+        "url": "https://www.goodgames.com.au/products/pokemon-mini-portfolio-with-booster-2026"
+      }
+    ],
     "restock": false
   },
   {
@@ -164,13 +218,26 @@
     "set": "30th Celebration",
     "language": "English",
     "type": "Blister",
-    "store": "Pokémon TCG Retailers",
-    "price": 0,
-    "stock": "Check Retailer",
+    "store": "Blindfury Collectables",
+    "price": 49,
+    "stock": "Sold Out",
     "releaseDate": "2026-10-02",
-    "url": "",
-    "status": "Available",
-    "retailers": [],
+    "url": "https://www.blindfury.com.au/products/30th-celebration-2-pack-blister",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Blindfury Collectables",
+        "price": 49,
+        "stock": "Sold Out",
+        "url": "https://www.blindfury.com.au/products/30th-celebration-2-pack-blister"
+      },
+      {
+        "name": "Mad Distribution",
+        "price": 50.99,
+        "stock": "Sold Out",
+        "url": "https://mad-distribution.com.au/products/pok-mon-tcg-2-pack-blister-30th-celebration"
+      }
+    ],
     "restock": false
   },
   {
@@ -178,27 +245,53 @@
     "set": "30th Celebration",
     "language": "English",
     "type": "Mini Tin",
-    "store": "Pokémon TCG Retailers",
-    "price": 0,
-    "stock": "Check Retailer",
+    "store": "Clouts Collectables",
+    "price": 30,
+    "stock": "Sold Out",
     "releaseDate": "2026-10-02",
-    "url": "",
-    "status": "Available",
-    "retailers": [],
-    "restock": false
-  },
-  {
-    "name": "30th Celebration Booster Bundle",
-    "set": "30th Celebration",
-    "language": "English",
-    "type": "Booster Bundle",
-    "store": "Pokémon TCG Retailers",
-    "price": 0,
-    "stock": "Check Retailer",
-    "releaseDate": "2026-10-02",
-    "url": "",
-    "status": "Available",
-    "retailers": [],
+    "url": "https://www.cloutscollectables.com.au/tcggames",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Clouts Collectables",
+        "price": 30,
+        "stock": "Sold Out",
+        "url": "https://www.cloutscollectables.com.au/tcggames"
+      },
+      {
+        "name": "TCGroup AU",
+        "price": 49.99,
+        "stock": "Sold Out",
+        "url": "https://www.tcgroupau.com.au/products/pokemon-trading-card-game-30th-celebration-mini-tin-assorted"
+      },
+      {
+        "name": "Grailborne",
+        "price": 59,
+        "stock": "Pre-Order",
+        "url": "https://grailborne.com.au/collections/30th-celebration"
+      },
+      {
+        "name": "EB Games",
+        "price": 23,
+        "stock": "Pre-Order",
+        "url": "https://www.ebgames.com.au/product/other/378909-pokemon-tcg-30th-celebration-mini-tin"
+      },
+      {
+        "name": "GD Games",
+        "price": 59.95,
+        "stock": "In Stock",
+        "url": "https://www.gdgames.com.au/products/pokemon-30th-celebration-mini-tin-pokemon-tcg"
+      },
+      {
+        "name": "Kmart",
+        "price": 20.0,
+        "stock": "In Stock",
+        "url": "https://www.kmart.com.au/product/pokemon-trading-card-game%3A-30th-celebration-mini-tin-assorted-43818600/",
+        "retailerItemId": "P_43818600",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      }
+    ],
     "restock": false
   },
   {
@@ -226,7 +319,14 @@
     "releaseDate": "2026-10-30",
     "url": "",
     "status": "Upcoming",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "Grailborne (assorted)",
+        "price": 129,
+        "stock": "Pre-Order",
+        "url": "https://grailborne.com.au/collections/30th-celebration"
+      }
+    ],
     "restock": false
   },
   {
@@ -240,7 +340,14 @@
     "releaseDate": "2026-10-30",
     "url": "",
     "status": "Upcoming",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "Grailborne (assorted)",
+        "price": 129,
+        "stock": "Pre-Order",
+        "url": "https://grailborne.com.au/collections/30th-celebration"
+      }
+    ],
     "restock": false
   },
   {
@@ -254,7 +361,20 @@
     "releaseDate": "2026-11-06",
     "url": "",
     "status": "Upcoming",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "Clouts Collectables",
+        "price": 100,
+        "stock": "Sold Out",
+        "url": "https://www.cloutscollectables.com.au/tcggames"
+      },
+      {
+        "name": "Grailborne",
+        "price": 339,
+        "stock": "Pre-Order",
+        "url": "https://grailborne.com.au/collections/pokemon-tcg/coming-soon"
+      }
+    ],
     "restock": false
   },
   {
@@ -268,7 +388,38 @@
     "releaseDate": "2026-11-06",
     "url": "",
     "status": "Upcoming",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "Clouts Collectables",
+        "price": 400,
+        "stock": "Sold Out",
+        "url": "https://www.cloutscollectables.com.au/tcggames"
+      },
+      {
+        "name": "Grailborne",
+        "price": 1190,
+        "stock": "Pre-Order",
+        "url": "https://grailborne.com.au/collections/pokemon-tcg/coming-soon"
+      },
+      {
+        "name": "Kmart (Day UPC)",
+        "price": 360,
+        "stock": "Pre-Order",
+        "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-30th-celebration-ultra-premium-collection-day-43818648/",
+        "retailerItemId": "P_43818648",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      },
+      {
+        "name": "Kmart (Night UPC)",
+        "price": 360,
+        "stock": "Pre-Order",
+        "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-30th-celebration-ultra-premium-collection-night-43834044/",
+        "retailerItemId": "P_43834044",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      }
+    ],
     "restock": false
   },
   {
@@ -282,7 +433,20 @@
     "releaseDate": "2026-11-06",
     "url": "",
     "status": "Upcoming",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "Clouts Collectables",
+        "price": 75,
+        "stock": "Sold Out",
+        "url": "https://www.cloutscollectables.com.au/tcggames"
+      },
+      {
+        "name": "Grailborne (assorted)",
+        "price": 309,
+        "stock": "Pre-Order",
+        "url": "https://grailborne.com.au/collections/pokemon-tcg/coming-soon"
+      }
+    ],
     "restock": false
   },
   {
@@ -296,7 +460,20 @@
     "releaseDate": "2026-11-06",
     "url": "",
     "status": "Upcoming",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "Clouts Collectables",
+        "price": 75,
+        "stock": "Sold Out",
+        "url": "https://www.cloutscollectables.com.au/tcggames"
+      },
+      {
+        "name": "Grailborne (assorted)",
+        "price": 309,
+        "stock": "Pre-Order",
+        "url": "https://grailborne.com.au/collections/pokemon-tcg/coming-soon"
+      }
+    ],
     "restock": false
   },
   {
@@ -304,13 +481,41 @@
     "set": "30th Celebration",
     "language": "English",
     "type": "Binder Collection",
-    "store": "Pokémon TCG Retailers",
-    "price": 0,
-    "stock": "Coming Soon",
-    "releaseDate": "2026-12-04",
-    "url": "",
-    "status": "Upcoming",
-    "retailers": [],
+    "store": "Clouts Collectables",
+    "price": 70,
+    "stock": "Sold Out",
+    "releaseDate": "2026-09-16",
+    "url": "https://www.cloutscollectables.com.au/tcggames",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Clouts Collectables",
+        "price": 70,
+        "stock": "Sold Out",
+        "url": "https://www.cloutscollectables.com.au/tcggames"
+      },
+      {
+        "name": "Down Under Trading Cards",
+        "price": 129.99,
+        "stock": "Pre-Order",
+        "url": "https://www.downundertradingcards.com.au/pages/pre-orders"
+      },
+      {
+        "name": "TGE-TV Store",
+        "price": 79.99,
+        "stock": "Check Retailer",
+        "url": "https://store.tge-tv.com/products/pokemon"
+      },
+      {
+        "name": "Kmart",
+        "price": 65.0,
+        "stock": "In Stock",
+        "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-30th-celebration-binder-collection-43818594/",
+        "retailerItemId": "P_43818594",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      }
+    ],
     "restock": false
   },
   {
@@ -339,16 +544,22 @@
     "set": "Mega Evolution—Delta Reign",
     "language": "English",
     "type": "Build & Battle Box",
-    "store": "Pokémon TCG Retailers",
-    "price": 0,
-    "stock": "Coming Soon",
+    "store": "TGE-TV Store",
+    "price": 29.99,
+    "stock": "Check Retailer",
     "releaseDate": "2026-10-24",
-    "url": "",
+    "url": "https://store.tge-tv.com/products/pokemon",
     "status": "Upcoming",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "TGE-TV Store",
+        "price": 29.99,
+        "stock": "Check Retailer",
+        "url": "https://store.tge-tv.com/products/pokemon"
+      }
+    ],
     "restock": false
   },
-
   {
     "name": "30th Celebration Booster Bundle",
     "set": "30th Celebration",
@@ -361,6 +572,33 @@
     "url": "https://www.tcgroupau.com.au/products/pokemon-trading-card-game-30th-celebration-booster-bundle-english",
     "status": "Released",
     "retailers": [
+      {
+        "name": "Clouts Collectables",
+        "price": 65,
+        "stock": "Sold Out",
+        "url": "https://www.cloutscollectables.com.au/tcggames"
+      },
+      {
+        "name": "Gameology",
+        "price": 74.95,
+        "stock": "Sold Out",
+        "url": "https://www.gameology.com.au/products/pokemon-tcg-30th-celebration-booster-bundle"
+      },
+      {
+        "name": "Grailborne",
+        "price": 229,
+        "stock": "Pre-Order",
+        "url": "https://grailborne.com.au/collections/pokemon-tcg/coming-soon"
+      },
+      {
+        "name": "Kmart",
+        "price": 54.0,
+        "stock": "In Stock",
+        "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-30th-celebration-booster-bundle-43818617/",
+        "retailerItemId": "P_43818617",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      },
       {
         "name": "TCGroup AU",
         "price": 149.99,
@@ -375,13 +613,44 @@
     "set": "Storm Emeralda M6",
     "language": "Japanese",
     "type": "Booster Box",
-    "store": "Sealed Vault",
-    "price": 210,
-    "stock": "Sold Out",
+    "store": "BIG W Marketplace",
+    "price": 194,
+    "stock": "In Stock",
     "releaseDate": "2026-07-31",
-    "url": "https://sealedvault.com.au/collections/japanese",
+    "url": "https://www.bigw.com.au/product/pokemon-tcg-storm-emeralda-m6-japanese-booster-box/p/9905766514",
     "status": "Released",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "BIG W Marketplace",
+        "price": 194,
+        "stock": "In Stock",
+        "url": "https://www.bigw.com.au/product/pokemon-tcg-storm-emeralda-m6-japanese-booster-box/p/9905766514",
+        "retailerItemId": "9905766514",
+        "retailerItemIdType": "Article Number",
+        "checkedAt": "2026-10-10"
+      },
+      {
+        "name": "Sealed Vault",
+        "price": 210,
+        "stock": "Sold Out",
+        "url": "https://sealedvault.com.au/collections/japanese"
+      },
+      {
+        "name": "The Card Spot",
+        "price": 210,
+        "stock": "Sold Out",
+        "url": "https://thecardspot.com.au/products/storm-emeralda-booster-box-pokemon-tcg"
+      },
+      {
+        "name": "JB Hi-Fi Marketplace (SuperGamers)",
+        "price": 198.0,
+        "stock": "In Stock",
+        "url": "https://www.jbhifi.com.au/products/pokemon-tcg-storm-emeralda-m6-box-booster-packs-japanese-trading-cards",
+        "retailerItemId": "10089375",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      }
+    ],
     "restock": false
   },
   {
@@ -395,7 +664,20 @@
     "releaseDate": "2026-05-22",
     "url": "https://sealedvault.com.au/products/m5-abyss-eye-booster-box",
     "status": "Released",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "Sealed Vault",
+        "price": 135,
+        "stock": "Sold Out",
+        "url": "https://sealedvault.com.au/products/m5-abyss-eye-booster-box"
+      },
+      {
+        "name": "The Booster Bear",
+        "price": 180,
+        "stock": "In Stock",
+        "url": "https://theboosterbear.com.au/collections/all"
+      }
+    ],
     "restock": false
   },
   {
@@ -403,13 +685,35 @@
     "set": "Ninja Spinner M4",
     "language": "Japanese",
     "type": "Booster Box",
-    "store": "Sealed Vault",
-    "price": 140,
+    "store": "Light of Cards",
+    "price": 134.99,
     "stock": "In Stock",
     "releaseDate": "2026-03-13",
-    "url": "https://sealedvault.com.au/collections/japanese",
+    "url": "https://lightofcards.com.au/products/sealed-pokemon-tcg-ninja-spinner-m4-japanese-booster-box",
     "status": "Released",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "Light of Cards",
+        "price": 134.99,
+        "stock": "In Stock",
+        "url": "https://lightofcards.com.au/products/sealed-pokemon-tcg-ninja-spinner-m4-japanese-booster-box"
+      },
+      {
+        "name": "PokéTrader",
+        "price": 139,
+        "stock": "In Stock",
+        "url": "https://www.poketrader.com.au/products/pokemon-tcg-ninja-spinner-booster-box-japanese-copy"
+      },
+      {
+        "name": "JB Hi-Fi Marketplace (SuperGamers)",
+        "price": 159.0,
+        "stock": "In Stock",
+        "url": "https://www.jbhifi.com.au/products/pokemon-tcg-ninja-spinner-mega-evolution-m4-box-japanese-trading-cards?variant=40429074514121",
+        "retailerItemId": "10083796",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      }
+    ],
     "restock": false
   },
   {
@@ -417,13 +721,32 @@
     "set": "Nihil Zero M3",
     "language": "Japanese",
     "type": "Booster Box",
-    "store": "Sealed Vault",
+    "store": "PokéTrader",
     "price": 105,
     "stock": "In Stock",
     "releaseDate": "2026-01-23",
-    "url": "https://sealedvault.com.au/collections/japanese",
+    "url": "https://www.poketrader.com.au/products/pokemon-tcg-nihil-zero-booster-box-japanese",
     "status": "Released",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "PokéTrader",
+        "price": 105,
+        "stock": "In Stock",
+        "url": "https://www.poketrader.com.au/products/pokemon-tcg-nihil-zero-booster-box-japanese"
+      },
+      {
+        "name": "Yot Corp",
+        "price": 115,
+        "stock": "In Stock",
+        "url": "https://www.yotcorp.com.au/product-page/pokemon-tcg-nihil-zero-ex-m3-booster-pack-box-japanese"
+      },
+      {
+        "name": "PokéSourceAU",
+        "price": 119,
+        "stock": "In Stock",
+        "url": "https://pokesource.com.au/products/pokemon-tcg-nihil-zero-m3-booster-box-japanese"
+      }
+    ],
     "restock": false
   },
   {
@@ -431,27 +754,35 @@
     "set": "Mega Dream ex M2a",
     "language": "Japanese",
     "type": "Booster Box",
-    "store": "Sealed Vault",
-    "price": 169,
+    "store": "PokéSourceAU",
+    "price": 199,
     "stock": "In Stock",
     "releaseDate": "2025-11-28",
-    "url": "https://sealedvault.com.au/collections/japanese",
+    "url": "https://pokesource.com.au/products/pokemon-mega-dream-m2a-booster-box-japanese",
     "status": "Released",
-    "retailers": [],
-    "restock": false
-  },
-  {
-    "name": "Mega Brave M1L Booster Box",
-    "set": "Mega Brave M1L",
-    "language": "Japanese",
-    "type": "Booster Box",
-    "store": "Sealed Vault",
-    "price": 139,
-    "stock": "In Stock",
-    "releaseDate": "2025-08-01",
-    "url": "https://sealedvault.com.au/collections/japanese",
-    "status": "Released",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "PokéSourceAU",
+        "price": 199,
+        "stock": "In Stock",
+        "url": "https://pokesource.com.au/products/pokemon-mega-dream-m2a-booster-box-japanese"
+      },
+      {
+        "name": "Sealed Vault",
+        "price": 169,
+        "stock": "Sold Out",
+        "url": "https://sealedvault.com.au/products/m2a-mega-dream-booster-box"
+      },
+      {
+        "name": "JB Hi-Fi Marketplace (SuperGamers)",
+        "price": 167.0,
+        "stock": "In Stock",
+        "url": "https://www.jbhifi.com.au/products/pokemon-tcg-mega-dream-ex-m2a-booster-box-10-packs-japanese-trading-cards",
+        "retailerItemId": "10076825",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      }
+    ],
     "restock": false
   },
   {
@@ -459,15 +790,173 @@
     "set": "Mega Symphonia M1S",
     "language": "Japanese",
     "type": "Booster Box",
-    "store": "Sealed Vault",
-    "price": 129,
+    "store": "Gameology",
+    "price": 134.95,
     "stock": "In Stock",
     "releaseDate": "2025-08-01",
-    "url": "https://sealedvault.com.au/collections/japanese",
+    "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-symphonia-booster-box-m1s-japanese",
     "status": "Released",
-    "retailers": [],
+    "retailers": [
+      {
+        "name": "Gameology",
+        "price": 134.95,
+        "stock": "In Stock",
+        "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-symphonia-booster-box-m1s-japanese"
+      },
+      {
+        "name": "BIG W Marketplace",
+        "price": 114.95,
+        "stock": "In Stock",
+        "url": "https://www.bigw.com.au/product/mega-symphonia-booster-box-japanese-pokemon-tcg/p/9903315904",
+        "retailerItemId": "9903315904",
+        "retailerItemIdType": "Article Number",
+        "checkedAt": "2026-10-10"
+      },
+      {
+        "name": "PokéSourceAU",
+        "price": 189,
+        "stock": "In Stock",
+        "url": "https://pokesource.com.au/products/pokemon-tcg-mega-symphonia-m1s-booster-box-japanese"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "30th Celebration Elite Trainer Box",
+    "set": "30th Celebration",
+    "language": "English",
+    "type": "ETB",
+    "store": "Kmart",
+    "price": 100,
+    "stock": "In Stock",
+    "releaseDate": "2026-10-02",
+    "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-30th-celebration-elite-trainer-box-43818587/",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Kmart",
+        "price": 100.0,
+        "stock": "In Stock",
+        "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-30th-celebration-elite-trainer-box-43818587/",
+        "retailerItemId": "P_43818587",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      },
+      {
+        "name": "Target (In Store Only)",
+        "price": 100.0,
+        "stock": "In Store Only",
+        "url": "https://www.target.com.au/p/pokemon-tcg-3-th-celebration-elite-trainer-box-assorted/73301585",
+        "retailerItemId": "73301585",
+        "retailerItemIdType": "Item code",
+        "checkedAt": "2026-10-10"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "Delta Reign Booster Bundle",
+    "set": "Mega Evolution—Delta Reign",
+    "language": "English",
+    "type": "Booster Bundle",
+    "store": "Kmart",
+    "price": 50,
+    "stock": "Pre-Order",
+    "releaseDate": "2026-11-06",
+    "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-mega-evolution-delta-reign-booster-bundle-43848706/",
+    "status": "Pre-Order",
+    "retailers": [
+      {
+        "name": "Kmart",
+        "price": 50,
+        "stock": "Pre-Order",
+        "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-mega-evolution-delta-reign-booster-bundle-43848706/",
+        "retailerItemId": "P_43848706",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "Delta Reign Three-Booster Blister",
+    "set": "Mega Evolution—Delta Reign",
+    "language": "English",
+    "type": "Blister",
+    "store": "Kmart",
+    "price": 26,
+    "stock": "Pre-Order",
+    "releaseDate": "2026-11-06",
+    "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-mega-evolution-delta-reign-three-booster-blister-43848683/",
+    "status": "Pre-Order",
+    "retailers": [
+      {
+        "name": "Kmart",
+        "price": 26,
+        "stock": "Pre-Order",
+        "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-mega-evolution-delta-reign-three-booster-blister-43848683/",
+        "retailerItemId": "P_43848683",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "Delta Reign Sleeved Booster",
+    "set": "Mega Evolution—Delta Reign",
+    "language": "English",
+    "type": "Booster Pack",
+    "store": "Kmart",
+    "price": 8.5,
+    "stock": "Pre-Order",
+    "releaseDate": "2026-11-06",
+    "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-mega-evolution-delta-reign-sleeved-booster-assorted-43848676/",
+    "status": "Pre-Order",
+    "retailers": [
+      {
+        "name": "Kmart (Assorted)",
+        "price": 8.5,
+        "stock": "Pre-Order",
+        "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-mega-evolution-delta-reign-sleeved-booster-assorted-43848676/",
+        "retailerItemId": "P_43848676",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "30th Celebration Pokemon ex Box (Sylveon or Greninja)",
+    "set": "30th Celebration",
+    "language": "English",
+    "type": "Collection Box",
+    "store": "Target (In Store Only)",
+    "price": 45,
+    "stock": "In Store Only",
+    "releaseDate": "2026-10-02",
+    "url": "https://www.target.com.au/p/pokemon-tcg-3-th-celebration-sylveon-ex-box-greninja-ex-box-assorted/73301530",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Kmart (Assorted)",
+        "price": 45,
+        "stock": "Check Retailer",
+        "url": "https://www.kmart.com.au/product/43818549/",
+        "retailerItemId": "P_43818549",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-10"
+      },
+      {
+        "name": "Target (In Store Only)",
+        "price": 45,
+        "stock": "In Store Only",
+        "url": "https://www.target.com.au/p/pokemon-tcg-3-th-celebration-sylveon-ex-box-greninja-ex-box-assorted/73301530",
+        "retailerItemId": "73301530",
+        "retailerItemIdType": "Item code",
+        "checkedAt": "2026-10-10"
+      }
+    ],
     "restock": false
   }
-
 ]
-
