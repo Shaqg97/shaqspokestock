@@ -728,19 +728,36 @@ return matchesSearch && matchesFilter;
       : [];
 
     const availableRetailers = retailers.filter(
-      retailer => typeof retailer.price === "number" && retailer.price > 0
+      retailer => Number.isFinite(Number(retailer.price)) && Number(retailer.price) > 0
     );
 
-    const bestRetailer =
-      availableRetailers.length > 0
-        ? availableRetailers.reduce((best, retailer) =>
-            retailer.price < best.price ? retailer : best
-          )
-        : null;
+    // Never advertise a sold-out listing as the best deal.
+    const purchasableRetailers = availableRetailers.filter(retailer =>
+      ["in stock", "pre-order", "low stock"].includes(
+        String(retailer.stock || "").toLowerCase()
+      )
+    );
+    const upcomingRetailers = availableRetailers.filter(retailer =>
+      ["coming soon", "check retailer"].includes(
+        String(retailer.stock || "").toLowerCase()
+      )
+    );
+    const bestPool = purchasableRetailers.length
+      ? purchasableRetailers
+      : upcomingRetailers;
+    const bestRetailer = bestPool.length
+      ? bestPool.reduce((best, retailer) =>
+          Number(retailer.price) < Number(best.price) ? retailer : best
+        )
+      : null;
 
+    const allRetailersSoldOut = retailers.length > 0 &&
+      retailers.every(retailer =>
+        ["sold out", "out of stock"].includes(String(retailer.stock || "").toLowerCase())
+      );
     const displayPrice = bestRetailer
-      ? bestRetailer.price
-      : Number(product.price || 0);
+      ? Number(bestRetailer.price)
+      : allRetailersSoldOut ? 0 : Number(product.price || 0);
 
     const displayStore = bestRetailer
       ? bestRetailer.name
@@ -748,7 +765,7 @@ return matchesSearch && matchesFilter;
 
     const displayStock = bestRetailer
       ? bestRetailer.stock
-      : product.stock;
+      : allRetailersSoldOut ? "Sold Out" : product.stock;
 
     let stockClass = "";
 
@@ -836,8 +853,8 @@ return matchesSearch && matchesFilter;
           📦
         </div>
 
-        <button class="favorite" onclick="toggleFavorite('${product.name}')">
-          ☆
+        <button class="favorite ${isFavorite(product.name) ? "saved" : ""}" onclick="toggleFavorite('${product.name.replace(/'/g, "\\'")}')" aria-label="${isFavorite(product.name) ? "Remove from watchlist" : "Add to watchlist"}" title="${isFavorite(product.name) ? "Remove from watchlist" : "Add to watchlist"}">
+          ${isFavorite(product.name) ? "★" : "☆"}
         </button>
 
         <h3>${product.name}</h3>
@@ -964,13 +981,34 @@ function setFilter(filter, button) {
 
 }
 
-function saveProduct(button) {
+const FAVORITES_KEY = "shaqsPokeStockFavorites";
 
-  button.classList.toggle("saved");
+function getFavorites() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+    return Array.isArray(saved) ? saved : [];
+  } catch (error) {
+    return [];
+  }
+}
 
-  button.innerText =
-    button.classList.contains("saved") ? "★" : "☆";
+function isFavorite(productName) {
+  return getFavorites().includes(productName);
+}
 
+function toggleFavorite(productName) {
+  const favorites = getFavorites();
+  const updated = favorites.includes(productName)
+    ? favorites.filter(name => name !== productName)
+    : [...favorites, productName];
+
+  try {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(updated));
+  } catch (error) {
+    console.warn("Watchlist could not be saved in this browser.", error);
+  }
+
+  renderProducts();
 }
 
 function scrollToSection(id) {
