@@ -72,8 +72,8 @@ const lines = [
   '',
   ...(failed.length ? ['### URLs needing manual review', ...failed.map(x => `- ${x.retailer} — ${x.url} — ${x.status ?? x.error} (products: ${x.products.join(', ')})`)] : ['All audited URLs returned successful/redirect responses.']),
 ];
-console.log(lines.join('\\n'));
+console.log(lines.join('\n'));
 if (process.env.GITHUB_STEP_SUMMARY) {
   const { appendFile } = await import('node:fs/promises');
-  await appendFile(process.env.GITHUB_STEP_SUMMARY, `${lines.join('\\n')}\\n`);
+  await appendFile(process.env.GITHUB_STEP_SUMMARY, `${lines.join('\\n')}\n`);
 }
