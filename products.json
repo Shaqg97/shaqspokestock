@@ -242,7 +242,8 @@
         "url": "https://mad-distribution.com.au/products/pok-mon-tcg-2-pack-blister-30th-celebration"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://media.finqu.com/8fe30ebb6e9e8da72b287ca24c306fa9bc8d9a04b89c873b8c581ed510e26e43/pokemon_30th_celebration-2-pack-blister.png"
   },
   {
     "name": "30th Celebration Mini Tin",
@@ -566,7 +567,8 @@
         "url": "https://store.tge-tv.com/products/pokemon"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://static.trackalacker.com/cdn-cgi/image/fit%3Dpad%2Cwidth%3D600%2Cheight%3D600%2Cquality%3D85%2Cformat%3Dauto/uploads/products/photo_item/photo/543634/pokemon-delta-reign-build-and-battle-box.png"
   },
   {
     "name": "30th Celebration Booster Bundle",
@@ -975,6 +977,7 @@
         "checkedAt": "2026-10-10"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://cdn11.bigcommerce.com/s-vz3etek0gv/images/stencil/1200w/products/82823/113882/PKU10463_web_Box_3D_L__62643.1782845597.jpg"
   }
 ]
