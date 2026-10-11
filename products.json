@@ -296,7 +296,8 @@
         "checkedAt": "2026-10-10"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://cdn.shopify.com/s/files/1/0778/1472/6878/files/pokemon-tcg-30th-celebration-mini-tin.png?format=webp&v=1789319300"
   },
   {
     "name": "Deck Crafter's Collection",
@@ -610,7 +611,8 @@
         "url": "https://www.tcgroupau.com.au/products/pokemon-trading-card-game-30th-celebration-booster-bundle-english"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://www.rnrhobbies.com.au/cdn/shop/files/Pokemon_TCG_30th_Celebration_Booster_Bundle_EN.png?v=1787367598&width=600"
   },
   {
     "name": "Storm Emeralda M6 Booster Box",
@@ -856,7 +858,8 @@
         "checkedAt": "2026-10-10"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/61df7c6623e645d6a43e7088793d5da4_Original.jpg"
   },
   {
     "name": "Delta Reign Booster Bundle",
