@@ -660,7 +660,8 @@
         "checkedAt": "2026-10-10"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://tcgame.com.au/cdn/shop/files/pokemon-storm-emeralda-m6-booster-box-japanese.jpg?v=1780145000&width=800"
   },
   {
     "name": "Abyss Eye M5 Booster Box",
@@ -687,7 +688,8 @@
         "url": "https://theboosterbear.com.au/collections/all"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://pokelix.eu/cdn/shop/files/abysseye_30erdisplay.png?v=1778398214&width=1445"
   },
   {
     "name": "Ninja Spinner M4 Booster Box",
@@ -723,7 +725,8 @@
         "checkedAt": "2026-10-10"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://itsukijapan.com/cdn/shop/files/pokemon-card-mega-ninja-spinner-japanese-box-1_600x600_crop_center.jpg?v=1771854504"
   },
   {
     "name": "Nihil Zero M3 Booster Box",
@@ -756,7 +759,8 @@
         "url": "https://pokesource.com.au/products/pokemon-tcg-nihil-zero-m3-booster-box-japanese"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://www.thetoytemple.com/cdn/shop/files/TT---WebProduct-2048x2048-4699_1024x1024.jpg?v=1770099603"
   },
   {
     "name": "Mega Dream ex M2a Booster Box",
@@ -792,7 +796,8 @@
         "checkedAt": "2026-10-10"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://jumpichiban.com/cdn/shop/files/PokemonCardGameMEGAHighClassPackMEGADreamexBOX_M2a_1.jpg?v=1764228221&width=1500"
   },
   {
     "name": "Mega Symphonia M1S Booster Box",
@@ -828,7 +833,8 @@
         "url": "https://pokesource.com.au/products/pokemon-tcg-mega-symphonia-m1s-booster-box-japanese"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://pocketgames.com.au/cdn/shop/files/m1s-pokemon-card-game-mega-expansion-pack-mega-symphonia-booster-box_b961b2b1-94b5-45f5-a965-dfa02f76da5f_1024x1024.webp?v=1764992564"
   },
   {
     "name": "30th Celebration Elite Trainer Box",
