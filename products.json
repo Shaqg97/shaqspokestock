@@ -380,7 +380,8 @@
         "url": "https://grailborne.com.au/collections/pokemon-tcg/coming-soon"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://www.madal.com/Item%20Images/POK10469_1.jpg?resizeh=1200&resizeid=5&resizew=1200"
   },
   {
     "name": "30th Celebration Ultra-Premium Collection—Day & Night",
@@ -521,7 +522,8 @@
         "checkedAt": "2026-10-10"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://cdn.shopify.com/s/files/1/0848/4811/6013/files/PokemonTCG-30thCelebrationBinderCollection-Components_EN_1200x1200.jpg?v=1783073167&width=2500"
   },
   {
     "name": "Mega Greninja ex League Battle Deck",
@@ -542,7 +544,8 @@
         "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://cdn.shopify.com/s/files/1/0620/7658/4128/files/Pokemon-LeagueBattleDeck-MegaGreninjaex_1000x_58c23b5a-dcd2-4484-a075-0fcd057635e8.png?v=1788290666&width=1500"
   },
   {
     "name": "Mega Evolution—Delta Reign Build & Battle Box",
@@ -858,7 +861,8 @@
         "checkedAt": "2026-10-10"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://i.ebayimg.com/images/g/6akAAeSw2~5qX9Ze/s-l960.jpg"
   },
   {
     "name": "Delta Reign Booster Bundle",
@@ -907,7 +911,8 @@
         "checkedAt": "2026-10-10"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://cdn.shopify.com/s/files/1/0577/6890/2828/files/delta-reign-seel-blister-page-2200.webp?v=1788510039"
   },
   {
     "name": "Delta Reign Sleeved Booster",
