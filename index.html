@@ -754,7 +754,9 @@ function renderStores() {
       ? "Latest recorded check: " + new Date(latestCheck + "T00:00:00").toLocaleDateString("en-AU", { day: "numeric", month: "short" })
       : "Live stock check not confirmed";
     const targetOffer = cheapest || store.offers.find(offer => offer.url) || {};
-    const url = targetOffer.url || "#";
+    const retailerLink = targetOffer.url
+      ? `<a href="${escapeHtml(targetOffer.url)}" target="_blank" rel="noopener noreferrer" style="display:block;margin-top:13px;padding:12px;background:#172033;color:white;text-align:center;text-decoration:none;border-radius:11px;font-weight:700;">Visit retailer ↗</a>`
+      : `<p class="store" style="margin-top:13px;padding:12px;text-align:center;background:#f1f5f9;border-radius:11px;">Retailer link unavailable</p>`;
     return `
       <article class="product store-card">
         <h3>${escapeHtml(store.name)}</h3>
@@ -764,7 +766,7 @@ function renderStores() {
           <span class="stock ${cheapest && String(cheapest.stock).toLowerCase() === "in stock" ? "" : "low"}">${cheapest ? "Lowest listed" : "No verified price"}</span>
         </div>
         <p class="store">${escapeHtml(statusLine)}</p>
-        <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" style="display:block;margin-top:13px;padding:12px;background:#172033;color:white;text-align:center;text-decoration:none;border-radius:11px;font-weight:700;">Visit retailer ↗</a>
+        ${retailerLink}
       </article>
     `;
   }).join("");
