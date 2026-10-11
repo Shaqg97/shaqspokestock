@@ -24,7 +24,7 @@ function collectProductNodes(value, nodes = []) {
   return nodes;
 }
 
-function readStructuredProduct(html, itemId) {
+function readStructuredProduct(html, itemId, productName) {
   const scripts = [...html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
   const nodes = [];
 
@@ -36,10 +36,27 @@ function readStructuredProduct(html, itemId) {
     }
   }
 
-  const candidates = nodes.filter((node) => {
+  const normalise = (value) => String(value ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+  const targetName = normalise(productName);
+  const skuMatches = nodes.filter((node) => {
     const sku = String(node.sku ?? node.productID ?? '');
     return Boolean(itemId && sku && sku.toLowerCase() === itemId.toLowerCase());
   });
+  // Kmart's structured data sometimes omits SKU on the Product node.
+  // Only fall back to a name match when the normalised product names agree,
+  // avoiding accidental updates from recommendations or related products.
+  const nameMatches = nodes.filter((node) => {
+    const candidateName = normalise(node.name);
+    return targetName && candidateName && (
+      candidateName === targetName ||
+      candidateName.startsWith(targetName) ||
+      targetName.startsWith(candidateName)
+    );
+  });
+  const candidates = skuMatches.length ? skuMatches : nameMatches;
 
   for (const node of candidates) {
     const offers = Array.isArray(node.offers) ? node.offers : node.offers ? [node.offers] : [];
@@ -84,7 +101,7 @@ for (const product of products) {
       const response = await fetch(url, {
         headers: {
           accept: 'text/html,application/xhtml+xml',
-          'user-agent': 'ShaqsPokeStockMonitor/1.0 (+https://github.com/Shagg97/shaqspokestock)',
+          'user-agent': 'Mozilla/5.0 (compatible; ShaqsPokeStockMonitor/1.0; +https://github.com/Shaqg97/shaqspokestock)',
         },
         signal: AbortSignal.timeout(20000),
       });
@@ -95,7 +112,7 @@ for (const product of products) {
       }
 
       const html = await response.text();
-      const structured = readStructuredProduct(html, offer.retailerItemId);
+      const structured = readStructuredProduct(html, offer.retailerItemId, product.name);
       const price = structured?.price;
       const stock = structured?.stock ?? null;
 
