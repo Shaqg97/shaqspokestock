@@ -32,8 +32,3 @@ jobs:
             echo "No product data changes to save."
           fi
 
-      - name: Send Discord alerts for changes
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          BEFORE_SHA: ${{ github.sha }}
-        run: node .github/scripts/send-discord-alerts.mjs
