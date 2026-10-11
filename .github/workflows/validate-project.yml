@@ -1,0 +1,34 @@
+name: Validate project
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out project
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate product catalogue JSON
+        run: node -e "const fs=require('node:fs'); const products=JSON.parse(fs.readFileSync('products.json','utf8')); if(!Array.isArray(products)) throw new Error('products.json must be an array'); for(const [i,p] of products.entries()){ if(!p.name || !p.language || !p.type) throw new Error('Product '+i+' is missing a required name/language/type'); if(p.retailers !== undefined && !Array.isArray(p.retailers)) throw new Error('Product '+i+' retailers must be an array'); } console.log('Validated '+products.length+' products');"
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check .github/scripts/check-kmart-listings.mjs
+          node --check .github/scripts/send-discord-alerts.mjs
+
+      - name: Check required page features
+        run: |
+          node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); for(const token of ['products.json','function renderProducts','function setFilter','function toggleFavorite','View Deal']) if(!html.includes(token)) throw new Error('Missing expected page feature: '+token); console.log('Core page features found');"
