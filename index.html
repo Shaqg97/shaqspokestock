@@ -513,17 +513,17 @@ header{background:rgba(16,24,44,.98);padding:13px 16px}.header-inner{max-width:1
   </div>
 
   <div class="stat">
-    <small>Best price</small>
+    <small>Best listed price</small>
     <strong id="bestPrice">Loading...</strong>
   </div>
 
   <div class="stat">
-    <small>Stores tracked</small>
+    <small>Retailer brands listed</small>
     <strong id="storeCount">Loading...</strong>
   </div>
 
   <div class="stat">
-    <small>Last checked</small>
+    <small>Last recorded check</small>
     <strong id="lastChecked">Catalogue</strong>
   </div>
 
@@ -670,8 +670,21 @@ function updateStats() {
   const prices = availablePrices.length ? availablePrices : fallbackPrices;
   document.getElementById("bestPrice").innerText = prices.length ? "$" + Math.min(...prices).toFixed(2) : "—";
 
-  const stores = new Set(products.flatMap(product => (product.retailers || []).map(offer => offer.name).filter(Boolean)));
-  products.forEach(product => { if (product.store) stores.add(product.store); });
+  // Count distinct retailer brands rather than catalogue name variants
+  // such as "Kmart (Day UPC)" and "Kmart (Night UPC)" as separate stores.
+  const normalizeRetailer = value => {
+    const name = String(value || "").trim();
+    const lower = name.toLowerCase();
+    if (lower.startsWith("kmart")) return "Kmart";
+    if (lower.startsWith("big w")) return "BIG W";
+    if (lower.startsWith("target")) return "Target";
+    if (lower.startsWith("jb hi-fi")) return "JB Hi-Fi";
+    return name;
+  };
+  const stores = new Set(products.flatMap(product => [
+    ...(Array.isArray(product.retailers) ? product.retailers.map(offer => offer.name) : []),
+    product.store
+  ]).map(normalizeRetailer).filter(Boolean));
   document.getElementById("storeCount").innerText = stores.size;
 }
 
