@@ -9,12 +9,18 @@ let withChecks = 0;
 let missingImages = 0;
 let zeroPrices = 0;
 let missingOfferUrls = 0;
+let productsMissingUrls = 0;
+let productsWithoutOffers = 0;
+let productsWithoutCheckDates = 0;
 
 for (const [index, product] of products.entries()) {
   if (!product.name || !product.language || !product.type) {
     issues.push(`Product #${index + 1} is missing a name, language, or type.`);
   }
   if (!product.image) missingImages += 1;
+  if (!product.url) productsMissingUrls += 1;
+  if (!Array.isArray(product.retailers) || product.retailers.length === 0) productsWithoutOffers += 1;
+  if (!(product.retailers ?? []).some(offer => offer.checkedAt)) productsWithoutCheckDates += 1;
   for (const offer of product.retailers ?? []) {
     offers += 1;
     if (offer.retailerItemId) withIds += 1;
@@ -41,6 +47,9 @@ const lines = [
   `- Offers with retailer item IDs: **${withIds}/${offers} (${pct(withIds, offers)}%)**`,
   `- Offers with a recorded check date: **${withChecks}/${offers} (${pct(withChecks, offers)}%)**`,
   `- Products missing an image URL: **${missingImages}/${products.length}**`,
+  `- Products missing a primary product URL: **${productsMissingUrls}/${products.length}**`,
+  `- Products with no retailer offers: **${productsWithoutOffers}/${products.length}**`,
+  `- Products without any offer check date: **${productsWithoutCheckDates}/${products.length}**`,
   `- Offers with zero/unknown price: **${zeroPrices}**`,
   `- Offers missing a retailer URL: **${missingOfferUrls}**`,
   '',
