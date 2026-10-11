@@ -75,5 +75,5 @@ const lines = [
 console.log(lines.join('\n'));
 if (process.env.GITHUB_STEP_SUMMARY) {
   const { appendFile } = await import('node:fs/promises');
-  await appendFile(process.env.GITHUB_STEP_SUMMARY, `${lines.join('\\n')}\n`);
+  await appendFile(process.env.GITHUB_STEP_SUMMARY, `${lines.join('\n')}\n`);
 }
