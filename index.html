@@ -649,26 +649,15 @@ function updateStats() {
   const checkedEl = document.getElementById("lastChecked");
   if (checkedEl) checkedEl.innerText = checkedDates.length ? new Date(checkedDates[checkedDates.length - 1] + "T00:00:00").toLocaleDateString("en-AU", {day:"numeric",month:"short"}) : "Catalogue";
 
-  const prices = products
-    .map(product => Number(product.price))
-    .filter(price => price > 0);
+  const offers = products.flatMap(product => (product.retailers || []).filter(offer => Number(offer.price) > 0));
+  const availablePrices = offers.filter(offer => ["in stock", "pre-order", "low stock"].includes(String(offer.stock || "").toLowerCase())).map(offer => Number(offer.price));
+  const fallbackPrices = products.map(product => Number(product.price)).filter(price => price > 0);
+  const prices = availablePrices.length ? availablePrices : fallbackPrices;
+  document.getElementById("bestPrice").innerText = prices.length ? "$" + Math.min(...prices).toFixed(2) : "—";
 
-  if (prices.length) {
-
-    const cheapest = Math.min(...prices);
-
-    document.getElementById("bestPrice").innerText =
-      "$" + cheapest;
-
-  }
-
-  const stores = new Set(
-    products.map(product => product.store)
-  );
-
-  document.getElementById("storeCount").innerText =
-    stores.size;
-
+  const stores = new Set(products.flatMap(product => (product.retailers || []).map(offer => offer.name).filter(Boolean)));
+  products.forEach(product => { if (product.store) stores.add(product.store); });
+  document.getElementById("storeCount").innerText = stores.size;
 }
 
 function renderProducts() {
