@@ -833,6 +833,11 @@ return matchesSearch && matchesFilter;
       ? bestRetailer.stock
       : allRetailersSoldOut ? "Sold Out" : product.stock;
 
+    // Catalogue stock labels are not live unless the chosen offer has a recorded check date.
+    const freshnessLabel = bestRetailer && bestRetailer.checkedAt
+      ? "Last recorded check: " + new Date(bestRetailer.checkedAt + "T00:00:00").toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })
+      : "Live stock not verified";
+
     let stockClass = "";
 
     if (
@@ -976,6 +981,10 @@ return matchesSearch && matchesFilter;
 
         <div class="store">
           🇦🇺 ${displayStore}
+        </div>
+
+        <div class="store" style="font-size:12px;color:#777;margin-top:5px;">
+          ⏱ ${freshnessLabel}
         </div>
 
         ${bestRetailer && availableRetailers.length > 1
