@@ -458,6 +458,37 @@ header{background:rgba(16,24,44,.98);padding:13px 16px}.header-inner{max-width:1
 @media(max-width:900px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}.container{padding-left:16px;padding-right:16px}}
 @media(max-width:600px){header{padding:11px 13px}.logo{font-size:17px}nav{display:flex!important}nav button{margin:0;padding:7px 8px!important;font-size:12px}.container{padding:15px 12px 34px}.hero{padding:24px 18px;border-radius:20px}.hero h1{font-size:clamp(29px,8vw,36px);letter-spacing:-1px}.hero p{font-size:15px}.search{min-height:52px;padding:14px;font-size:14px}.stats{gap:8px;margin-bottom:24px}.stat{padding:12px;border-radius:14px}.stat small{font-size:10px}.stat strong{font-size:22px}.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.product{padding:9px;border-radius:15px}.product-image{height:105px;min-height:105px;margin-bottom:10px}.product-image:before{top:7px;left:7px;font-size:8px}.product-image:after{bottom:7px;left:7px;font-size:7px}.product h3{font-size:14px}.set,.store{font-size:11px}.price{font-size:19px}.stock{font-size:9px;padding:5px}.filter-buttons button{font-size:12px;padding:8px 10px}#typeFilter{width:100%;margin-top:8px}}
 
+ 
+/* V3 — finish the collector-first visual system */
+.hero-kicker{display:inline-flex;align-items:center;gap:9px;margin-bottom:18px;padding:8px 12px;border:1px solid #ffffff26;border-radius:999px;background:#ffffff0b;color:#f7d95a;font-size:11px;font-weight:900;letter-spacing:.12em}
+.hero-live-dot{width:8px;height:8px;border-radius:50%;background:#65d995;box-shadow:0 0 0 4px #65d99520}
+.hero-highlight{color:var(--gold);text-shadow:0 5px 24px #ffd43b20}
+.hero h1{max-width:760px}
+.hero p{max-width:650px}
+#deals{scroll-margin-top:90px}
+#stores{scroll-margin-top:90px}
+.section-header{align-items:flex-end}
+.section-header h2{line-height:1.2}
+.filter-buttons button{min-height:42px}
+.filter-buttons button:focus-visible,nav button:focus-visible,.favorite:focus-visible{outline:3px solid #eab308;outline-offset:3px}
+.product{overflow:hidden}
+.product-art{isolation:isolate;position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:15px!important;background:radial-gradient(circle at 82% 25%,#ffd43b65 0,transparent 28%),radial-gradient(circle at 15% 85%,#8ca7d744 0,transparent 38%),linear-gradient(140deg,#fbfdff,#e6ecf6)!important}
+.product-art:before{content:"SHAQS POKE STOCK";position:absolute;top:12px;left:14px;color:#65738b;font-size:9px;font-weight:900;letter-spacing:.15em}
+.product-art:after{content:"COLLECT  /  COMPARE  /  SAVE";position:absolute;bottom:12px;right:12px;left:auto;color:#7d899d;font-size:8px;font-weight:900;letter-spacing:.07em}
+.product-art-orbit{position:absolute;width:112px;height:112px;border:1px solid #7f8da522;border-radius:50%;right:12%;top:8%;z-index:-1}
+.product-art-orbit:before,.product-art-orbit:after{content:"";position:absolute;inset:12px;border:1px solid #7f8da522;border-radius:50%}
+.product-art-orbit:after{inset:28px}
+.product-art-mark{font-size:46px!important;line-height:1;color:#d5a900;text-shadow:0 7px 20px #d5a90035;margin:0 0 10px}
+.product-art-label{display:inline-flex;padding:6px 9px;border-radius:7px;background:#172033;color:white;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.product h3{margin-top:1px}
+.price-row{align-items:center}
+.product details[open] summary{margin-bottom:5px}
+.product details a{font-weight:800}
+#stores .product{background:linear-gradient(135deg,#fff,#f7f9fc)}
+@media(min-width:1000px){.products{gap:18px}.product{padding:17px}.product-art{height:170px;min-height:170px}}
+@media(max-width:600px){.hero-kicker{font-size:9px;margin-bottom:14px;padding:7px 9px}.hero{padding:23px 16px}.product-art{padding:10px!important}.product-art:before{top:8px;left:9px;font-size:7px}.product-art:after{bottom:8px;right:8px;font-size:6px}.product-art-orbit{width:76px;height:76px;right:9%;top:14%}.product-art-mark{font-size:34px!important;margin-bottom:7px}.product-art-label{font-size:8px;padding:5px 6px}.product .price-row{flex-wrap:wrap}.product .stock{max-width:100%}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+
 </style>
 </head>
 
@@ -477,8 +508,9 @@ header{background:rgba(16,24,44,.98);padding:13px 16px}.header-inner{max-width:1
 <main class="container">
 
 <section class="hero">
-  <h1>Find Pokémon stock & deals 🇦🇺</h1>
-  <p>Compare Pokémon products, prices and availability across Australia.</p>
+  <div class="hero-kicker"><span class="hero-live-dot"></span> BUILT FOR AUSTRALIAN COLLECTORS</div>
+  <h1>Find your next Pokémon <span class="hero-highlight">chase.</span> 🇦🇺</h1>
+  <p>Compare English and Japanese Pokémon TCG prices, browse upcoming releases, and jump straight to Australian retailers.</p>
 
   <input
     class="search"
@@ -852,8 +884,10 @@ return matchesSearch && matchesFilter;
     return `
       <div class="product">
 
-        <div class="product-image">
-          📦
+        <div class="product-image product-art" role="img" aria-label="${product.name} product artwork placeholder">
+          <span class="product-art-orbit"></span>
+          <span class="product-art-mark">✦</span>
+          <span class="product-art-label">${product.type}</span>
         </div>
 
         <button class="favorite ${isFavorite(product.name) ? "saved" : ""}" onclick="toggleFavorite('${product.name.replace(/'/g, "\\'")}')" aria-label="${isFavorite(product.name) ? "Remove from watchlist" : "Add to watchlist"}" title="${isFavorite(product.name) ? "Remove from watchlist" : "Add to watchlist"}">
