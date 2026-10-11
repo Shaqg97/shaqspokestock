@@ -89,7 +89,7 @@ for (const product of currentProducts) {
         url: offer.url || product.url,
         color: 0xfee75c,
       });
-    } else if (Number(offer.price) > 0 && Number(oldOffer.price) > Number(offer.price)) {
+    } else if ((newStock === 'in stock' || newStock === 'pre-order') && Number(offer.price) > 0 && Number(oldOffer.price) > Number(offer.price)) {
       alerts.push({
         title: `Price drop: ${product.name}`,
         description: `${offer.name} · $${Number(oldOffer.price).toFixed(2)} → $${Number(offer.price).toFixed(2)}`,
