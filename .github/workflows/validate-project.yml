@@ -26,6 +26,7 @@ jobs:
 
       - name: Check JavaScript syntax
         run: |
+          node --check .github/scripts/audit-retailer-links.mjs
           node --check .github/scripts/check-kmart-listings.mjs
           node --check .github/scripts/send-discord-alerts.mjs
           node --check .github/scripts/validate-catalogue-quality.mjs
