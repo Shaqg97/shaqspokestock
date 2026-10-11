@@ -1087,7 +1087,7 @@ ${[...availableRetailers]
         <span>${retailer.name}${cheapestInStock ? ' 🏆 Cheapest in stock' : ''}</span>
         <strong>$${Number(retailer.price).toFixed(2)}</strong>
         <span style="font-size:11px;color:${inStock ? '#15803d' : '#b45309'};">${retailer.stock || 'Stock unverified'}</span>
-        <a href="${retailer.url || "#"}" target="_blank" rel="noopener noreferrer" style="color:#2563eb;text-decoration:none;">View</a>
+        ${retailer.url ? `<a href="${escapeHtml(retailer.url)}" target="_blank" rel="noopener noreferrer" style="color:#2563eb;text-decoration:none;">View</a>` : `<span style="font-size:11px;color:#64748b;">Link unavailable</span>`}
       </div>
     `;
   }).join("")}
