@@ -45,7 +45,8 @@
         "checkedAt": "2026-10-10"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://godpackgames.ca/cdn/shop/files/Pok_mon_TCG_Delta_Reign_Booster_Box.png?v=1781826537&width=600"
   },
   {
     "name": "Delta Reign ETB",
@@ -75,7 +76,8 @@
         "checkedAt": "2026-10-10"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/61df7c6623e645d6a43e7088793d5da4_Original.jpg"
   },
   {
     "name": "Mega Brave M1L Booster Box",
@@ -560,7 +562,8 @@
         "url": "https://store.tge-tv.com/products/pokemon"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://cdn.shopify.com/s/files/1/0514/4854/5477/files/3_3f96b717-0d0b-4d6b-b063-ffc19b02155b.png?v=1787255477"
   },
   {
     "name": "30th Celebration Booster Bundle",
@@ -878,7 +881,8 @@
         "checkedAt": "2026-10-10"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://cdn.shopify.com/s/files/1/0514/4854/5477/files/3_3f96b717-0d0b-4d6b-b063-ffc19b02155b.png?v=1787255477"
   },
   {
     "name": "Delta Reign Three-Booster Blister",
