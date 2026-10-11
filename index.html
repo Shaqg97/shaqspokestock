@@ -689,14 +689,22 @@ function renderStores() {
   for (const product of products) {
     for (const offer of Array.isArray(product.retailers) ? product.retailers : []) {
       if (!offer.name) continue;
-      if (!storeMap.has(offer.name)) {
-        storeMap.set(offer.name, { name: offer.name, offers: [] });
+      // Keep retailer variants under one parent brand in the directory.
+      const rawName = String(offer.name).trim();
+      const lowerName = rawName.toLowerCase();
+      const displayName = lowerName.startsWith("kmart") ? "Kmart"
+        : lowerName.startsWith("big w") ? "BIG W"
+        : lowerName.startsWith("target") ? "Target"
+        : lowerName.startsWith("jb hi-fi") ? "JB Hi-Fi"
+        : rawName;
+      if (!storeMap.has(displayName)) {
+        storeMap.set(displayName, { name: displayName, offers: [] });
       }
-      storeMap.get(offer.name).offers.push({ ...offer, productName: product.name });
+      storeMap.get(displayName).offers.push({ ...offer, productName: product.name, sourceRetailerName: rawName });
     }
   }
 
-  const priority = ["BIG W", "BIG W Marketplace", "Kmart", "Target", "JB Hi-Fi", "JB Hi-Fi Marketplace"];
+  const priority = ["BIG W", "Kmart", "Target", "JB Hi-Fi"];
   const stores = [...storeMap.values()].sort((a, b) => {
     const rank = name => {
       const lower = name.toLowerCase();
