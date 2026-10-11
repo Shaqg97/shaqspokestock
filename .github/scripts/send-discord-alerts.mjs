@@ -30,6 +30,15 @@ const [previousProducts, currentProducts] = await Promise.all([
 const productKey = (product) => [product.name, product.set, product.language, product.type].join('|');
 const previousByKey = new Map(previousProducts.map((product) => [productKey(product), product]));
 const alerts = [];
+const todayUtc = new Date();
+todayUtc.setUTCHours(0, 0, 0, 0);
+const hasFreshCheck = (offer) => {
+  if (!offer?.checkedAt) return false;
+  const checkedDate = new Date(`${offer.checkedAt}T00:00:00Z`);
+  const ageDays = (todayUtc - checkedDate) / 86400000;
+  return Number.isFinite(checkedDate.getTime()) && ageDays >= 0 && ageDays <= 1;
+};
+const knownStockStates = new Set(['in stock', 'sold out', 'pre-order']);
 
 for (const product of currentProducts) {
   const oldProduct = previousByKey.get(productKey(product));
@@ -50,8 +59,9 @@ for (const product of currentProducts) {
   for (const offer of product.retailers ?? []) {
     const oldOffer = previousOffers.get(offer.name);
     const newStock = String(offer.stock ?? '').toLowerCase();
+    const freshCheck = hasFreshCheck(offer);
     if (!oldOffer) {
-      if (newStock === 'in stock' || newStock === 'pre-order') {
+      if (freshCheck && knownStockStates.has(newStock) && (newStock === 'in stock' || newStock === 'pre-order')) {
         alerts.push({
           title: `${newStock === 'pre-order' ? 'New pre-order listing' : 'New in-stock listing'}: ${product.name}`,
           description: `${offer.name} · $${Number(offer.price).toFixed(2)}`,
@@ -63,6 +73,8 @@ for (const product of currentProducts) {
     }
 
     const oldStock = String(oldOffer.stock ?? '').toLowerCase();
+    // Never announce a restock, pre-order, or price drop from stale/manual data.
+    if (!freshCheck || !knownStockStates.has(newStock)) continue;
     if (oldStock !== 'in stock' && newStock === 'in stock') {
       alerts.push({
         title: `Back in stock: ${product.name}`,
