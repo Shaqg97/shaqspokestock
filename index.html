@@ -594,11 +594,9 @@ header{background:rgba(16,24,44,.98);padding:13px 16px}.header-inner{max-width:1
     <h2>🏪 Stores</h2>
   </div>
 
-  <div class="product">
-    <h3>Australian Pokémon retailers</h3>
-    <p class="set">
-      Store comparison will be connected next.
-    </p>
+  <p class="set" style="margin-bottom:14px;">Browse retailers represented in the current catalogue. Stock and prices are only as reliable as each retailer's latest verified listing.</p>
+  <div id="storeList" class="products">
+    <div class="loading">Loading retailer directory...</div>
   </div>
 
 </section>
@@ -627,6 +625,7 @@ async function loadProducts() {
     products = await response.json();
 
     updateStats();
+    renderStores();
     renderProducts();
 
   } catch (error) {
@@ -658,6 +657,70 @@ function updateStats() {
   const stores = new Set(products.flatMap(product => (product.retailers || []).map(offer => offer.name).filter(Boolean)));
   products.forEach(product => { if (product.store) stores.add(product.store); });
   document.getElementById("storeCount").innerText = stores.size;
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  })[char]);
+}
+
+function renderStores() {
+  const container = document.getElementById("storeList");
+  if (!container) return;
+
+  const storeMap = new Map();
+  for (const product of products) {
+    for (const offer of Array.isArray(product.retailers) ? product.retailers : []) {
+      if (!offer.name) continue;
+      if (!storeMap.has(offer.name)) {
+        storeMap.set(offer.name, { name: offer.name, offers: [] });
+      }
+      storeMap.get(offer.name).offers.push({ ...offer, productName: product.name });
+    }
+  }
+
+  const priority = ["BIG W", "BIG W Marketplace", "Kmart", "Target", "JB Hi-Fi", "JB Hi-Fi Marketplace"];
+  const stores = [...storeMap.values()].sort((a, b) => {
+    const rank = name => {
+      const lower = name.toLowerCase();
+      const index = priority.findIndex(item => lower === item.toLowerCase() || lower.startsWith(item.toLowerCase() + " "));
+      return index === -1 ? priority.length : index;
+    };
+    return rank(a.name) - rank(b.name) || a.name.localeCompare(b.name);
+  });
+
+  if (!stores.length) {
+    container.innerHTML = '<div class="empty">No retailer listings are available in the catalogue yet.</div>';
+    return;
+  }
+
+  container.innerHTML = stores.map(store => {
+    const available = store.offers.filter(offer =>
+      Number(offer.price) > 0 &&
+      ["in stock", "pre-order", "low stock"].includes(String(offer.stock || "").toLowerCase())
+    );
+    const cheapest = available.sort((a, b) => Number(a.price) - Number(b.price))[0];
+    const listingCount = store.offers.length;
+    const latestCheck = store.offers.map(offer => offer.checkedAt).filter(Boolean).sort().at(-1);
+    const statusLine = latestCheck
+      ? "Latest recorded check: " + new Date(latestCheck + "T00:00:00").toLocaleDateString("en-AU", { day: "numeric", month: "short" })
+      : "Live stock check not confirmed";
+    const targetOffer = cheapest || store.offers.find(offer => offer.url) || {};
+    const url = targetOffer.url || "#";
+    return `
+      <article class="product store-card">
+        <h3>${escapeHtml(store.name)}</h3>
+        <p class="set">${listingCount} catalogue listing${listingCount === 1 ? "" : "s"}</p>
+        <div class="price-row" style="margin:8px 0;">
+          <span class="price">${cheapest ? "$" + Number(cheapest.price).toFixed(2) : "—"}</span>
+          <span class="stock ${cheapest && String(cheapest.stock).toLowerCase() === "in stock" ? "" : "low"}">${cheapest ? "Lowest listed" : "No verified price"}</span>
+        </div>
+        <p class="store">${escapeHtml(statusLine)}</p>
+        <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" style="display:block;margin-top:13px;padding:12px;background:#172033;color:white;text-align:center;text-decoration:none;border-radius:11px;font-weight:700;">Visit retailer ↗</a>
+      </article>
+    `;
+  }).join("");
 }
 
 function renderProducts() {
