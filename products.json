@@ -150,7 +150,8 @@
         "url": "https://www.pokebox.com.au/collections/pokemon-tcg-mega-evolution-elite-trainer-box"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://facetofacegames.com/cdn/shop/files/bd71c582ee2c9dfa12bc2e2e51f45ac7a8a2a40e_Asset_SEA_ETB_PKM_10_10047_101_LUCARIO.jpg?v=1752617883&width=1920"
   },
   {
     "name": "Japanese Booster Pack",
@@ -313,7 +314,8 @@
     "url": "",
     "status": "Upcoming",
     "retailers": [],
-    "restock": false
+    "restock": false,
+    "image": "https://cdn11.bigcommerce.com/s-a0ebd/images/stencil/1920w/products/9077/23195/pokemon-deck-crafters-collection-box__64511.1790022481.jpg?c=2"
   },
   {
     "name": "30th Celebration Battle Deck—Espeon ex",
@@ -949,7 +951,8 @@
         "checkedAt": "2026-10-10"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://eternacards.co.uk/cdn/shop/files/pokemon-delta-reign-booster-pack-7742349_998x998.png?v=1787592221"
   },
   {
     "name": "30th Celebration Pokemon ex Box (Sylveon or Greninja)",
