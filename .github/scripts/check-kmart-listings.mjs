@@ -143,7 +143,9 @@ if (checked === 0) {
 }
 for (const message of skipped) console.warn(`Skipped: ${message}`);
 if (readable === 0) {
-  throw new Error('Kmart pages loaded, but no structured price or stock data could be read. Product data was not updated.');
+  console.warn('Kmart monitoring unavailable: no listings returned readable product data. Existing catalogue values were left unchanged; no stock or price changes will be claimed.');
+  console.log(`Checked ${checked} Kmart listing(s). 0 readable; ${skipped.length} listing(s) skipped. No product data was changed.`);
+  process.exit(0);
 }
 
 await writeFile(productsUrl, `${JSON.stringify(products, null, 2)}\n`, 'utf8');
