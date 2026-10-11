@@ -19,6 +19,7 @@ for (const product of products) {
 
 const entries = [...unique.values()];
 const results = [];
+const byRetailer = new Map();
 const concurrency = 4;
 let cursor = 0;
 async function worker() {
@@ -58,6 +59,19 @@ async function worker() {
 }
 await Promise.all(Array.from({ length: Math.min(concurrency, entries.length) }, worker));
 
+for (const result of results) {
+  const key = result.retailer || 'Unknown retailer';
+  if (!byRetailer.has(key)) byRetailer.set(key, { total: 0, ok: 0, blocked: 0, failed: 0, errors: [] });
+  const summary = byRetailer.get(key);
+  summary.total += 1;
+  if (result.ok) summary.ok += 1;
+  else {
+    summary.failed += 1;
+    summary.errors.push(`${result.status ?? result.error}: ${result.url}`);
+  }
+  if ([401, 403, 429].includes(result.status)) summary.blocked += 1;
+}
+
 const blocked = results.filter(x => [401, 403, 429].includes(x.status));
 const failed = results.filter(x => x.status === null || x.status >= 400);
 const lines = [
@@ -68,9 +82,17 @@ const lines = [
   `- Failed or blocked requests: **${failed.length}**`,
   `- Access denied / rate limited (401/403/429): **${blocked.length}**`,
   '',
+  '### Results by retailer',
+  '',
+  '| Retailer | URLs | Reachable | Failed/blocked |',
+  '|---|---:|---:|---:|',
+  ...[...byRetailer.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([name, s]) => `| ${name.replace(/\\|/g, '\\\\|')} | ${s.total} | ${s.ok} | ${s.failed} |`),
+  '',
   '> This audit checks whether URLs respond to automated requests. A successful response does not confirm price or stock; blocked responses do not necessarily mean a link is broken.',
   '',
   ...(failed.length ? ['### URLs needing manual review', ...failed.map(x => `- ${x.retailer} — ${x.url} — ${x.status ?? x.error} (products: ${x.products.join(', ')})`)] : ['All audited URLs returned successful/redirect responses.']),
+  '',
+  '> Retailer summaries show automated URL reachability only. A successful response is not a stock check; blocked requests require manual review or an approved retailer-supported integration.',
 ];
 console.log(lines.join('\n'));
 if (process.env.GITHUB_STEP_SUMMARY) {
