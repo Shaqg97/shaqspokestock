@@ -751,16 +751,24 @@ function renderProducts() {
 
   const container = document.getElementById("products");
 
-  const search =
-    document.getElementById("search").value.toLowerCase();
+  const search = String(document.getElementById("search").value || "")
+    .trim()
+    .toLocaleLowerCase();
 
   const filtered = products.filter(product => {
 
-    const matchesSearch =
-      product.name.toLowerCase().includes(search) ||
-      product.set.toLowerCase().includes(search) ||
-      product.language.toLowerCase().includes(search) ||
-      product.type.toLowerCase().includes(search);
+    // Search all key product fields safely, even if a future catalogue entry
+    // has a missing optional value or a non-string field.
+    const matchesSearch = [
+      product.name,
+      product.set,
+      product.language,
+      product.type,
+      product.status,
+      product.stock,
+      product.store,
+      ...(Array.isArray(product.retailers) ? product.retailers.map(offer => offer.name) : [])
+    ].some(value => String(value ?? "").toLocaleLowerCase().includes(search));
 
     const type = product.type.toLowerCase();
 
@@ -810,6 +818,11 @@ if (currentFilter === "instock") {
 
 return matchesSearch && matchesFilter;
   });
+
+  if (!filtered.length) {
+    container.innerHTML = '<div class="empty">No Pokémon products match that search. Try a set name, product type, language, or retailer.</div>';
+    return;
+  }
 
   container.innerHTML = filtered.map(product => {
 
