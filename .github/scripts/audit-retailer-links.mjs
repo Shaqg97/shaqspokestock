@@ -86,7 +86,7 @@ const lines = [
   '',
   '| Retailer | URLs | Reachable | Failed/blocked |',
   '|---|---:|---:|---:|',
-  ...[...byRetailer.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([name, s]) => `| ${name.replace(/\\|/g, '\\\\|')} | ${s.total} | ${s.ok} | ${s.failed} |`),
+  ...[...byRetailer.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([name, s]) => `| ${name.replaceAll('|', '/')} | ${s.total} | ${s.ok} | ${s.failed} |`),
   '',
   '> This audit checks whether URLs respond to automated requests. A successful response does not confirm price or stock; blocked responses do not necessarily mean a link is broken.',
   '',
