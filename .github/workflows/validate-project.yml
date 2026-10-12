@@ -22,7 +22,7 @@ jobs:
           node-version: 22
 
       - name: Validate product catalogue JSON
-        run: node -e "const fs=require('node:fs'); const products=JSON.parse(fs.readFileSync('products.json','utf8')); if(!Array.isArray(products)) throw new Error('products.json must be an array'); for(const [i,p] of products.entries()){ if(!p.name || !p.language || !p.type) throw new Error('Product '+i+' is missing a required name/language/type'); if(p.retailers !== undefined && !Array.isArray(p.retailers)) throw new Error('Product '+i+' retailers must be an array'); } console.log('Validated '+products.length+' products');"
+        run: node -e "const fs=require('node:fs'); const products=JSON.parse(fs.readFileSync('products.json','utf8')); if(!Array.isArray(products)) throw new Error('products.json must be an array'); if(products.length!==31) throw new Error('Catalogue is intentionally frozen at 31 products; found '+products.length); for(const [i,p] of products.entries()){ if(!p.name || !p.language || !p.type) throw new Error('Product '+i+' is missing a required name/language/type'); if(p.retailers !== undefined && !Array.isArray(p.retailers)) throw new Error('Product '+i+' retailers must be an array'); } console.log('Validated '+products.length+' products');"
 
       - name: Check JavaScript syntax
         run: |
@@ -39,4 +39,4 @@ jobs:
 
       - name: Check required page features
         run: |
-          node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); for(const token of ['products.json','function renderProducts','function setFilter','function toggleFavorite','View Deal']) if(!html.includes(token)) throw new Error('Missing expected page feature: '+token); console.log('Core page features found');"
+          node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); for(const token of ['products.json','function renderProducts','function setFilter','function toggleFavorite','function isFreshVerifiedStock','retailerStockLabel','stockCheckStatus','meta name="description"','prefers-reduced-motion','View Deal']) if(!html.includes(token)) throw new Error('Missing expected page feature: '+token); console.log('Core page features found');"
