@@ -568,7 +568,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
   </button>
 
   <button onclick="setFilter('instock', this)">
-    🟢 In Stock
+    🟢 Verified In Stock
   </button>
 
 </div>
@@ -663,6 +663,14 @@ async function loadProducts() {
 
   }
 
+}
+
+function isFreshVerifiedStock(offer) {
+  if (!offer || offer.stockCheckStatus !== "verified" || !offer.checkedAt) return false;
+  const checkedAt = new Date(offer.checkedAt + "T00:00:00");
+  if (!Number.isFinite(checkedAt.getTime())) return false;
+  const ageDays = (Date.now() - checkedAt.getTime()) / 86400000;
+  return ageDays >= -0.25 && ageDays <= 1.25;
 }
 
 function updateStats() {
@@ -830,15 +838,12 @@ if (currentFilter === "preorder") {
 if (currentFilter === "instock") {
   const retailerHasStock =
     Array.isArray(product.retailers) &&
-    product.retailers.some(
-      retailer =>
-        typeof retailer.stock === "string" &&
-        retailer.stock.toLowerCase() === "in stock"
+    product.retailers.some(retailer =>
+      String(retailer.stock || "").toLowerCase() === "in stock" &&
+      isFreshVerifiedStock(retailer)
     );
 
-  matchesFilter =
-    matchesFilter &&
-    (product.stock === "In Stock" || retailerHasStock);
+  matchesFilter = matchesFilter && retailerHasStock;
 }
 
 return matchesSearch && matchesFilter;
@@ -895,10 +900,14 @@ return matchesSearch && matchesFilter;
       ? bestRetailer.stock
       : allRetailersSoldOut ? "Sold Out" : product.stock;
 
-    // Catalogue stock labels are not live unless the chosen offer has a recorded check date.
-    const freshnessLabel = bestRetailer && bestRetailer.checkedAt
-      ? "Last recorded check: " + new Date(bestRetailer.checkedAt + "T00:00:00").toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })
-      : "Live stock not verified";
+    // A date alone is not proof of a successful stock check.
+    const stockVerified = isFreshVerifiedStock(bestRetailer);
+    const freshnessLabel = stockVerified
+      ? "Retailer stock verified: " + new Date(bestRetailer.checkedAt + "T00:00:00").toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })
+      : bestRetailer && bestRetailer.stockCheckStatus === "verified" && bestRetailer.checkedAt
+        ? "Last verified " + new Date(bestRetailer.checkedAt + "T00:00:00").toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" }) + " — check is stale"
+        : "Catalogue listing only — live stock not verified";
+    const stockLabel = stockVerified ? displayStock : "Listed: " + displayStock;
 
     let stockClass = "";
 
@@ -1036,8 +1045,8 @@ return matchesSearch && matchesFilter;
               : "Price TBA"}
           </span>
 
-          <span class="stock ${stockClass}">
-            ${displayStock}
+          <span class="stock ${stockClass}" title="${stockVerified ? "Stock status confirmed by a recent retailer check" : "This is catalogue information, not confirmed live stock"}">
+            ${escapeHtml(stockLabel)}
           </span>
 
         </div>
