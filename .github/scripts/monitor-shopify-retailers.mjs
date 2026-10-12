@@ -150,3 +150,4 @@ if (changed) {
 }
 
 // One-time correction workflow guard: do not treat ambiguous Shopify variant prices as verified.
+// Keep variant-specific pricing conservative when a listing offers multiple product types.
