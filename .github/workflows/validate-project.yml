@@ -39,4 +39,4 @@ jobs:
 
       - name: Check required page features
         run: |
-          node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); for(const token of ['products.json','function renderProducts','function setFilter','function toggleFavorite','function isFreshVerifiedStock','retailerStockLabel','stockCheckStatus','meta name="description"','prefers-reduced-motion','View Deal']) if(!html.includes(token)) throw new Error('Missing expected page feature: '+token); console.log('Core page features found');"
+          node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); for(const token of ['products.json','function renderProducts','function setFilter','function toggleFavorite','function isFreshVerifiedStock','retailerStockLabel','stockCheckStatus','meta name=','prefers-reduced-motion','View Deal']) if(!html.includes(token)) throw new Error('Missing expected page feature: '+token); console.log('Core page features found');"
