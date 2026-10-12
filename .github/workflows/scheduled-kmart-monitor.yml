@@ -1,8 +1,7 @@
-name: Scheduled Kmart product checks
+name: Manual Kmart product checks (automatic monitoring paused)
 
 on:
-  schedule:
-    - cron: '17 */6 * * *'
+  # Kmart blocks automated requests (HTTP 403), so keep this workflow manual-only.
   workflow_dispatch:
 
 permissions:
