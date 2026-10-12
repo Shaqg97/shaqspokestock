@@ -903,7 +903,10 @@ function renderProducts() {
 
     // Search all key product fields safely, even if a future catalogue entry
     // has a missing optional value or a non-string field.
-    const matchesSearch = [
+    // Every catalogue entry is a Pokémon TCG product, so broad searches
+    // for "pokemon", "pokémon", or "tcg" should show the full catalogue.
+    const broadPokemonSearch = /^(?:pok[eé]mon(?:\s+tcg)?|tcg)$/i.test(search);
+    const matchesSearch = broadPokemonSearch || [
       product.name,
       product.set,
       product.language,
