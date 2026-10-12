@@ -125,7 +125,8 @@
         "url": "https://www.jbhifi.com.au/products/pokemon-tcg-mega-brave-m1l-box-30-booster-packs-japanese-trading-cards",
         "retailerItemId": "10083799",
         "retailerItemIdType": "SKU",
-        "checkedAt": "2026-10-10"
+        "checkedAt": "2026-10-12",
+        "stockCheckStatus": "verified"
       }
     ],
     "restock": false,
@@ -669,7 +670,8 @@
         "url": "https://www.jbhifi.com.au/products/pokemon-tcg-storm-emeralda-m6-box-booster-packs-japanese-trading-cards",
         "retailerItemId": "10089375",
         "retailerItemIdType": "SKU",
-        "checkedAt": "2026-10-10"
+        "checkedAt": "2026-10-12",
+        "stockCheckStatus": "verified"
       }
     ],
     "restock": false,
@@ -729,12 +731,13 @@
       },
       {
         "name": "JB Hi-Fi Marketplace (SuperGamers)",
-        "price": 159,
+        "price": 139,
         "stock": "In Stock",
         "url": "https://www.jbhifi.com.au/products/pokemon-tcg-ninja-spinner-mega-evolution-m4-box-japanese-trading-cards?variant=40429074514121",
         "retailerItemId": "10083796",
         "retailerItemIdType": "SKU",
-        "checkedAt": "2026-10-10"
+        "checkedAt": "2026-10-12",
+        "stockCheckStatus": "verified"
       }
     ],
     "restock": false,
@@ -805,7 +808,8 @@
         "url": "https://www.jbhifi.com.au/products/pokemon-tcg-mega-dream-ex-m2a-booster-box-10-packs-japanese-trading-cards",
         "retailerItemId": "10076825",
         "retailerItemIdType": "SKU",
-        "checkedAt": "2026-10-10"
+        "checkedAt": "2026-10-12",
+        "stockCheckStatus": "verified"
       }
     ],
     "restock": false,
