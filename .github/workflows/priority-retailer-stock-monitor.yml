@@ -1,6 +1,11 @@
 name: Priority retailer stock monitor
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/scripts/monitor-priority-retailers.mjs'
+      - '.github/workflows/priority-retailer-stock-monitor.yml'
   schedule:
     - cron: '17 */6 * * *'
   workflow_dispatch:
@@ -26,7 +31,7 @@ jobs:
         with:
           node-version: 22
 
-      - name: Check BIG W, JB Hi-Fi and Target product data
+      - name: Check JB Hi-Fi and Target product data (BIG W paused)
         run: node .github/scripts/monitor-priority-retailers.mjs
 
       - name: Send Discord alerts for verified changes
