@@ -107,9 +107,11 @@
       },
       {
         "name": "Pocket Games",
-        "price": 155,
+        "price": 133,
         "stock": "In Stock",
-        "url": "https://pocketgames.com.au/products/pokemon-tcg-mega-brave-m1l-booster-box-booster-pack"
+        "url": "https://pocketgames.com.au/products/pokemon-tcg-mega-brave-m1l-booster-box-booster-pack",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       },
       {
         "name": "BIG W Marketplace",
