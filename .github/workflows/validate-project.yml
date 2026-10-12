@@ -31,6 +31,7 @@ jobs:
           node --check .github/scripts/send-discord-alerts.mjs
           node --check .github/scripts/validate-catalogue-quality.mjs
           node --check .github/scripts/monitor-gameology.mjs
+          node --check .github/scripts/monitor-priority-retailers.mjs
 
       - name: Report catalogue data quality
         run: node .github/scripts/validate-catalogue-quality.mjs
