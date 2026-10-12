@@ -321,6 +321,65 @@ nav button {
   transition: background .18s ease, color .18s ease;
 }
 nav button:hover { background: rgba(255,255,255,.1); color: white; }
+
+.discord-hero-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 12px 17px;
+  border-radius: 12px;
+  background: #5865f2;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 800;
+  box-shadow: 0 8px 20px rgba(88,101,242,.25);
+  transition: transform .18s ease, background .18s ease;
+}
+.discord-hero-link:hover { background: #4752c4; transform: translateY(-1px); }
+.discord-hero-link:focus-visible, .discord-join-button:focus-visible {
+  outline: 3px solid #facc15;
+  outline-offset: 3px;
+}
+.discord-alerts {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(240px, .8fr);
+  align-items: center;
+  gap: 22px;
+  margin: 30px 0;
+  padding: clamp(22px, 4vw, 34px);
+  border-radius: 22px;
+  color: #fff;
+  background: linear-gradient(125deg, #202746, #313b76 70%, #5865f2);
+  box-shadow: 0 14px 34px rgba(32,39,70,.14);
+}
+.discord-alerts h2 { font-size: clamp(24px, 3vw, 32px); line-height: 1.15; margin-bottom: 10px; }
+.discord-alerts p { color: #e2e7ff; margin-bottom: 16px; max-width: 650px; }
+.discord-alerts ul { list-style: none; display: grid; gap: 8px; color: #fff; }
+.discord-alerts li::before { content: "✓"; color: #fde047; font-weight: 900; margin-right: 9px; }
+.discord-join-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 48px;
+  padding: 13px 19px;
+  border-radius: 12px;
+  background: #fff;
+  color: #303b92;
+  text-decoration: none;
+  font-weight: 900;
+  transition: transform .18s ease;
+}
+.discord-join-button:hover { transform: translateY(-1px); }
+.discord-alert-note { display: block; margin-top: 10px; color: #d7dcff; font-size: 12px; }
+@media (max-width: 800px) {
+  .discord-alerts { grid-template-columns: 1fr; }
+  .discord-alerts .discord-alert-action { justify-self: start; }
+  nav { display: none; }
+}
+
 .container { max-width: 1180px; padding-top: 30px; }
 .hero {
   position: relative;
@@ -507,6 +566,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     <nav>
       <button onclick="scrollToSection('deals')">Deals</button>
       <button onclick="scrollToSection('stores')">Stores</button>
+      <button onclick="scrollToSection('alerts')">Real-Time Alerts</button>
     </nav>
   </div>
 </header>
@@ -524,6 +584,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     placeholder="🔎 Search booster boxes, ETBs, packs..."
     oninput="renderProducts()"
   >
+  <a class="discord-hero-link" href="https://discord.gg/bAKGNxen7" target="_blank" rel="noopener noreferrer">🔔 Get real-time alerts on Discord ↗</a>
 </section>
 
 <section class="stats">
@@ -548,6 +609,22 @@ html, body { max-width: 100%; overflow-x: hidden; }
     <strong id="lastChecked">Catalogue</strong>
   </div>
 
+</section>
+
+<section id="alerts" class="discord-alerts" aria-labelledby="discord-alerts-title">
+  <div>
+    <h2 id="discord-alerts-title">Get Pokémon stock alerts in real time 🔔</h2>
+    <p>Join the Shaqs Poke Stock Discord community for stock updates, price drops and new pre-order listings as supported retailer checks verify changes.</p>
+    <ul>
+      <li>Restock and availability updates</li>
+      <li>Price-drop notifications</li>
+      <li>New pre-order listings</li>
+    </ul>
+    <small class="discord-alert-note">Alert coverage depends on retailer data and successful checks. Not every store is monitored live yet.</small>
+  </div>
+  <div class="discord-alert-action">
+    <a class="discord-join-button" href="https://discord.gg/bAKGNxen7" target="_blank" rel="noopener noreferrer">Join Shaqs Poke Stock Discord ↗</a>
+  </div>
 </section>
 
 <section id="deals">
