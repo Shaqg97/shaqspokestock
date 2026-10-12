@@ -16,7 +16,7 @@ const normalize = (value) => String(value ?? '')
   .split(/\s+/)
   .filter(Boolean);
 
-const generic = new Set(['pokemon', 'pokémon', 'tcg', 'trading', 'card', 'cards', 'booster', 'box', 'pack', 'packs', 'japanese', 'english', 'sealed', 'the', 'and', 'for', 'with', 'mega', 'evolution', 'pokemon']);
+const generic = new Set(['pokemon', 'pokémon', 'tcg', 'trading', 'card', 'cards', 'booster', 'box', 'pack', 'packs', 'japanese', 'english', 'sealed', 'the', 'and', 'for', 'with', 'mega', 'evolution']);
 const meaningful = (value) => normalize(value).filter((word) => word.length > 2 && !generic.has(word));
 
 function collectProducts(value, found = []) {
@@ -48,7 +48,7 @@ function getProductData(html) {
     try {
       candidates.push(...collectProducts(JSON.parse(match[1].trim())));
     } catch {
-      // Some retailers emit malformed or templated JSON-LD; ignore that block.
+      // Ignore malformed or templated JSON-LD blocks.
     }
   }
   for (const product of candidates) {
@@ -57,7 +57,7 @@ function getProductData(html) {
       if (!offer || typeof offer !== 'object') continue;
       const stock = getStock(offer.availability);
       const price = Number(offer.price ?? offer.lowPrice);
-      const currency = String(offer.priceCurrency ?? 'AUD').toUpperCase();
+      const currency = String(offer.priceCurrency ?? offer.priceSpecification?.priceCurrency ?? 'AUD').toUpperCase();
       if (stock && Number.isFinite(price) && price > 0 && currency === 'AUD' && typeof product.name === 'string') {
         return { title: product.name, stock, price: Math.round(price * 100) / 100 };
       }
@@ -66,65 +66,70 @@ function getProductData(html) {
   return null;
 }
 
-for (const product of products) {
-  for (const offer of product.retailers ?? []) {
-    if (!offer.url) continue;
-    let url;
-    try {
-      url = new URL(offer.url);
-    } catch {
-      continue;
+async function checkOffer(product, offer) {
+  if (!offer.url) return;
+  let url;
+  try {
+    url = new URL(offer.url);
+  } catch {
+    return;
+  }
+  const host = url.hostname.toLowerCase().replace(/^www\./, '');
+  if (!supportedHosts.has(host)) return;
+
+  // Preserve location-dependent, unknown, pre-order, and upcoming states.
+  if (!['In Stock', 'Sold Out'].includes(offer.stock) || ['Upcoming', 'Pre-Order'].includes(product.status)) {
+    skipped.push(`${product.name} / ${offer.name} — existing state "${offer.stock}" is protected`);
+    return;
+  }
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        accept: 'text/html,application/xhtml+xml',
+        'user-agent': 'Mozilla/5.0 (compatible; ShaqsPokeStock/1.0; +https://github.com/Shaqg97/shaqspokestock)',
+      },
+      // Requests run concurrently to avoid waiting through repeated retailer timeouts one by one.
+      signal: AbortSignal.timeout(host === 'bigw.com.au' ? 20000 : 12000),
+    });
+    if (!response.ok) {
+      skipped.push(`${product.name} / ${offer.name} — HTTP ${response.status}; left unchanged`);
+      return;
     }
-    const host = url.hostname.toLowerCase().replace(/^www\./, '');
-    if (!supportedHosts.has(host)) continue;
-
-    // Do not overwrite unknown, in-store-only, pre-order, or upcoming states.
-    if (!['In Stock', 'Sold Out'].includes(offer.stock) || ['Upcoming', 'Pre-Order'].includes(product.status)) {
-      skipped.push(`${product.name} / ${offer.name} — existing state "${offer.stock}" is protected`);
-      continue;
+    const html = await response.text();
+    const live = getProductData(html);
+    if (!live) {
+      skipped.push(`${product.name} / ${offer.name} — no usable Product/Offer JSON-LD; left unchanged`);
+      return;
     }
 
-    try {
-      const response = await fetch(url, {
-        headers: {
-          accept: 'text/html,application/xhtml+xml',
-          'user-agent': 'Mozilla/5.0 (compatible; ShaqsPokeStock/1.0; +https://github.com/Shaqg97/shaqspokestock)',
-        },
-        signal: AbortSignal.timeout(15000),
-      });
-      if (!response.ok) {
-        skipped.push(`${product.name} / ${offer.name} — HTTP ${response.status}; left unchanged`);
-        continue;
-      }
-      const html = await response.text();
-      const live = getProductData(html);
-      if (!live) {
-        skipped.push(`${product.name} / ${offer.name} — no usable Product/Offer JSON-LD; left unchanged`);
-        continue;
-      }
-
-      const expected = meaningful(product.name);
-      const actual = new Set(meaningful(live.title));
-      const overlap = expected.filter((word) => actual.has(word));
-      if (expected.length < 2 || overlap.length < 2 || overlap.length / expected.length < 0.5) {
-        skipped.push(`${product.name} / ${offer.name} — title mismatch ("${live.title}"); left unchanged`);
-        continue;
-      }
-
-      const stockChanged = offer.stock !== live.stock;
-      const priceChanged = Number(offer.price) !== live.price;
-      const metadataChanged = offer.stockCheckStatus !== 'verified' || offer.checkedAt !== today;
-      offer.stock = live.stock;
-      offer.price = live.price;
-      offer.stockCheckStatus = 'verified';
-      offer.checkedAt = today;
-      if (stockChanged || priceChanged || metadataChanged) changed = true;
-      monitored.push(`${product.name} / ${offer.name} — ${live.stock}, $${live.price.toFixed(2)}${stockChanged ? ' (stock changed)' : ''}${priceChanged ? ' (price changed)' : ''}`);
-    } catch (error) {
-      skipped.push(`${product.name} / ${offer.name} — request failed (${error instanceof Error ? error.message : 'unknown error'}); left unchanged`);
+    const expected = meaningful(product.name);
+    const actual = new Set(meaningful(live.title));
+    const overlap = expected.filter((word) => actual.has(word));
+    if (expected.length < 2 || overlap.length < 2 || overlap.length / expected.length < 0.5) {
+      skipped.push(`${product.name} / ${offer.name} — title mismatch ("${live.title}"); left unchanged`);
+      return;
     }
+
+    const stockChanged = offer.stock !== live.stock;
+    const priceChanged = Number(offer.price) !== live.price;
+    const metadataChanged = offer.stockCheckStatus !== 'verified' || offer.checkedAt !== today;
+    offer.stock = live.stock;
+    offer.price = live.price;
+    offer.stockCheckStatus = 'verified';
+    offer.checkedAt = today;
+    if (stockChanged || priceChanged || metadataChanged) changed = true;
+    monitored.push(`${product.name} / ${offer.name} — ${live.stock}, $${live.price.toFixed(2)}${stockChanged ? ' (stock changed)' : ''}${priceChanged ? ' (price changed)' : ''}`);
+  } catch (error) {
+    skipped.push(`${product.name} / ${offer.name} — request failed (${error instanceof Error ? error.message : 'unknown error'}); left unchanged`);
   }
 }
+
+const tasks = [];
+for (const product of products) {
+  for (const offer of product.retailers ?? []) tasks.push(checkOffer(product, offer));
+}
+await Promise.all(tasks);
 
 console.log('## Priority retailer monitor result');
 console.log(`- Date: ${today}`);
