@@ -29,10 +29,14 @@ jobs:
           node --check .github/scripts/audit-retailer-links.mjs
           node --check .github/scripts/check-kmart-listings.mjs
           node --check .github/scripts/send-discord-alerts.mjs
+          node --check .github/scripts/test-discord-alert-rules.mjs
           node --check .github/scripts/validate-catalogue-quality.mjs
           node --check .github/scripts/monitor-gameology.mjs
           node --check .github/scripts/monitor-shopify-retailers.mjs
           node --check .github/scripts/monitor-priority-retailers.mjs
+
+      - name: Test Discord alert safety rules
+        run: node --test .github/scripts/test-discord-alert-rules.mjs
 
       - name: Report catalogue data quality
         run: node .github/scripts/validate-catalogue-quality.mjs
