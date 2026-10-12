@@ -1,0 +1,24 @@
+name: One-time price alert correction
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/scripts/monitor-shopify-retailers.mjs'
+      - '.github/scripts/send-price-correction.mjs'
+
+permissions:
+  contents: read
+
+jobs:
+  correction:
+    if: github.event.head_commit.message == 'Send one-time correction: Pocket Games variant price'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out project
+        uses: actions/checkout@v4
+
+      - name: Send correction to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: node .github/scripts/send-price-correction.mjs
