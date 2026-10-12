@@ -131,7 +131,15 @@ for (const product of products) {
         updates.push(`${product.name}: stock changed to ${stock}`);
       }
 
-      offer.checkedAt = today;
+      // A check date is recorded as a stock verification date only when the
+      // retailer page returned a recognisable availability value.
+      if (stock) {
+        offer.checkedAt = today;
+        offer.stockCheckStatus = 'verified';
+      } else {
+        offer.stockCheckStatus = 'unverified';
+      }
+      if (Number.isFinite(price) && price > 0) offer.priceCheckedAt = today;
     } catch (error) {
       skipped.push(`${product.name}: ${error instanceof Error ? error.message : 'request failed'}`);
     }
