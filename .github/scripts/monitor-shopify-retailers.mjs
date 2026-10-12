@@ -79,10 +79,41 @@ async function checkOffer(product, offer) {
       return;
     }
 
-    const nextStock = item.available ? 'In Stock' : 'Sold Out';
-    const nextPrice = Math.round((Number(item.price) / 100) * 100) / 100;
+    let selected = item;
+    const variants = Array.isArray(item.variants) ? item.variants : [];
+    if (variants.length > 1) {
+      const type = String(product.type ?? '').toLowerCase();
+      const variantMatches = (variant) => {
+        const title = String(variant.title ?? '').toLowerCase();
+        if (type.includes('booster box')) return /box/.test(title) && !/pack only|booster pack/.test(title);
+        if (type.includes('booster pack')) return /pack/.test(title) && !/box/.test(title);
+        if (type.includes('mini tin')) return /tin/.test(title);
+        if (type.includes('portfolio')) return /portfolio/.test(title);
+        if (type.includes('etb') || type.includes('trainer box')) return /trainer box|etb/.test(title);
+        if (type.includes('bundle')) return /bundle/.test(title);
+        if (type.includes('blister')) return /blister/.test(title);
+        return false;
+      };
+      const matches = variants.filter(variantMatches);
+      if (matches.length !== 1) {
+        skipped.push(`${product.name} / ${offer.name} — multiple variants and no unique "${product.type}" match; left unchanged`);
+        return;
+      }
+      selected = matches[0];
+    }
+
+    const nextStock = typeof selected.available === 'boolean'
+      ? (selected.available ? 'In Stock' : 'Sold Out')
+      : (item.available ? 'In Stock' : 'Sold Out');
+    const nextPrice = Math.round((Number(selected.price ?? item.price) / 100) * 100) / 100;
     if (!(nextPrice > 0)) {
       skipped.push(`${product.name} / ${offer.name} — invalid price; left unchanged`);
+      return;
+    }
+    // Guard against variant or page mismatches that produce implausible price jumps.
+    const oldPrice = Number(offer.price);
+    if (oldPrice > 0 && (nextPrice / oldPrice < 0.5 || nextPrice / oldPrice > 1.5)) {
+      skipped.push(`${product.name} / ${offer.name} — price changed from ${oldPrice.toFixed(2)} to ${nextPrice.toFixed(2)} (over 50%); left unchanged for review`);
       return;
     }
     const stockChanged = offer.stock !== nextStock;
