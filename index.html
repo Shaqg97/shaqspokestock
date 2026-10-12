@@ -554,6 +554,17 @@ html, body { max-width: 100%; overflow-x: hidden; }
 }
 @media(max-width:600px){header{padding:11px 13px}.logo{font-size:17px}nav{display:flex!important}nav button{margin:0;padding:7px 8px!important;font-size:12px}.container{padding:15px 12px 34px}.hero{padding:24px 18px;border-radius:20px}.hero h1{font-size:clamp(29px,8vw,36px);letter-spacing:-1px}.hero p{font-size:15px}.search{min-height:52px;padding:14px;font-size:14px}.stats{gap:8px;margin-bottom:24px}.stat{padding:12px;border-radius:14px}.stat small{font-size:10px}.stat strong{font-size:22px}.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.product{padding:9px;border-radius:15px}.product-image{height:105px;min-height:105px;margin-bottom:10px}.product-image:before{top:7px;left:7px;font-size:8px}.product-image:after{bottom:7px;left:7px;font-size:7px}.product h3{font-size:14px}.set,.store{font-size:11px}.price{font-size:19px}.stock{font-size:9px;padding:5px}.filter-buttons button{font-size:12px;padding:8px 10px}#typeFilter{width:100%;margin-top:8px}}
 
+
+/* Seller shop promotion */
+.ebay-shop { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(220px,.7fr); gap:22px; align-items:center; margin:0 0 24px; padding:25px; border:1px solid #e2e8f0; border-radius:18px; background:#fff; box-shadow:0 5px 22px rgba(15,23,42,.05); }
+.ebay-shop h2 { font-size:clamp(22px,3vw,27px); margin-bottom:8px; }
+.ebay-shop p { color:#475569; margin-bottom:10px; }
+.ebay-shop-action { display:flex; flex-direction:column; gap:10px; align-items:stretch; }
+.ebay-shop-button { display:inline-flex; align-items:center; justify-content:center; text-align:center; padding:13px 17px; border-radius:12px; background:#172033; color:white; font-weight:800; text-decoration:none; }
+.ebay-shop-button:hover { background:#334155; }
+.ebay-shop-button:focus-visible { outline:3px solid #eab308; outline-offset:3px; }
+.ebay-shop-note { color:#64748b; font-size:12px; }
+@media (max-width:700px) { .ebay-shop { grid-template-columns:1fr; padding:20px; } }
 </style>
 </head>
 
@@ -567,6 +578,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
       <button onclick="scrollToSection('deals')">Deals</button>
       <button onclick="scrollToSection('stores')">Stores</button>
       <button onclick="scrollToSection('alerts')">Real-Time Alerts</button>
+      <button onclick="scrollToSection('ebay-shop')">Shop on eBay</button>
     </nav>
   </div>
 </header>
@@ -624,6 +636,17 @@ html, body { max-width: 100%; overflow-x: hidden; }
   </div>
   <div class="discord-alert-action">
     <a class="discord-join-button" href="https://discord.gg/bAKGNxen7" target="_blank" rel="noopener noreferrer">Join Shaqs Poke Stock Discord ↗</a>
+  </div>
+</section>
+
+<section id="ebay-shop" class="ebay-shop" aria-labelledby="ebay-shop-title">
+  <div>
+    <h2 id="ebay-shop-title">🛍️ Shop Shaqs on eBay</h2>
+    <p>Check out Shaqs Poke Stock on eBay for Pokémon cards, collectibles and available seller listings.</p>
+    <p class="ebay-shop-note">Listings, prices and auction availability are managed on eBay and may change. Visit the seller page for current details.</p>
+  </div>
+  <div class="ebay-shop-action">
+    <a class="ebay-shop-button" href="https://www.ebay.com.au/usr/shaqspokestock" target="_blank" rel="noopener noreferrer" aria-label="Browse Shaqs Poke Stock seller listings on eBay">Browse My eBay Listings ↗</a>
   </div>
 </section>
 
