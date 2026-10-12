@@ -77,7 +77,7 @@ for (const product of currentProducts) {
     const oldStock = String(oldOffer.stock ?? '').toLowerCase();
     // Never announce a restock, pre-order, or price drop from stale/manual data.
     if (!freshCheck || !knownStockStates.has(newStock)) continue;
-    if (oldStock !== 'in stock' && newStock === 'in stock') {
+    if (oldStock === 'sold out' && newStock === 'in stock') {
       alerts.push({
         title: `Back in stock: ${product.name}`,
         description: `${offer.name} · $${Number(offer.price).toFixed(2)}`,
@@ -91,7 +91,12 @@ for (const product of currentProducts) {
         url: offer.url || product.url,
         color: 0xfee75c,
       });
-    } else if ((newStock === 'in stock' || newStock === 'pre-order') && Number(offer.price) > 0 && Number(oldOffer.price) > Number(offer.price)) {
+    } else if (
+      (newStock === 'in stock' || newStock === 'pre-order') &&
+      Number.isFinite(Number(oldOffer.price)) && Number(oldOffer.price) > 0 &&
+      Number.isFinite(Number(offer.price)) && Number(offer.price) > 0 &&
+      Number(oldOffer.price) > Number(offer.price)
+    ) {
       alerts.push({
         title: `Price drop: ${product.name}`,
         description: `${offer.name} · $${Number(oldOffer.price).toFixed(2)} → $${Number(offer.price).toFixed(2)}`,
