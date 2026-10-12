@@ -6,7 +6,7 @@ const today = new Date().toISOString().slice(0, 10);
 const monitored = [];
 const skipped = [];
 let changed = false;
-const supportedHosts = new Set(['jbhifi.com.au', 'bigw.com.au', 'target.com.au']);
+const supportedHosts = new Set(['jbhifi.com.au', 'target.com.au']);
 
 const normalize = (value) => String(value ?? '')
   .toLowerCase()
@@ -75,6 +75,10 @@ async function checkOffer(product, offer) {
     return;
   }
   const host = url.hostname.toLowerCase().replace(/^www\./, '');
+  if (host === 'bigw.com.au') {
+    skipped.push(`${product.name} / ${offer.name} — BIG W monitoring paused after repeated timeouts; catalogue entry retained for later review`);
+    return;
+  }
   if (!supportedHosts.has(host)) return;
 
   // Preserve location-dependent, unknown, pre-order, and upcoming states.
@@ -90,7 +94,7 @@ async function checkOffer(product, offer) {
         'user-agent': 'Mozilla/5.0 (compatible; ShaqsPokeStock/1.0; +https://github.com/Shaqg97/shaqspokestock)',
       },
       // Requests run concurrently to avoid waiting through repeated retailer timeouts one by one.
-      signal: AbortSignal.timeout(host === 'bigw.com.au' ? 20000 : 12000),
+      signal: AbortSignal.timeout(12000),
     });
     if (!response.ok) {
       skipped.push(`${product.name} / ${offer.name} — HTTP ${response.status}; left unchanged`);
