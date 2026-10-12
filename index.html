@@ -204,6 +204,11 @@ nav button {
   background: #f5e5e5;
   color: #a12b2b;
 }
+.stock.unverified {
+  background: #eef2f7;
+  color: #475569;
+  border: 1px solid #dbe3ed;
+}
 
 .store {
   margin-top: 12px;
@@ -924,6 +929,9 @@ return matchesSearch && matchesFilter;
     ) {
       stockClass = "out";
     }
+
+    // Use a neutral badge when the stock text is catalogue-only.
+    if (!stockVerified) stockClass = "unverified";
 
     let statusBadge = "";
 
