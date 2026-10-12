@@ -598,9 +598,11 @@
       },
       {
         "name": "Gameology",
-        "price": 74.95,
+        "price": 70,
         "stock": "Sold Out",
-        "url": "https://www.gameology.com.au/products/pokemon-tcg-30th-celebration-booster-bundle"
+        "url": "https://www.gameology.com.au/products/pokemon-tcg-30th-celebration-booster-bundle",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       },
       {
         "name": "Grailborne",
@@ -823,9 +825,11 @@
     "retailers": [
       {
         "name": "Gameology",
-        "price": 134.95,
+        "price": 113,
         "stock": "In Stock",
-        "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-symphonia-booster-box-m1s-japanese"
+        "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-symphonia-booster-box-m1s-japanese",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       },
       {
         "name": "BIG W Marketplace",
