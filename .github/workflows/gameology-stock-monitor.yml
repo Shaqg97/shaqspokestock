@@ -1,6 +1,11 @@
 name: Shopify retailer stock and price monitor
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/scripts/monitor-shopify-retailers.mjs'
+      - '.github/workflows/gameology-stock-monitor.yml'
   schedule:
     - cron: '0 */6 * * *'
   workflow_dispatch:
