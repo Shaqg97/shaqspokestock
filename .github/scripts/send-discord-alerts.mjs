@@ -33,7 +33,9 @@ const alerts = [];
 const todayUtc = new Date();
 todayUtc.setUTCHours(0, 0, 0, 0);
 const hasFreshCheck = (offer) => {
-  if (!offer?.checkedAt) return false;
+  // A recent date alone is not proof of stock. Only the monitor's explicit
+  // verification marker can qualify an offer for stock/price alerts.
+  if (offer?.stockCheckStatus !== 'verified' || !offer?.checkedAt) return false;
   const checkedDate = new Date(`${offer.checkedAt}T00:00:00Z`);
   const ageDays = (todayUtc - checkedDate) / 86400000;
   return Number.isFinite(checkedDate.getTime()) && ageDays >= 0 && ageDays <= 1;
