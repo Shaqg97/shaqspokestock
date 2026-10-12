@@ -93,9 +93,11 @@
     "retailers": [
       {
         "name": "PokéBox",
-        "price": 169.99,
+        "price": 109.99,
         "stock": "In Stock",
-        "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-box-japanese-pokemon-tcg"
+        "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-box-japanese-pokemon-tcg",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       },
       {
         "name": "GD Games",
@@ -105,9 +107,11 @@
       },
       {
         "name": "Pocket Games",
-        "price": 155,
+        "price": 7,
         "stock": "In Stock",
-        "url": "https://pocketgames.com.au/products/pokemon-tcg-mega-brave-m1l-booster-box-booster-pack"
+        "url": "https://pocketgames.com.au/products/pokemon-tcg-mega-brave-m1l-booster-box-booster-pack",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       },
       {
         "name": "BIG W Marketplace",
@@ -214,7 +218,9 @@
         "name": "Good Games",
         "price": 20,
         "stock": "Sold Out",
-        "url": "https://www.goodgames.com.au/products/pokemon-mini-portfolio-with-booster-2026"
+        "url": "https://www.goodgames.com.au/products/pokemon-mini-portfolio-with-booster-2026",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       }
     ],
     "restock": false,
@@ -270,7 +276,9 @@
         "name": "TCGroup AU",
         "price": 49.99,
         "stock": "Sold Out",
-        "url": "https://www.tcgroupau.com.au/products/pokemon-trading-card-game-30th-celebration-mini-tin-assorted"
+        "url": "https://www.tcgroupau.com.au/products/pokemon-trading-card-game-30th-celebration-mini-tin-assorted",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       },
       {
         "name": "Grailborne",
@@ -286,9 +294,11 @@
       },
       {
         "name": "GD Games",
-        "price": 59.95,
+        "price": 49.95,
         "stock": "In Stock",
-        "url": "https://www.gdgames.com.au/products/pokemon-30th-celebration-mini-tin-pokemon-tcg"
+        "url": "https://www.gdgames.com.au/products/pokemon-30th-celebration-mini-tin-pokemon-tcg",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       },
       {
         "name": "Kmart",
@@ -624,7 +634,9 @@
         "name": "TCGroup AU",
         "price": 149.99,
         "stock": "Sold Out",
-        "url": "https://www.tcgroupau.com.au/products/pokemon-trading-card-game-30th-celebration-booster-bundle-english"
+        "url": "https://www.tcgroupau.com.au/products/pokemon-trading-card-game-30th-celebration-booster-bundle-english",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       }
     ],
     "restock": false,
@@ -659,9 +671,11 @@
       },
       {
         "name": "The Card Spot",
-        "price": 210,
-        "stock": "Sold Out",
-        "url": "https://thecardspot.com.au/products/storm-emeralda-booster-box-pokemon-tcg"
+        "price": 143,
+        "stock": "In Stock",
+        "url": "https://thecardspot.com.au/products/storm-emeralda-booster-box-pokemon-tcg",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       },
       {
         "name": "JB Hi-Fi Marketplace (SuperGamers)",
@@ -692,8 +706,10 @@
       {
         "name": "Sealed Vault",
         "price": 135,
-        "stock": "Sold Out",
-        "url": "https://sealedvault.com.au/products/m5-abyss-eye-booster-box"
+        "stock": "In Stock",
+        "url": "https://sealedvault.com.au/products/m5-abyss-eye-booster-box",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       },
       {
         "name": "The Booster Bear",
@@ -719,9 +735,11 @@
     "retailers": [
       {
         "name": "Light of Cards",
-        "price": 134.99,
-        "stock": "In Stock",
-        "url": "https://lightofcards.com.au/products/sealed-pokemon-tcg-ninja-spinner-m4-japanese-booster-box"
+        "price": 120.74,
+        "stock": "Sold Out",
+        "url": "https://lightofcards.com.au/products/sealed-pokemon-tcg-ninja-spinner-m4-japanese-booster-box",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       },
       {
         "name": "PokéTrader",
@@ -771,7 +789,9 @@
         "name": "PokéSourceAU",
         "price": 119,
         "stock": "In Stock",
-        "url": "https://pokesource.com.au/products/pokemon-tcg-nihil-zero-m3-booster-box-japanese"
+        "url": "https://pokesource.com.au/products/pokemon-tcg-nihil-zero-m3-booster-box-japanese",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       }
     ],
     "restock": false,
@@ -793,13 +813,17 @@
         "name": "PokéSourceAU",
         "price": 199,
         "stock": "In Stock",
-        "url": "https://pokesource.com.au/products/pokemon-mega-dream-m2a-booster-box-japanese"
+        "url": "https://pokesource.com.au/products/pokemon-mega-dream-m2a-booster-box-japanese",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       },
       {
         "name": "Sealed Vault",
         "price": 169,
-        "stock": "Sold Out",
-        "url": "https://sealedvault.com.au/products/m2a-mega-dream-booster-box"
+        "stock": "In Stock",
+        "url": "https://sealedvault.com.au/products/m2a-mega-dream-booster-box",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       },
       {
         "name": "JB Hi-Fi Marketplace (SuperGamers)",
@@ -848,7 +872,9 @@
         "name": "PokéSourceAU",
         "price": 189,
         "stock": "In Stock",
-        "url": "https://pokesource.com.au/products/pokemon-tcg-mega-symphonia-m1s-booster-box-japanese"
+        "url": "https://pokesource.com.au/products/pokemon-tcg-mega-symphonia-m1s-booster-box-japanese",
+        "stockCheckStatus": "verified",
+        "checkedAt": "2026-10-12"
       }
     ],
     "restock": false,
