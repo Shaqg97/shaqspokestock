@@ -5,6 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shaqs Poke Stock</title>
+<meta name="description" content="Compare Pokémon TCG sealed products across Australian retailers, check verified stock and prices, and keep track of upcoming releases.">
+<meta name="theme-color" content="#0f172a">
 
 <style>
 * {
@@ -279,6 +281,10 @@ footer {
   .products {
     grid-template-columns: 1fr;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 
 /* Shaqs Poke Stock visual refresh */
@@ -1101,11 +1107,15 @@ ${[...availableRetailers]
         .filter(r => typeof r.stock === "string" && r.stock.toLowerCase() === "in stock")
         .map(r => r.price)
     );
+    const retailerVerified = isFreshVerifiedStock(retailer);
+    const retailerStockLabel = retailerVerified
+      ? retailer.stock
+      : "Listed: " + (retailer.stock || "Stock unverified");
     return `
       <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding:8px;background:#f8fafc;border-radius:8px;">
         <span>${retailer.name}${cheapestInStock ? ' 🏆 Cheapest in stock' : ''}</span>
-        <strong>$${Number(retailer.price).toFixed(2)}</strong>
-        <span style="font-size:11px;color:${inStock ? '#15803d' : '#b45309'};">${retailer.stock || 'Stock unverified'}</span>
+        <strong>${Number(retailer.price).toFixed(2)}</strong>
+        <span title="${retailerVerified ? 'Recent retailer check verified' : 'Catalogue listing only; live stock not verified'}" style="font-size:11px;color:${retailerVerified ? '#15803d' : '#475569'};">${escapeHtml(retailerStockLabel)}</span>
         ${retailer.url ? `<a href="${escapeHtml(retailer.url)}" target="_blank" rel="noopener noreferrer" style="color:#2563eb;text-decoration:none;">View</a>` : `<span style="font-size:11px;color:#64748b;">Link unavailable</span>`}
       </div>
     `;
