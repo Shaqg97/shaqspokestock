@@ -2,6 +2,15 @@ name: Test Discord webhook
 
 on:
   workflow_dispatch:
+    inputs:
+      test_role:
+        description: "Optional role to ping in the test message"
+        required: true
+        type: choice
+        options:
+          - none
+          - stock
+          - price
 
 permissions:
   contents: read
@@ -13,16 +22,49 @@ jobs:
       - name: Send test message to Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_STOCK_ALERT_ROLE_ID: ${{ secrets.DISCORD_STOCK_ALERT_ROLE_ID }}
+          DISCORD_PRICE_DROP_ROLE_ID: ${{ secrets.DISCORD_PRICE_DROP_ROLE_ID }}
+          TEST_ROLE: ${{ inputs.test_role }}
         run: |
           if [ -z "$DISCORD_WEBHOOK_URL" ]; then
             echo "DISCORD_WEBHOOK_URL is missing from repository Actions secrets."
             exit 1
           fi
 
+          role_id=""
+          role_label="no role ping"
+          case "$TEST_ROLE" in
+            stock)
+              role_id="$DISCORD_STOCK_ALERT_ROLE_ID"
+              role_label="Stock Alerts"
+              ;;
+            price)
+              role_id="$DISCORD_PRICE_DROP_ROLE_ID"
+              role_label="Price Drops"
+              ;;
+            none)
+              ;;
+            *)
+              echo "Invalid test_role input."
+              exit 1
+              ;;
+          esac
+
+          if [ "$TEST_ROLE" != "none" ] && ! printf '%s' "$role_id" | grep -Eq '^[0-9]{17,20}$'; then
+            echo "The selected role ID secret is missing or is not a valid numeric Discord role ID."
+            exit 1
+          fi
+
+          if [ -n "$role_id" ]; then
+            payload=$(ROLE_ID="$role_id" ROLE_LABEL="$role_label" node -e 'process.stdout.write(JSON.stringify({content:"✅ **Shaqs Poke Stock test alert** — Discord webhook and "+process.env.ROLE_LABEL+" role ping test. This is only a test; no stock data was changed.",allowed_mentions:{parse:[],roles:[process.env.ROLE_ID]}}))')
+          else
+            payload='{"content":"✅ **Shaqs Poke Stock test alert** — Discord webhook delivery is working. No role was pinged and no stock data was changed.","allowed_mentions":{"parse":[],"roles":[]}}'
+          fi
+
           response=$(curl --silent --show-error --output /tmp/discord-response.txt --write-out "%{http_code}" \
             -H "Content-Type: application/json" \
             -X POST \
-            --data '{"content":"✅ **Shaqs Poke Stock test alert** — Discord webhook delivery is working. This is a test message; no stock data was changed."}' \
+            --data "$payload" \
             "$DISCORD_WEBHOOK_URL")
 
           if [ "$response" -lt 200 ] || [ "$response" -ge 300 ]; then
@@ -31,4 +73,4 @@ jobs:
             exit 1
           fi
 
-          echo "Discord accepted the test message (HTTP $response). Check your #pokemon-stock-alerts channel.";
+          echo "Discord accepted the test message (HTTP $response). Selected test: $TEST_ROLE."
