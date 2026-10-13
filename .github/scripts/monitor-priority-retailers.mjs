@@ -142,6 +142,22 @@ for (let index = 0; index < tasks.length; index += concurrency) {
   }
 }
 
+if (process.env.GITHUB_STEP_SUMMARY) {
+  const { appendFile } = await import('node:fs/promises');
+  const summary = [
+    '## Priority retailer check summary',
+    '',
+    `- Sydney date: ${today}`,
+    `- Verified offers: ${monitored.length}`,
+    `- Offers skipped or not verifiable: ${skipped.length}`,
+    '',
+    ...(monitored.length ? ['### Verified checks', ...monitored.map((line) => '- ' + line), ''] : []),
+    ...(skipped.length ? ['### Left unchanged', ...skipped.map((line) => '- ' + line), ''] : []),
+    '> Skipped or blocked pages are not treated as out of stock.'
+  ].join('\\n');
+  await appendFile(process.env.GITHUB_STEP_SUMMARY, summary + '\\n');
+}
+
 console.log('## Priority retailer monitor result');
 console.log(`- Date: ${today}`);
 console.log(`- Product offers successfully checked: ${monitored.length}`);
