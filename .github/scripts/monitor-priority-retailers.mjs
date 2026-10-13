@@ -154,8 +154,8 @@ if (process.env.GITHUB_STEP_SUMMARY) {
     ...(monitored.length ? ['### Verified checks', ...monitored.map((line) => '- ' + line), ''] : []),
     ...(skipped.length ? ['### Left unchanged', ...skipped.map((line) => '- ' + line), ''] : []),
     '> Skipped or blocked pages are not treated as out of stock.'
-  ].join('\\n');
-  await appendFile(process.env.GITHUB_STEP_SUMMARY, summary + '\\n');
+  ].join('\n');
+  await appendFile(process.env.GITHUB_STEP_SUMMARY, summary + '\n');
 }
 
 console.log('## Priority retailer monitor result');
