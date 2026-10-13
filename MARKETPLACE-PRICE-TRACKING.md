@@ -1,0 +1,21 @@
+# Marketplace price tracking
+
+## eBay Australia
+
+The scheduled workflow `.github/workflows/marketplace-price-tracker.yml` uses eBay's official Browse API to find likely matching listings on the Australian marketplace. It stores up to five candidates per catalogue product in `marketplace-prices.json`, including item price, available shipping cost, estimated total, listing URL, seller and confidence score. It intentionally does not change the main product catalogue.
+
+### Required repository secrets
+
+In GitHub, open **Settings → Secrets and variables → Actions → New repository secret** and add:
+
+- `EBAY_CLIENT_ID`: eBay Developer Program application client ID (production).
+- `EBAY_CLIENT_SECRET`: matching production client secret.
+- `DISCORD_WEBHOOK_URL`: optional; reuses the existing Shaqs Poke Stock Discord webhook for price-drop alerts.
+
+Do not place credentials in website JavaScript or commit them into the repository. eBay production API access is subject to eBay approval and rate limits. Until the two eBay secrets exist, the scheduled job safely skips without changing the existing snapshot.
+
+The first successful run establishes a baseline. Later runs send a Discord alert when the same eBay item ID's estimated total falls by at least A$2 or 5%. A price is considered delivered total only when the API supplies a shipping cost; otherwise the UI identifies it as item price with shipping not confirmed.
+
+## Amazon Australia
+
+Amazon price data is not enabled yet. Its official Creators API requires a valid Amazon Australia Associates account and API credentials tied to that marketplace. Add that only after the account/API access is approved; don't scrape Amazon pages or put private keys in the browser. The front end is designed to keep marketplace offers separate from retailer catalogue data.
