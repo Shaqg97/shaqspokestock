@@ -11,9 +11,7 @@ This guide describes the recommended Discord server layout and the one-time conf
 - `📌・how-to-use` — website link, add-to-home-screen guide, and alert FAQ.
 
 ### STOCK & RELEASE ALERTS
-- `🚨・restock-alerts` — verified restock and new in-stock alerts.
-- `🛒・preorder-alerts` — verified pre-order changes.
-- `💸・price-drops` — verified price reductions.
+- `🚨・pokemon-stock-alerts` — the current webhook channel for verified restocks, new in-stock listings, pre-orders, and price drops.
 - `📅・release-calendar` — release dates and launch reminders.
 - `🏬・retailer-updates` — which stores are monitored and known coverage limitations.
 
@@ -31,7 +29,7 @@ This guide describes the recommended Discord server layout and the one-time conf
 - `🛡️・staff-chat` — private to Admin and Moderator.
 - `🧪・alert-testing` — private test channel for staff.
 
-Start with welcome, announcements, choose-alerts, restock-alerts, preorder-alerts, price-drops, retailer-updates, support, staff-chat, and alert-testing. Add the community/store channels when useful.
+Start with welcome, announcements, choose-alerts, pokemon-stock-alerts, retailer-updates, support, staff-chat, and alert-testing. Add the community/store channels when useful. Keep the single automated-alert channel for now because the current webhook posts to one configured channel; separate alert channels can be added later with separate webhooks.
 
 ## 2. Create roles
 
@@ -39,7 +37,7 @@ Create these in Server Settings → Roles:
 - `Admin` — server owner only.
 - `Moderator` — trusted staff.
 - `🔔 Stock Alerts` — restock, new in-stock, and pre-order notifications.
-- `💸 Price Drops` — optional price-drop interest role.
+- `💸 Price Drops` — optional interest role for a future dedicated price-drop ping.
 - Optional interest roles: `🇦🇺 BIG W`, `🛒 Kmart`, `🎯 Target`, `🔵 JB Hi-Fi`.
 
 Do not give notification roles administrative permissions. Move the bot/webhook-managed roles below your staff roles. A webhook itself does not need a Discord bot role.
