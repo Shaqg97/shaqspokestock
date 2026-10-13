@@ -134,7 +134,14 @@ const tasks = [];
 for (const product of products) {
   for (const offer of product.retailers ?? []) tasks.push(checkOffer(product, offer));
 }
-await Promise.all(tasks);
+// Keep requests to retailer storefronts conservative instead of firing every URL at once.
+const concurrency = 4;
+for (let index = 0; index < tasks.length; index += concurrency) {
+  await Promise.all(tasks.slice(index, index + concurrency));
+  if (index + concurrency < tasks.length) {
+    await new Promise((resolve) => setTimeout(resolve, 750));
+  }
+}
 
 console.log('## Shopify retailer monitor result');
 console.log(`- Date: ${today}`);
