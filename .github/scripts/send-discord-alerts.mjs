@@ -4,9 +4,13 @@ import { readFile } from 'node:fs/promises';
 const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 const beforeSha = process.env.BEFORE_SHA;
 const stockAlertRoleId = process.env.DISCORD_STOCK_ALERT_ROLE_ID;
+const priceDropRoleId = process.env.DISCORD_PRICE_DROP_ROLE_ID;
 
 if (stockAlertRoleId && !/^\d{17,20}$/.test(stockAlertRoleId)) {
   throw new Error('DISCORD_STOCK_ALERT_ROLE_ID must be a Discord role ID made of 17–20 digits.');
+}
+if (priceDropRoleId && !/^\d{17,20}$/.test(priceDropRoleId)) {
+  throw new Error('DISCORD_PRICE_DROP_ROLE_ID must be a Discord role ID made of 17–20 digits.');
 }
 
 if (!webhookUrl) {
@@ -110,6 +114,7 @@ for (const product of currentProducts) {
         description: `${offer.name} · $${Number(oldOffer.price).toFixed(2)} → $${Number(offer.price).toFixed(2)}`,
         url: offer.url || product.url,
         color: 0x3498db,
+        pingPriceDrops: true,
       });
     }
   }
@@ -120,25 +125,38 @@ if (alerts.length === 0) {
   process.exit(0);
 }
 
-// Separate member-ping alerts from informational updates so a price-drop message
-// can never accidentally ping the stock-alert role.
+// Keep stock pings, price-drop pings, and informational updates in separate
+// messages so one category can never accidentally ping another category's role.
 const groups = [
-  { pingMembers: true, items: alerts.filter((alert) => alert.pingMembers) },
-  { pingMembers: false, items: alerts.filter((alert) => !alert.pingMembers) },
+  {
+    roleId: stockAlertRoleId,
+    message: 'New stock or pre-order alert(s) just landed.',
+    items: alerts.filter((alert) => alert.pingMembers),
+  },
+  {
+    roleId: priceDropRoleId,
+    message: 'A verified price drop just landed.',
+    items: alerts.filter((alert) => alert.pingPriceDrops),
+  },
+  {
+    roleId: null,
+    message: '',
+    items: alerts.filter((alert) => !alert.pingMembers && !alert.pingPriceDrops),
+  },
 ].filter((group) => group.items.length > 0);
 
 for (const group of groups) {
   for (let index = 0; index < group.items.length; index += 10) {
-    const shouldPingRole = group.pingMembers && Boolean(stockAlertRoleId);
+    const shouldPingRole = Boolean(group.roleId);
     const response = await fetch(webhookUrl, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         username: 'Shaqs Poke Stock',
-        content: shouldPingRole ? `<@&${stockAlertRoleId}> New stock or pre-order alert(s) just landed.` : undefined,
+        content: shouldPingRole ? `<@&${group.roleId}> ${group.message}` : undefined,
         allowed_mentions: {
           parse: [],
-          roles: shouldPingRole ? [stockAlertRoleId] : [],
+          roles: shouldPingRole ? [group.roleId] : [],
         },
         embeds: group.items.slice(index, index + 10).map((alert) => ({
           title: alert.title,
