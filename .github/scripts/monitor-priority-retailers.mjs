@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 
 const fileUrl = new URL('../../products.json', import.meta.url);
 const products = JSON.parse(await readFile(fileUrl, 'utf8'));
-const today = new Date().toISOString().slice(0, 10);
+const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
 const monitored = [];
 const skipped = [];
 let changed = false;
