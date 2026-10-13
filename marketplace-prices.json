@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "source": "eBay Browse API",
+  "marketplace": "EBAY_AU",
+  "currency": "AUD",
+  "checkedAt": null,
+  "status": "Awaiting API credentials",
+  "products": []
+}
