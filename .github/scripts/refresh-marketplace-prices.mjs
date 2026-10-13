@@ -146,8 +146,19 @@ async function searchListings(product) {
     };
   }).filter(item => item.matchConfidence >= 70 && item.price !== null && item.url && item.currency === 'AUD')
     .sort((a, b) => {
+      // Prioritise new/sealed listings over used or opened products so the
+      // cheapest opened box is not mistaken for the best sealed-product deal.
+      const conditionRank = condition => {
+        const value = normalise(condition || '');
+        if (/new factory sealed|factory sealed|brand new|new sealed/.test(value)) return 0;
+        if (value === 'new') return 1;
+        if (!value || value === 'not specified') return 2;
+        if (/used|open box|opened|no shrink|without shrink|damaged|for parts/.test(value)) return 3;
+        return 2;
+      };
+      const conditionDifference = conditionRank(a.condition) - conditionRank(b.condition);
+      if (conditionDifference) return conditionDifference;
       // Compare delivered prices only when both offers include a shipping quote.
-      // Listings with unknown shipping appear after offers with known totals.
       const aHasTotal = a.totalPrice !== null;
       const bHasTotal = b.totalPrice !== null;
       if (aHasTotal !== bHasTotal) return aHasTotal ? -1 : 1;
@@ -168,7 +179,10 @@ for (const product of products) {
       const old = previousById.get(offer.itemId);
       const oldTotal = old?.totalPrice ?? old?.price;
       const newTotal = offer.totalPrice ?? offer.price;
-      if (old && Number.isFinite(oldTotal) && Number.isFinite(newTotal) && oldTotal - newTotal >= Math.max(2, oldTotal * 0.05)) {
+      const oldCondition = normalise(old?.condition || '');
+      const newCondition = normalise(offer.condition || '');
+      const sameCondition = old && oldCondition === newCondition;
+      if (old && sameCondition && !/used|open box|opened|no shrink|without shrink|damaged|for parts/.test(newCondition) && Number.isFinite(oldTotal) && Number.isFinite(newTotal) && oldTotal - newTotal >= Math.max(2, oldTotal * 0.05)) {
         alerts.push({
           product: product.name,
           title: offer.title,
