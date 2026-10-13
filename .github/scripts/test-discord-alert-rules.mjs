@@ -20,7 +20,7 @@ test('stock and price alerts require a fresh explicit verification marker', () =
 });
 
 test('Discord messages suppress all mentions', () => {
-  assert.match(source, /allowed_mentions: \{ parse: \[\] \}/);
+  assert.match(source, /allowed_mentions: \{\s*parse: \[\],\s*roles: shouldPingRole \? \[stockAlertRoleId\] : \[\],\s*\}/);
 });
 
 test('member pings are optional and restricted to the configured stock-alert role', () => {
