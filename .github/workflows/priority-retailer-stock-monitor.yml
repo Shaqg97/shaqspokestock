@@ -1,4 +1,4 @@
-name: Priority retailer stock monitor
+name: Hourly priority retailer stock monitor
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - '.github/scripts/monitor-priority-retailers.mjs'
       - '.github/workflows/priority-retailer-stock-monitor.yml'
   schedule:
-    - cron: '17 */6 * * *'
+    - cron: '17 * * * *'
   workflow_dispatch:
 
 permissions:
