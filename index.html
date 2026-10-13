@@ -594,6 +594,11 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .checkout-note { font-size: 10px; }
 }
 
+.available-retailers { display:grid; gap:6px; margin-top:8px; font-size:12px; }
+.available-retailers strong { color:#166534; }
+.available-retailers a { display:block; padding:9px 10px; border:1px solid #bbf7d0; border-radius:9px; color:#166534; background:#f0fdf4; text-decoration:none; font-weight:700; overflow-wrap:anywhere; }
+.available-retailers a:focus-visible { outline:3px solid #eab308; outline-offset:2px; }
+
 </style>
 </head>
 
@@ -1060,24 +1065,29 @@ return matchesSearch && matchesFilter;
       retailer => Number.isFinite(Number(retailer.price)) && Number(retailer.price) > 0
     );
 
-    // Never advertise a sold-out listing as the best deal.
+    // Prefer fresh verified availability; catalogue-only listings are fallback links only.
+    const normalizedStock = retailer => String(retailer.stock || "").trim().toLowerCase();
+    const verifiedOffers = availableRetailers.filter(isFreshVerifiedStock);
+    const verifiedInStockRetailers = verifiedOffers.filter(retailer => normalizedStock(retailer) === "in stock");
+    const verifiedLowStockRetailers = verifiedOffers.filter(retailer => normalizedStock(retailer) === "low stock");
+    const verifiedPreorderRetailers = verifiedOffers.filter(retailer => normalizedStock(retailer) === "pre-order");
+    const verifiedAvailableRetailers = [...verifiedInStockRetailers, ...verifiedLowStockRetailers]
+      .sort((a, b) => (normalizedStock(a) === "in stock" ? 0 : 1) - (normalizedStock(b) === "in stock" ? 0 : 1) || Number(a.price) - Number(b.price));
+    const verifiedPurchasableRetailers = [...verifiedAvailableRetailers, ...verifiedPreorderRetailers]
+      .sort((a, b) => {
+        const rank = retailer => normalizedStock(retailer) === "in stock" ? 0 : normalizedStock(retailer) === "low stock" ? 1 : 2;
+        return rank(a) - rank(b) || Number(a.price) - Number(b.price);
+      });
     const purchasableRetailers = availableRetailers.filter(retailer =>
-      ["in stock", "pre-order", "low stock"].includes(
-        String(retailer.stock || "").toLowerCase()
-      )
+      ["in stock", "pre-order", "low stock"].includes(normalizedStock(retailer))
     );
     const upcomingRetailers = availableRetailers.filter(retailer =>
-      ["coming soon", "check retailer"].includes(
-        String(retailer.stock || "").toLowerCase()
-      )
+      ["coming soon", "check retailer"].includes(normalizedStock(retailer))
     );
-    const bestPool = purchasableRetailers.length
-      ? purchasableRetailers
-      : upcomingRetailers;
+    const cataloguePool = purchasableRetailers.length ? purchasableRetailers : upcomingRetailers;
+    const bestPool = verifiedPurchasableRetailers.length ? verifiedPurchasableRetailers : cataloguePool;
     const bestRetailer = bestPool.length
-      ? bestPool.reduce((best, retailer) =>
-          Number(retailer.price) < Number(best.price) ? retailer : best
-        )
+      ? bestPool.reduce((best, retailer) => Number(retailer.price) < Number(best.price) ? retailer : best)
       : null;
 
     const allRetailersSoldOut = retailers.length > 0 &&
@@ -1164,14 +1174,12 @@ return matchesSearch && matchesFilter;
       ? bestRetailer.url
       : product.url;
 
-    const dealStock = String(displayStock || "").toLowerCase();
-    const verifiedPurchasable = stockVerified &&
-      ["in stock", "low stock"].includes(dealStock);
-    const verifiedPreorder = stockVerified && dealStock === "pre-order";
+    const verifiedPurchasable = verifiedAvailableRetailers.some(retailer => retailer.url === (bestRetailer && bestRetailer.url));
+    const verifiedPreorder = !verifiedPurchasable && verifiedPreorderRetailers.some(retailer => retailer.url === (bestRetailer && bestRetailer.url));
     const dealActionLabel = verifiedPurchasable
-      ? "🛒 Buy Now at " + (bestRetailer?.name || "retailer")
+      ? "🛒 Buy Now at " + bestRetailer.name
       : verifiedPreorder
-        ? "🛒 Pre-order at " + (bestRetailer?.name || "retailer")
+        ? "🛒 Pre-order at " + bestRetailer.name
         : bestRetailer
           ? "↗ Check " + bestRetailer.name
           : "↗ View retailer listing";
@@ -1188,7 +1196,12 @@ return matchesSearch && matchesFilter;
         >
           ${escapeHtml(dealActionLabel)}
         </a>
-        <p class="checkout-note">${verifiedPurchasable ? "Recently verified listing — stock can still change." : verifiedPreorder ? "Recently verified pre-order listing — confirm release and terms with the retailer." : "Listing is not currently verified as available. Check the retailer for current stock and price."} You’ll complete checkout on the retailer’s website.</p>
+        <p class="checkout-note">${verifiedPurchasable ? "Recently verified available stock — stock can still change." : verifiedPreorder ? "Recently verified pre-order listing — confirm release and terms with the retailer." : "No retailer currently has freshly verified availability for this item. Check the retailer for current stock and price."} You’ll complete checkout on the retailer’s website.</p>
+        ${verifiedAvailableRetailers.filter(retailer => retailer.url && retailer.url !== (bestRetailer && bestRetailer.url)).length ? `
+          <div class="available-retailers" aria-label="Other retailers with recently verified stock">
+            <strong>Also verified available at:</strong>
+            ${verifiedAvailableRetailers.filter(retailer => retailer.url && retailer.url !== (bestRetailer && bestRetailer.url)).map(retailer => `<a href="${escapeHtml(retailer.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(retailer.name)} · ${Number(retailer.price).toFixed(2)} ↗</a>`).join("")}
+          </div>` : ""}
       `
       : `<p class="checkout-note">No retailer product link is available for this listing yet.</p>`;
 
