@@ -1145,7 +1145,7 @@ return matchesSearch && matchesFilter;
           border-radius:999px;
           font-size:13px;
         ">
-          ${product.status}
+          ${escapeHtml(product.status)}
         </span>
       `;
     }
@@ -1214,14 +1214,14 @@ return matchesSearch && matchesFilter;
           <span class="image-fallback" style="${product.image ? "display:none;" : ""}" aria-label="Product image unavailable">📦</span>
         </div>
 
-        <button class="favorite ${isFavorite(product.name) ? "saved" : ""}" onclick="toggleFavorite('${product.name.replace(/'/g, "\\'")}')" aria-label="${isFavorite(product.name) ? "Remove from watchlist" : "Add to watchlist"}" title="${isFavorite(product.name) ? "Remove from watchlist" : "Add to watchlist"}">
+        <button class="favorite ${isFavorite(product.name) ? "saved" : ""}" onclick="toggleFavorite('${JSON.stringify(product.name).replace(/"/g, "&quot;")}')" aria-label="${isFavorite(product.name) ? "Remove from watchlist" : "Add to watchlist"}" title="${isFavorite(product.name) ? "Remove from watchlist" : "Add to watchlist"}">
           ${isFavorite(product.name) ? "★" : "☆"}
         </button>
 
-        <h3>${product.name}</h3>
+        <h3>${escapeHtml(product.name)}</h3>
 
         <div class="set">
-          ${product.set}
+          ${escapeHtml(product.set)}
         </div>
 
         <div style="
@@ -1248,7 +1248,7 @@ return matchesSearch && matchesFilter;
             border-radius:999px;
             font-size:13px;
           ">
-            ${product.type}
+            ${escapeHtml(product.type)}
           </span>
 
           ${statusBadge}
@@ -1270,7 +1270,7 @@ return matchesSearch && matchesFilter;
         </div>
 
         <div class="store">
-          🇦🇺 ${displayStore}
+          🇦🇺 ${escapeHtml(displayStore)}
         </div>
 
         <div class="store" style="font-size:12px;color:#777;margin-top:5px;">
@@ -1317,7 +1317,7 @@ ${[...availableRetailers]
       : "Listed: " + (retailer.stock || "Stock unverified");
     return `
       <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding:8px;background:#f8fafc;border-radius:8px;">
-        <span>${retailer.name}${cheapestInStock ? ' 🏆 Cheapest in stock' : ''}</span>
+        <span>${escapeHtml(retailer.name)}${cheapestInStock ? ' 🏆 Cheapest in stock' : ''}</span>
         <strong>${Number(retailer.price).toFixed(2)}</strong>
         <span title="${retailerVerified ? 'Recent retailer check verified' : 'Catalogue listing only; live stock not verified'}" style="font-size:11px;color:${retailerVerified ? '#15803d' : '#475569'};">${escapeHtml(retailerStockLabel)}</span>
         ${retailer.url ? `<a href="${escapeHtml(retailer.url)}" target="_blank" rel="noopener noreferrer" style="color:#2563eb;text-decoration:none;">View</a>` : `<span style="font-size:11px;color:#64748b;">Link unavailable</span>`}
