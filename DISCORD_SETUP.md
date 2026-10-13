@@ -37,7 +37,7 @@ Create these in Server Settings → Roles:
 - `Admin` — server owner only.
 - `Moderator` — trusted staff.
 - `🔔 Stock Alerts` — restock, new in-stock, and pre-order notifications.
-- `💸 Price Drops` — optional interest role for a future dedicated price-drop ping.
+- `💸 Price Drops` — optional price-drop notification role.
 - Optional interest roles: `🇦🇺 BIG W`, `🛒 Kmart`, `🎯 Target`, `🔵 JB Hi-Fi`.
 
 Do not give notification roles administrative permissions. Move the bot/webhook-managed roles below your staff roles. A webhook itself does not need a Discord bot role.
@@ -54,7 +54,7 @@ The website alert workflow supports an optional role mention for stock/pre-order
 6. Run the `Test Discord webhook` workflow in Actions to confirm the webhook can post to the selected channel. The test confirms delivery, not role pings.
 7. Test role pings only after the role ID secret is set and a verified stock/pre-order change occurs. Do not manually expose the webhook URL.
 
-Only the configured Stock Alerts role is allowed to be mentioned by the workflow. Price-drop and general information messages do not ping this role. If the secret is absent, alerts still post without member pings.
+Only the configured Stock Alerts role can be pinged for stock/pre-order alerts, and only the configured Price Drops role can be pinged for price drops. If either secret is absent, those alerts still post without that role ping.
 
 ## 4. Let members opt in
 
