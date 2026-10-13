@@ -565,6 +565,35 @@ html, body { max-width: 100%; overflow-x: hidden; }
 .ebay-shop-button:focus-visible { outline:3px solid #eab308; outline-offset:3px; }
 .ebay-shop-note { color:#64748b; font-size:12px; }
 @media (max-width:700px) { .ebay-shop { grid-template-columns:1fr; padding:20px; } }
+
+/* Clear retailer hand-off; the site does not handle payment or retailer carts. */
+.buy-button {
+  display: block;
+  margin-top: 12px;
+  padding: 12px 10px;
+  background: #172033;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 11px;
+  font-weight: 800;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  transition: background .18s ease, transform .18s ease;
+}
+.buy-button:hover { background: #334766; transform: translateY(-1px); }
+.buy-button:focus-visible { outline: 3px solid #eab308; outline-offset: 3px; }
+.checkout-note {
+  margin-top: 7px;
+  color: #64748b;
+  font-size: 11px;
+  line-height: 1.45;
+}
+@media (max-width: 600px) {
+  .buy-button { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+  .checkout-note { font-size: 10px; }
+}
+
 </style>
 </head>
 
@@ -1135,28 +1164,33 @@ return matchesSearch && matchesFilter;
       ? bestRetailer.url
       : product.url;
 
+    const dealStock = String(displayStock || "").toLowerCase();
+    const verifiedPurchasable = stockVerified &&
+      ["in stock", "low stock"].includes(dealStock);
+    const verifiedPreorder = stockVerified && dealStock === "pre-order";
+    const dealActionLabel = verifiedPurchasable
+      ? "🛒 Buy Now at " + (bestRetailer?.name || "retailer")
+      : verifiedPreorder
+        ? "🛒 Pre-order at " + (bestRetailer?.name || "retailer")
+        : bestRetailer
+          ? "↗ Check " + bestRetailer.name
+          : "↗ View retailer listing";
+
     const dealButton = dealUrl
       ? `
         <a
-          href="${dealUrl}"
+          class="buy-button"
+          href="${escapeHtml(dealUrl)}"
           target="_blank"
           rel="noopener noreferrer"
-          style="
-            display:block;
-            margin-top:12px;
-            padding:10px;
-            background:#111827;
-            color:white;
-            text-align:center;
-            text-decoration:none;
-            border-radius:8px;
-            font-weight:600;
-          "
+          aria-label="${escapeHtml(dealActionLabel.replace(/^[🛒↗ ]+/, ""))}. Opens the retailer website in a new tab."
+          title="Opens the retailer website. Complete checkout there; availability and prices can change."
         >
-          🛒 View Deal
+          ${escapeHtml(dealActionLabel)}
         </a>
+        <p class="checkout-note">${verifiedPurchasable ? "Recently verified listing — stock can still change." : verifiedPreorder ? "Recently verified pre-order listing — confirm release and terms with the retailer." : "Listing is not currently verified as available. Check the retailer for current stock and price."} You’ll complete checkout on the retailer’s website.</p>
       `
-      : "";
+      : `<p class="checkout-note">No retailer product link is available for this listing yet.</p>`;
 
     return `
       <div class="product">
