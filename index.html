@@ -1085,10 +1085,11 @@ return matchesSearch && matchesFilter;
       ["coming soon", "check retailer"].includes(normalizedStock(retailer))
     );
     const cataloguePool = purchasableRetailers.length ? purchasableRetailers : upcomingRetailers;
-    const bestPool = verifiedPurchasableRetailers.length ? verifiedPurchasableRetailers : cataloguePool;
-    const bestRetailer = bestPool.length
-      ? bestPool.reduce((best, retailer) => Number(retailer.price) < Number(best.price) ? retailer : best)
-      : null;
+    const bestRetailer = verifiedPurchasableRetailers.length
+      ? verifiedPurchasableRetailers[0]
+      : cataloguePool.length
+        ? cataloguePool.reduce((best, retailer) => Number(retailer.price) < Number(best.price) ? retailer : best)
+        : null;
 
     const allRetailersSoldOut = retailers.length > 0 &&
       retailers.every(retailer =>
