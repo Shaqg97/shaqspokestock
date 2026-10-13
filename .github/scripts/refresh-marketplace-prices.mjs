@@ -32,7 +32,14 @@ const tokenResponse = await fetch('https://api.ebay.com/identity/v1/oauth2/token
   signal: AbortSignal.timeout(20000),
 });
 if (!tokenResponse.ok) {
-  throw new Error('eBay OAuth token request failed with HTTP ' + tokenResponse.status + '. Check the eBay application credentials and production API access.');
+  let oauthError = '';
+  try {
+    const errorData = await tokenResponse.json();
+    oauthError = [errorData.error, errorData.error_description].filter(value => typeof value === 'string' && value.trim()).join(': ');
+  } catch {
+    // Keep the failure safe and concise if eBay does not return JSON.
+  }
+  throw new Error('eBay OAuth token request failed with HTTP ' + tokenResponse.status + (oauthError ? ' (' + oauthError + ')' : '') + '. Check the eBay application credentials and production API access.');
 }
 const tokenData = await tokenResponse.json();
 if (!tokenData.access_token) throw new Error('eBay OAuth response did not include an access token.');
