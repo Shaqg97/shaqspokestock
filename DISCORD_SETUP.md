@@ -44,7 +44,7 @@ Do not give notification roles administrative permissions. Move the bot/webhook-
 
 ## 3. Configure the stock-alert ping
 
-The website alert workflow supports an optional role mention for stock/pre-order alerts. It does not ping anyone until the role ID secret is configured.
+The website alert workflow supports separate optional role mentions for stock/pre-order alerts and price-drop alerts. Each role is pinged only for its own alert type, and only after its role ID secret is configured.
 
 1. In Discord, enable Developer Mode: User Settings → Advanced → Developer Mode.
 2. Right-click the `🔔 Stock Alerts` role in Server Settings → Roles and choose Copy Role ID.
@@ -82,4 +82,4 @@ Suggested text for `🔔・choose-alerts`:
 
 - Product and price alerts only qualify when the monitoring workflow has a fresh explicit verification marker.
 - Kmart and BIG W monitoring may be limited when their storefronts block automated requests. Do not treat blocked or unknown pages as confirmed out of stock.
-- The optional role mention currently targets the single `DISCORD_STOCK_ALERT_ROLE_ID` role. Price-drop role pings are not wired up yet.
+- Stock/pre-order alerts can ping the configured `DISCORD_STOCK_ALERT_ROLE_ID`; price-drop alerts can separately ping `DISCORD_PRICE_DROP_ROLE_ID`. Missing role secrets result in no role ping. The workflow currently posts all automated alert types to the single configured webhook channel.
