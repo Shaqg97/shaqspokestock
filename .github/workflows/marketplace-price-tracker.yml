@@ -49,4 +49,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add marketplace-prices.json
           git commit -m "Refresh eBay Australia marketplace prices"
+          # Site/code commits can land while this scheduled refresh is running.
+          # Rebase the generated snapshot onto the latest main before pushing.
+          git pull --rebase origin main
           git push
