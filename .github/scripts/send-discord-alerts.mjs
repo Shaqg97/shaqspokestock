@@ -3,6 +3,11 @@ import { readFile } from 'node:fs/promises';
 
 const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 const beforeSha = process.env.BEFORE_SHA;
+const stockAlertRoleId = process.env.DISCORD_STOCK_ALERT_ROLE_ID;
+
+if (stockAlertRoleId && !/^\\d{17,20}$/.test(stockAlertRoleId)) {
+  throw new Error('DISCORD_STOCK_ALERT_ROLE_ID must be a Discord role ID made of 17–20 digits.');
+}
 
 if (!webhookUrl) {
   throw new Error('Add the DISCORD_WEBHOOK_URL repository secret before enabling Discord alerts.');
@@ -69,6 +74,7 @@ for (const product of currentProducts) {
           description: `${offer.name} · $${Number(offer.price).toFixed(2)}`,
           url: offer.url || product.url,
           color: newStock === 'pre-order' ? 0xfee75c : 0x57f287,
+          pingMembers: true,
         });
       }
       continue;
@@ -83,6 +89,7 @@ for (const product of currentProducts) {
         description: `${offer.name} · $${Number(offer.price).toFixed(2)}`,
         url: offer.url || product.url,
         color: 0x57f287,
+        pingMembers: true,
       });
     } else if (oldStock !== 'pre-order' && newStock === 'pre-order') {
       alerts.push({
@@ -90,6 +97,7 @@ for (const product of currentProducts) {
         description: `${offer.name} · $${Number(offer.price).toFixed(2)}`,
         url: offer.url || product.url,
         color: 0xfee75c,
+        pingMembers: true,
       });
     } else if (
       (newStock === 'in stock' || newStock === 'pre-order') &&
@@ -112,24 +120,38 @@ if (alerts.length === 0) {
   process.exit(0);
 }
 
-for (let index = 0; index < alerts.length; index += 10) {
-  const response = await fetch(webhookUrl, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      username: 'Shaqs Poke Stock',
-      allowed_mentions: { parse: [] },
-      embeds: alerts.slice(index, index + 10).map((alert) => ({
-        title: alert.title,
-        description: alert.description || undefined,
-        url: alert.url || undefined,
-        color: alert.color,
-      })),
-    }),
-  });
+// Separate member-ping alerts from informational updates so a price-drop message
+// can never accidentally ping the stock-alert role.
+const groups = [
+  { pingMembers: true, items: alerts.filter((alert) => alert.pingMembers) },
+  { pingMembers: false, items: alerts.filter((alert) => !alert.pingMembers) },
+].filter((group) => group.items.length > 0);
 
-  if (!response.ok) {
-    throw new Error(`Discord rejected an alert message (HTTP ${response.status}).`);
+for (const group of groups) {
+  for (let index = 0; index < group.items.length; index += 10) {
+    const shouldPingRole = group.pingMembers && Boolean(stockAlertRoleId);
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        username: 'Shaqs Poke Stock',
+        content: shouldPingRole ? `<@&${stockAlertRoleId}> New stock or pre-order alert(s) just landed.` : undefined,
+        allowed_mentions: {
+          parse: [],
+          roles: shouldPingRole ? [stockAlertRoleId] : [],
+        },
+        embeds: group.items.slice(index, index + 10).map((alert) => ({
+          title: alert.title,
+          description: alert.description || undefined,
+          url: alert.url || undefined,
+          color: alert.color,
+        })),
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Discord rejected an alert message (HTTP ${response.status}).`);
+    }
   }
 }
 
