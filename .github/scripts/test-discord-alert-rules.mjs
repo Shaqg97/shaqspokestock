@@ -29,3 +29,10 @@ test('member pings are optional and restricted to the configured stock-alert rol
   assert.match(source, /pingMembers: true/);
   assert.match(source, /alert\.pingMembers/);
 });
+
+test('price-drop pings are optional and isolated from stock-alert pings', () => {
+  assert.match(source, /DISCORD_PRICE_DROP_ROLE_ID/);
+  assert.match(source, /pingPriceDrops: true/);
+  assert.match(source, /alert\.pingPriceDrops/);
+  assert.match(source, /roles: shouldPingRole \? \[group\.roleId\] : \[\]/);
+});
