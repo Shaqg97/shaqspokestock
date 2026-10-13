@@ -747,6 +747,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <script>
 
 let products = [];
+let marketplaceSnapshot = { products: [] };
 let currentFilter = "all";
 
 async function loadProducts() {
@@ -760,6 +761,14 @@ async function loadProducts() {
     }
 
     products = await response.json();
+
+    // Marketplace data is optional; retailer catalogue still works without it.
+    try {
+      const marketplaceResponse = await fetch("marketplace-prices.json", { cache: "no-store" });
+      if (marketplaceResponse.ok) marketplaceSnapshot = await marketplaceResponse.json();
+    } catch (marketplaceError) {
+      console.warn("Marketplace price snapshot unavailable; retailer catalogue remains available.", marketplaceError);
+    }
 
     updateStats();
     renderStores();
@@ -782,6 +791,50 @@ function isFreshVerifiedStock(offer) {
   if (!Number.isFinite(checkedAt.getTime())) return false;
   const ageDays = (Date.now() - checkedAt.getTime()) / 86400000;
   return ageDays >= -0.25 && ageDays <= 1.25;
+}
+
+function marketplaceProductKey(product) {
+  return [product.name, product.set, product.language, product.type].join("|");
+}
+
+function renderMarketplaceOffers(product) {
+  const record = (marketplaceSnapshot.products || []).find(item => item.key === marketplaceProductKey(product));
+  const offers = Array.isArray(record?.offers) ? record.offers : [];
+  const query = encodeURIComponent([product.name, product.set].filter(Boolean).join(" "));
+  const searchLinks = `
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:9px;">
+      <a href="https://www.ebay.com.au/sch/i.html?_nkw=${query}" target="_blank" rel="noopener noreferrer" style="color:#1d4ed8;text-decoration:none;font-weight:700;">Search eBay AU ↗</a>
+      <a href="https://www.amazon.com.au/s?k=${query}" target="_blank" rel="noopener noreferrer" style="color:#1d4ed8;text-decoration:none;font-weight:700;">Search Amazon AU ↗</a>
+    </div>`;
+  if (!offers.length) {
+    return `
+      <details style="margin-top:10px;font-size:12px;">
+        <summary style="cursor:pointer;font-weight:700;color:#334155;">🛒 Marketplace deals</summary>
+        <p style="margin-top:8px;color:#64748b;">Automated marketplace prices are not available for this product yet. Search listings directly; marketplace prices and stock are not verified by Shaqs Poke Stock.</p>
+        ${searchLinks}
+      </details>`;
+  }
+  const rows = offers.map(offer => {
+    const itemPrice = Number(offer.price);
+    const hasTotal = offer.totalPrice !== null && Number.isFinite(Number(offer.totalPrice));
+    const shownPrice = hasTotal ? Number(offer.totalPrice) : itemPrice;
+    const confidence = Number(offer.matchConfidence) >= 80 ? "Strong title match" : "Check listing match";
+    const shippingLabel = hasTotal ? "incl. listed shipping" : "shipping not confirmed";
+    return `
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 10px;align-items:start;padding:9px;background:#f8fafc;border-radius:9px;">
+        <a href="${escapeHtml(offer.url || "#")}" target="_blank" rel="noopener noreferrer" style="color:#1d4ed8;text-decoration:none;font-weight:700;overflow-wrap:anywhere;">${escapeHtml(offer.title || "eBay listing")}</a>
+        <strong style="white-space:nowrap;">A${shownPrice.toFixed(2)}</strong>
+        <span style="font-size:11px;color:#64748b;">${escapeHtml(offer.seller || "Seller not supplied")} · ${escapeHtml(confidence)} · ${shippingLabel}</span>
+        <span style="font-size:11px;color:#64748b;text-align:right;">Item A${itemPrice.toFixed(2)}</span>
+      </div>`;
+  }).join("");
+  return `
+    <details style="margin-top:10px;font-size:12px;">
+      <summary style="cursor:pointer;font-weight:700;color:#334155;">🛒 Marketplace deals (${offers.length})</summary>
+      <p style="margin-top:8px;color:#64748b;">eBay AU candidates · ${marketplaceSnapshot.checkedAt ? "checked " + new Date(marketplaceSnapshot.checkedAt).toLocaleDateString("en-AU", {day:"numeric",month:"short"}) : "not checked yet"}. Matching is automated; check the listing before buying. Total includes shipping only when the API supplies a shipping cost.</p>
+      <div style="display:grid;gap:7px;margin-top:8px;">${rows}</div>
+      ${searchLinks}
+    </details>`;
 }
 
 function updateStats() {
@@ -1226,7 +1279,8 @@ ${[...availableRetailers]
     </div>
   </details>
 ` : ""}
-${releaseDate}
+${renderMarketplaceOffers(product)}
+        ${releaseDate}
 
         ${dealButton}
 
