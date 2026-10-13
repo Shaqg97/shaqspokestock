@@ -599,6 +599,12 @@ html, body { max-width: 100%; overflow-x: hidden; }
 .available-retailers a { display:block; padding:9px 10px; border:1px solid #bbf7d0; border-radius:9px; color:#166534; background:#f0fdf4; text-decoration:none; font-weight:700; overflow-wrap:anywhere; }
 .available-retailers a:focus-visible { outline:3px solid #eab308; outline-offset:2px; }
 
+
+/* Keep stock-data freshness visible rather than implying every listing is live. */
+.stats { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 900px) { .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
 </style>
 </head>
 
@@ -653,6 +659,11 @@ html, body { max-width: 100%; overflow-x: hidden; }
   <div class="stat">
     <small>Last recorded check</small>
     <strong id="lastChecked">Catalogue</strong>
+  </div>
+
+  <div class="stat">
+    <small>Fresh stock checks</small>
+    <strong id="freshChecks">—</strong>
   </div>
 
 </section>
@@ -881,6 +892,11 @@ function updateStats() {
   const checkedDates = products.flatMap(p => (p.retailers || []).map(r => r.checkedAt).filter(Boolean)).sort();
   const checkedEl = document.getElementById("lastChecked");
   if (checkedEl) checkedEl.innerText = checkedDates.length ? new Date(checkedDates[checkedDates.length - 1] + "T00:00:00").toLocaleDateString("en-AU", {day:"numeric",month:"short"}) : "Catalogue";
+
+  const allRetailerOffers = products.flatMap(product => Array.isArray(product.retailers) ? product.retailers : []);
+  const freshOfferCount = allRetailerOffers.filter(isFreshVerifiedStock).length;
+  const freshChecksEl = document.getElementById("freshChecks");
+  if (freshChecksEl) freshChecksEl.innerText = freshOfferCount + "/" + allRetailerOffers.length;
 
   const offers = products.flatMap(product => (product.retailers || []).filter(offer => Number(offer.price) > 0));
   const availablePrices = offers.filter(offer => ["in stock", "pre-order", "low stock"].includes(String(offer.stock || "").toLowerCase())).map(offer => Number(offer.price));
