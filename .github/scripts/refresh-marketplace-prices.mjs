@@ -80,7 +80,7 @@ function scoreListing(product, title) {
     if (!/\b(booster pack|booster packs)\b/.test(normalTitle)) return 0;
     if (/\b(booster box|display box|booster bundle|etb|elite trainer box)\b/.test(normalTitle)) return 0;
     // A multi-pack listing's headline price is not comparable with one pack.
-    if (/\b(2x|3x|4x|5x|6x|10x|20x|2 packs|3 packs|4 packs|5 packs|10 packs|20 packs|lot of|assorted lot)\b/.test(normalTitle)) return 0;
+    if (/\b(\d+\s*(?:x|×)\s*(?:booster\s*)?packs?|\d+\s+(?:booster\s+)?packs?|lot of|assorted lot|bundle of)\b/.test(normalTitle)) return 0;
   } else {
     const typeTerms = type.split(' ').filter(Boolean);
     if (typeTerms.length && !typeTerms.some(token => normalTitle.includes(token))) return 0;
@@ -144,10 +144,15 @@ async function searchListings(product) {
       availability: item.estimatedAvailabilityStatus || null,
       matchConfidence: score,
     };
-  }).filter(item => item.matchConfidence >= 45 && item.price !== null && item.url && item.currency === 'AUD')
+  }).filter(item => item.matchConfidence >= 70 && item.price !== null && item.url && item.currency === 'AUD')
     .sort((a, b) => {
-      const aPrice = a.totalPrice ?? a.price;
-      const bPrice = b.totalPrice ?? b.price;
+      // Compare delivered prices only when both offers include a shipping quote.
+      // Listings with unknown shipping appear after offers with known totals.
+      const aHasTotal = a.totalPrice !== null;
+      const bHasTotal = b.totalPrice !== null;
+      if (aHasTotal !== bHasTotal) return aHasTotal ? -1 : 1;
+      const aPrice = aHasTotal ? a.totalPrice : a.price;
+      const bPrice = bHasTotal ? b.totalPrice : b.price;
       return aPrice - bPrice || b.matchConfidence - a.matchConfidence;
     })
     .slice(0, 5);
