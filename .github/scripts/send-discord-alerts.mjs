@@ -5,7 +5,7 @@ const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 const beforeSha = process.env.BEFORE_SHA;
 const stockAlertRoleId = process.env.DISCORD_STOCK_ALERT_ROLE_ID;
 
-if (stockAlertRoleId && !/^\\d{17,20}$/.test(stockAlertRoleId)) {
+if (stockAlertRoleId && !/^\d{17,20}$/.test(stockAlertRoleId)) {
   throw new Error('DISCORD_STOCK_ALERT_ROLE_ID must be a Discord role ID made of 17–20 digits.');
 }
 
