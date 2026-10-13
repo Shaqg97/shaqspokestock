@@ -65,19 +65,44 @@ function coreTokens(product) {
 function scoreListing(product, title) {
   const normalTitle = normalise(title);
   if (excludedTerms.some(term => normalTitle.includes(normalise(term)))) return 0;
-  const tokens = coreTokens(product);
-  if (!tokens.length) return 0;
-  const matched = tokens.filter(token => normalTitle.includes(token));
-  const ratio = matched.length / tokens.length;
+
   const type = normalise(product.type);
-  const typeTerms = type.split(' ').filter(Boolean);
-  const typeMatch = typeTerms.some(token => normalTitle.includes(token));
-  // Generic catalogue names need a strong set/title match to avoid unrelated items.
-  const generic = ['japanese booster pack', 'pokemon collection pack'].includes(normalise(product.name));
-  if (generic && ratio < 0.5) return 0;
-  if (ratio < (tokens.length <= 2 ? 0.5 : 0.45)) return 0;
-  if (typeTerms.length && !typeMatch && !normalTitle.includes('booster')) return 0;
-  return Math.round(ratio * 100);
+  // Enforce product type before scoring the name/set. A booster bundle must
+  // never be presented as a booster box, and multi-pack lots must not look
+  // like the price of one loose pack.
+  if (type === 'booster box') {
+    if (/\b(booster bundle|booster pack|booster packs|etb|elite trainer box|collection box|premium collection|mini tin|booster blister)\b/.test(normalTitle)) return 0;
+    if (!/\b(booster box|booster display|display box|36 packs)\b/.test(normalTitle)) return 0;
+  } else if (type === 'etb') {
+    if (!/\b(etb|elite trainer box)\b/.test(normalTitle)) return 0;
+    if (/\b(booster box|booster bundle|booster pack|collection box|battle deck)\b/.test(normalTitle)) return 0;
+  } else if (type === 'booster pack') {
+    if (!/\b(booster pack|booster packs)\b/.test(normalTitle)) return 0;
+    if (/\b(booster box|display box|booster bundle|etb|elite trainer box)\b/.test(normalTitle)) return 0;
+    // A multi-pack listing's headline price is not comparable with one pack.
+    if (/\b(2x|3x|4x|5x|6x|10x|20x|2 packs|3 packs|4 packs|5 packs|10 packs|20 packs|lot of|assorted lot)\b/.test(normalTitle)) return 0;
+  } else {
+    const typeTerms = type.split(' ').filter(Boolean);
+    if (typeTerms.length && !typeTerms.some(token => normalTitle.includes(token))) return 0;
+  }
+
+  // Prefer specific set identifiers. "Mega Evolution" alone is a broad
+  // product family; when the catalogue names a more specific set as well,
+  // require that specific set name to appear in the listing.
+  const setTokens = normalise(product.set).split(' ').filter(Boolean);
+  const isBroadMegaFamily = setTokens.includes('mega') && setTokens.includes('evolution') && setTokens.length > 2;
+  const requiredSetTokens = setTokens.filter(token => !isBroadMegaFamily || !['mega', 'evolution'].includes(token));
+  if (requiredSetTokens.some(token => !normalTitle.includes(token))) return 0;
+
+  const typeWords = new Set(['booster', 'box', 'etb', 'pack', 'packs', 'elite', 'trainer', 'collection', 'premium', 'mini', 'tin', 'blister', 'display', 'deck', 'figure', 'ultra']);
+  const identityTokens = [...new Set(normalise(product.name + ' ' + product.set)
+    .split(' ')
+    .filter(token => token.length > 2 && !stopWords.has(token) && !typeWords.has(token)))];
+  if (!identityTokens.length) return 0;
+  const matched = identityTokens.filter(token => normalTitle.includes(token));
+  const ratio = matched.length / identityTokens.length;
+  if (ratio < (identityTokens.length <= 2 ? 0.75 : 0.7)) return 0;
+  return Math.min(100, Math.round(ratio * 100));
 }
 
 async function searchListings(product) {
