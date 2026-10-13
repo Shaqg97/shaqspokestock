@@ -22,5 +22,6 @@ jobs:
         if: github.event.before != '0000000000000000000000000000000000000000'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_STOCK_ALERT_ROLE_ID: ${{ secrets.DISCORD_STOCK_ALERT_ROLE_ID }}
           BEFORE_SHA: ${{ github.event.before }}
         run: node .github/scripts/send-discord-alerts.mjs
