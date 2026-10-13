@@ -852,20 +852,22 @@ function renderMarketplaceOffers(product) {
     const itemPrice = Number(offer.price);
     const hasTotal = offer.totalPrice !== null && Number.isFinite(Number(offer.totalPrice));
     const shownPrice = hasTotal ? Number(offer.totalPrice) : itemPrice;
-    const confidence = Number(offer.matchConfidence) >= 80 ? "Strong title match" : "Check listing match";
-    const shippingLabel = hasTotal ? "incl. listed shipping" : "shipping not confirmed";
+    const displayPrice = hasTotal ? "A$" + shownPrice.toFixed(2) : "A$" + itemPrice.toFixed(2) + " + ship";
+    const confidence = Number(offer.matchConfidence) >= 90 ? "High title match" : "Possible match — check title";
+    const shippingLabel = hasTotal ? "total includes listed shipping" : "shipping not confirmed; item price only";
+    const conditionLabel = offer.condition ? " · " + offer.condition : "";
     return `
       <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 10px;align-items:start;padding:9px;background:#f8fafc;border-radius:9px;">
         <a href="${escapeHtml(offer.url || "#")}" target="_blank" rel="noopener noreferrer" style="color:#1d4ed8;text-decoration:none;font-weight:700;overflow-wrap:anywhere;">${escapeHtml(offer.title || "eBay listing")}</a>
-        <strong style="white-space:nowrap;">A${shownPrice.toFixed(2)}</strong>
-        <span style="font-size:11px;color:#64748b;">${escapeHtml(offer.seller || "Seller not supplied")} · ${escapeHtml(confidence)} · ${shippingLabel}</span>
+        <strong style="white-space:nowrap;">${displayPrice}</strong>
+        <span style="font-size:11px;color:#64748b;">${escapeHtml(offer.seller || "Seller not supplied")} · ${escapeHtml(confidence)}${escapeHtml(conditionLabel)} · ${shippingLabel}</span>
         <span style="font-size:11px;color:#64748b;text-align:right;">Item A${itemPrice.toFixed(2)}</span>
       </div>`;
   }).join("");
   return `
     <details style="margin-top:10px;font-size:12px;">
       <summary style="cursor:pointer;font-weight:700;color:#334155;">🛒 Marketplace deals (${offers.length})</summary>
-      <p style="margin-top:8px;color:#64748b;">eBay AU candidates · ${marketplaceSnapshot.checkedAt ? "checked " + new Date(marketplaceSnapshot.checkedAt).toLocaleDateString("en-AU", {day:"numeric",month:"short"}) : "not checked yet"}. Matching is automated; check the listing before buying. Total includes shipping only when the API supplies a shipping cost.</p>
+      <p style="margin-top:8px;color:#64748b;">eBay AU candidates · ${marketplaceSnapshot.checkedAt ? "checked " + new Date(marketplaceSnapshot.checkedAt).toLocaleDateString("en-AU", {day:"numeric",month:"short"}) : "not checked yet"}. Only stronger title matches are shown, but matching is automated. “+ ship” means shipping is not confirmed, so compare the final checkout total before buying.</p>
       <div style="display:grid;gap:7px;margin-top:8px;">${rows}</div>
       ${searchLinks}
     </details>`;
