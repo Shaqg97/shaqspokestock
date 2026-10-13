@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 
 const fileUrl = new URL('../../products.json', import.meta.url);
 const products = JSON.parse(await readFile(fileUrl, 'utf8'));
-const today = new Date().toISOString().slice(0, 10);
+const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
 const monitored = [];
 const skipped = [];
 let changed = false;
@@ -31,7 +31,7 @@ const normalize = (value) => String(value ?? '')
   .trim()
   .split(/\s+/)
   .filter(Boolean);
-const generic = new Set(['pokemon', 'pokémon', 'tcg', 'trading', 'card', 'cards', 'booster', 'box', 'pack', 'packs', 'japanese', 'english', 'sealed', 'the', 'and', 'for', 'with', 'mega', 'evolution']);
+const generic = new Set(['pokemon', 'pokémon', 'tcg', 'trading', 'card', 'cards', 'booster', 'box', 'pack', 'packs', 'japanese', 'english', 'sealed', 'the', 'and', 'for', 'with', 'evolution']);
 const meaningful = (value) => normalize(value).filter((word) => word.length > 2 && !generic.has(word));
 
 async function checkOffer(product, offer) {
@@ -71,7 +71,7 @@ async function checkOffer(product, offer) {
       return;
     }
 
-    const expected = meaningful(product.name);
+    const expected = [...new Set(meaningful([product.name, product.set, product.type].filter(Boolean).join(' ')))];
     const actual = new Set(meaningful(item.title));
     const overlap = expected.filter((word) => actual.has(word));
     if (expected.length < 2 || overlap.length < 2 || overlap.length / expected.length < 0.5) {
