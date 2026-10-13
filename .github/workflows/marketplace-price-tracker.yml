@@ -1,0 +1,52 @@
+name: eBay marketplace price tracker
+
+on:
+  schedule:
+    - cron: '23 21 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/scripts/refresh-marketplace-prices.mjs'
+      - '.github/workflows/marketplace-price-tracker.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: marketplace-price-tracker
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out project history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Refresh eBay Australia listing prices
+        env:
+          EBAY_CLIENT_ID: ${{ secrets.EBAY_CLIENT_ID }}
+          EBAY_CLIENT_SECRET: ${{ secrets.EBAY_CLIENT_SECRET }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: node .github/scripts/refresh-marketplace-prices.mjs
+
+      - name: Commit marketplace price snapshot
+        if: success()
+        run: |
+          if git diff --quiet -- marketplace-prices.json; then
+            echo "No marketplace snapshot changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add marketplace-prices.json
+          git commit -m "Refresh eBay Australia marketplace prices"
+          git push
