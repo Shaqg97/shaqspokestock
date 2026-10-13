@@ -34,27 +34,16 @@ jobs:
       - name: Check JB Hi-Fi and Target product data (BIG W paused)
         run: node .github/scripts/monitor-priority-retailers.mjs
 
-      - name: Send Discord alerts for verified changes
-        if: success()
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          BEFORE_SHA: ${{ github.sha }}
-        run: |
-          if git diff --quiet -- products.json; then
-            echo "No verified catalogue changes; no Discord alert needed."
-          else
-            node .github/scripts/send-discord-alerts.mjs
-          fi
-
       - name: Commit verified catalogue updates
         if: success()
         run: |
           if git diff --quiet -- products.json; then
-            echo "No catalogue update to commit."
+            echo "No verified catalogue changes; no commit needed."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add products.json
           git commit -m "Update verified priority retailer stock and prices"
+          git pull --rebase origin main
           git push
