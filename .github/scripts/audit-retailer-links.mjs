@@ -2,18 +2,23 @@ import { readFile } from 'node:fs/promises';
 
 const products = JSON.parse(await readFile(new URL('../../products.json', import.meta.url), 'utf8'));
 const unique = new Map();
+function addUrl(value, retailer, productName) {
+  if (!value) return;
+  try {
+    const url = new URL(value);
+    if (url.protocol !== 'https:') return;
+    const key = url.href;
+    if (!unique.has(key)) unique.set(key, { url: key, retailer, products: new Set() });
+    unique.get(key).products.add(productName);
+  } catch {
+    // Invalid URLs are reported by validate-catalogue-quality.mjs.
+  }
+}
 for (const product of products) {
+  // Audit the main product-card destination as well as every retailer offer.
+  addUrl(product.url, product.store || 'Primary product link', product.name);
   for (const offer of product.retailers ?? []) {
-    if (!offer.url) continue;
-    try {
-      const url = new URL(offer.url);
-      if (url.protocol !== 'https:') continue;
-      const key = url.href;
-      if (!unique.has(key)) unique.set(key, { url: key, retailer: offer.name, products: new Set() });
-      unique.get(key).products.add(product.name);
-    } catch {
-      // Invalid URLs are reported by validate-catalogue-quality.mjs.
-    }
+    addUrl(offer.url, offer.name || 'Unknown retailer', product.name);
   }
 }
 
