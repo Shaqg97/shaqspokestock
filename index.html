@@ -1941,7 +1941,7 @@ return matchesSearch && matchesFilter;
         <div class="product-summary">
           <div class="product-summary-image" aria-label="${escapeHtml(product.name)} image">
             ${product.image ? `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)} product image" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">` : ""}
-            <span class="product-summary-fallback" style="${product.image ? "display:none;" : ""}" aria-hidden="true">📦</span>
+            <span class="product-summary-fallback" style="${product.image ? "display:none;" : ""}" title="Image coming soon" aria-label="Product image coming soon">📦</span>
           </div>
           <div class="product-summary-text">
             <h3>${escapeHtml(product.name)}</h3>
