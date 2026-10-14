@@ -1034,10 +1034,13 @@ function updateStats() {
   if (freshChecksEl) freshChecksEl.innerText = freshOfferCount + "/" + allRetailerOffers.length;
 
   const offers = products.flatMap(product => (product.retailers || []).filter(offer => Number(offer.price) > 0));
-  const availablePrices = offers.filter(offer => ["in stock", "pre-order", "low stock"].includes(String(offer.stock || "").toLowerCase())).map(offer => Number(offer.price));
+  const listedAvailable = offers.filter(offer => ["in stock", "pre-order", "low stock"].includes(String(offer.stock || "").toLowerCase()));
+  const verifiedPrices = listedAvailable.filter(isFreshVerifiedStock).map(offer => Number(offer.price));
+  const availablePrices = listedAvailable.map(offer => Number(offer.price));
   const fallbackPrices = products.map(product => Number(product.price)).filter(price => price > 0);
-  const prices = availablePrices.length ? availablePrices : fallbackPrices;
-  document.getElementById("bestPrice").innerText = prices.length ? "$" + Math.min(...prices).toFixed(2) : "—";
+  // Prefer current verified prices; fall back to clearly labelled catalogue prices only when needed.
+  const prices = verifiedPrices.length ? verifiedPrices : availablePrices.length ? availablePrices : fallbackPrices;
+  document.getElementById("bestPrice").innerText = prices.length ? "A$" + Math.min(...prices).toFixed(2) : "—";
 
   // Count distinct retailer brands rather than catalogue name variants
   // such as "Kmart (Day UPC)" and "Kmart (Night UPC)" as separate stores.
