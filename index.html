@@ -2031,21 +2031,37 @@ function getPriceAlert(productName) {
   return getPriceAlerts()[productName] || null;
 }
 
-function getPriceAlertStatusMarkup(productName) {
-  const item = getPriceAlert(productName);
-  if (!item) return "Set a target to track a future verified price drop.";
-  return "Saved target: A$" + Number(item.target).toFixed(2) + (item.firedAt ? " · target reached" : "");
+function getPriceAlertSource(item) {
+  return item && item.source === "marketplace" ? "marketplace" : "retailer";
 }
 
-function savePriceAlert(productName, rawTarget) {
+function getPriceAlertSourceLabel(source) {
+  return source === "marketplace" ? "Sealed eBay AU delivered-total reference" : "Verified retailer";
+}
+
+function getPriceAlertStatusMarkup(productName) {
+  const item = getPriceAlert(productName);
+  if (!item) return "Choose a source and set a target price.";
+  const source = getPriceAlertSource(item);
+  return "Saved " + getPriceAlertSourceLabel(source) + " target: A$" + Number(item.target).toFixed(2) +
+    (item.firedAt ? " · target reached" : "");
+}
+
+function savePriceAlert(productName, rawTarget, requestedSource = "retailer") {
   const target = Number(rawTarget);
   if (!Number.isFinite(target) || target <= 0) {
     alert("Enter a target price greater than A$0.");
     return;
   }
   if (!products.some(item => item.name === productName)) return;
+  const source = requestedSource === "marketplace" ? "marketplace" : "retailer";
   const alerts = getPriceAlerts();
-  alerts[productName] = { target: Math.round(target * 100) / 100, createdAt: new Date().toISOString(), firedAt: null };
+  alerts[productName] = {
+    target: Math.round(target * 100) / 100,
+    source,
+    createdAt: new Date().toISOString(),
+    firedAt: null
+  };
   try { localStorage.setItem(PRICE_ALERTS_KEY, JSON.stringify(alerts)); }
   catch (error) { alert("This browser could not save your price target. Check local storage settings."); return; }
   checkPriceAlerts();
@@ -2072,21 +2088,45 @@ function getFreshVerifiedPrice(product) {
   return fresh.length ? Math.min(...fresh.map(offer => Number(offer.price))) : null;
 }
 
+function getFreshMarketplaceSealedPrice(product) {
+  const checkedAt = Date.parse(marketplaceSnapshot.checkedAt || "");
+  const ageHours = Number.isFinite(checkedAt) ? (Date.now() - checkedAt) / 3600000 : Infinity;
+  if (ageHours < -1 || ageHours > 36) return null;
+  const record = (marketplaceSnapshot.products || []).find(item => item.key === marketplaceProductKey(product));
+  const offers = Array.isArray(record?.offers) ? record.offers : [];
+  const eligible = offers.filter(offer => {
+    const hasTotal = offer && offer.totalPrice !== null && offer.totalPrice !== undefined &&
+      Number.isFinite(Number(offer.totalPrice)) && Number(offer.totalPrice) > 0;
+    return hasTotal && offer.url && Number(offer.price) > 0 &&
+      Number(offer.matchConfidence) >= 90 && conditionRankForSort(offer.condition) === 0;
+  });
+  return eligible.length ? Math.min(...eligible.map(offer => Number(offer.totalPrice))) : null;
+}
+
+function getCurrentPriceForAlert(product, source) {
+  return source === "marketplace"
+    ? getFreshMarketplaceSealedPrice(product)
+    : getFreshVerifiedPrice(product);
+}
+
 function checkPriceAlerts() {
   const alerts = getPriceAlerts();
   let changed = false;
   Object.entries(alerts).forEach(([name, alertData]) => {
     const product = products.find(item => item.name === name);
-    const price = product ? getFreshVerifiedPrice(product) : null;
+    const source = getPriceAlertSource(alertData);
+    const price = product ? getCurrentPriceForAlert(product, source) : null;
     if (price === null || price > Number(alertData.target) || alertData.firedAt) return;
     alertData.firedAt = new Date().toISOString();
     alertData.triggerPrice = Math.round(price * 100) / 100;
     changed = true;
     if ("Notification" in window && Notification.permission === "granted") {
       try {
-        new Notification("Shaqs Poke Stock price target reached", {
-          body: name + " is A$" + price.toFixed(2) + " (your target: A$" + Number(alertData.target).toFixed(2) + "). Check the retailer listing before buying."
-        });
+        const body = source === "marketplace"
+          ? "eBay AU sealed-listing reference for " + name + " is A$" + price.toFixed(2) +
+            " (your target: A$" + Number(alertData.target).toFixed(2) + "). Confirm the listing is active and the delivered total at checkout."
+          : name + " is A$" + price.toFixed(2) + " (your target: A$" + Number(alertData.target).toFixed(2) + "). Check the retailer listing before buying.";
+        new Notification("Shaqs Poke Stock price target reached", { body });
       } catch (error) { console.warn("Browser notification could not be shown.", error); }
     }
   });
@@ -2106,17 +2146,57 @@ function renderPriceAlerts() {
   }
   container.innerHTML = alerts.map(([name, item]) => {
     const product = products.find(entry => entry.name === name);
-    const current = product ? getFreshVerifiedPrice(product) : null;
+    const source = getPriceAlertSource(item);
+    const sourceLabel = getPriceAlertSourceLabel(source);
+    const current = product ? getCurrentPriceForAlert(product, source) : null;
+    const waiting = source === "marketplace"
+      ? "Waiting for a recent sealed eBay AU listing with a known delivered total"
+      : "Waiting for a fresh verified retailer price";
     const state = item.firedAt
       ? "Target reached at A$" + Number(item.triggerPrice).toFixed(2) + " · " + new Date(item.firedAt).toLocaleString("en-AU")
       : current === null
-        ? "Waiting for a fresh verified retailer price"
+        ? waiting
         : current <= Number(item.target)
-          ? "Target met — check retailer details"
-          : "Fresh verified price: A$" + current.toFixed(2);
-    const encodedName = encodeURIComponent(name);
+          ? (source === "marketplace" ? "Target met — verify listing and checkout total" : "Target met — check retailer details")
+          : "Current " + (source === "marketplace" ? "sealed eBay AU reference" : "verified retailer") + " price: A$" + current.toFixed(2);
     return '<div class="price-alert-row"><div><strong>' + escapeHtml(name) +
-      '</strong><div class="price-alert-status">Target A$' + Number(item.target).toFixed(2) +
+      '</strong><div class="price-alert-status">' + escapeHtml(sourceLabel) + ' · Target A
+
+async function enablePriceNotifications() {
+  const label = document.getElementById("priceAlertPermission");
+  if (!("Notification" in window)) {
+    if (label) label.textContent = "This browser does not support notifications; in-page targets still work.";
+    return;
+  }
+  try {
+    const permission = await Notification.requestPermission();
+    if (label) label.textContent = permission === "granted"
+      ? "Browser notifications enabled for this site while it is open."
+      : "Notifications not enabled. You can still see target status here.";
+    checkPriceAlerts();
+    renderPriceAlerts();
+  } catch (error) {
+    if (label) label.textContent = "Could not request permission; in-page targets still work.";
+  }
+}
+
+function scrollToSection(id) {
+
+  document
+    .getElementById(id)
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
+ + Number(item.target).toFixed(2) +
       ' · ' + escapeHtml(state) + '</div></div><button type="button" data-name="' + escapeHtml(name) +
       '" onclick="removePriceAlert(this.getAttribute(&quot;data-name&quot;))">Remove</button></div>';
   }).join("");
