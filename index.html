@@ -956,6 +956,7 @@ button,nav button,.filter-buttons button { touch-action:manipulation; }
     <select id="dealSort" onchange="renderProducts()" style="padding:10px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#172033;">
       <option value="catalogue">Catalogue order</option>
       <option value="verified-price">Lowest fresh verified retailer price</option>
+      <option value="marketplace-quality">Marketplace quality: sealed + delivery + seller</option>
     </select>
     <small style="color:#64748b;">Unverified or stale listings are not ranked as verified deals.</small>
   </div>
@@ -1425,6 +1426,15 @@ function renderStores() {
   }).join("");
 }
 
+function conditionRankForSort(condition) {
+  const value = String(condition || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  if (/new factory sealed|factory sealed|brand new|new sealed/.test(value)) return 0;
+  if (value === "new") return 1;
+  if (!value || value === "not specified") return 2;
+  if (/used|open box|opened|no shrink|without shrink|damaged|for parts/.test(value)) return 3;
+  return 2;
+}
+
 function renderProducts() {
 
   const container = document.getElementById("products");
@@ -1510,6 +1520,62 @@ return matchesSearch && matchesFilter;
       if (aPrice === null) return 1;
       if (bPrice === null) return -1;
       return aPrice - bPrice;
+    });
+  } else if (dealSort === "marketplace-quality") {
+    const checkedAt = Date.parse(marketplaceSnapshot.checkedAt || "");
+    const ageHours = Number.isFinite(checkedAt) ? (Date.now() - checkedAt) / 3600000 : Infinity;
+    const snapshotFresh = ageHours >= -1 && ageHours <= 36;
+    const offerFor = product => {
+      if (!snapshotFresh) return null;
+      const record = (marketplaceSnapshot.products || []).find(item => item.key === marketplaceProductKey(product));
+      const offers = Array.isArray(record?.offers) ? record.offers : [];
+      const conditionRank = condition => {
+        const value = String(condition || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+        if (/new factory sealed|factory sealed|brand new|new sealed/.test(value)) return 0;
+        if (value === "new") return 1;
+        if (!value || value === "not specified") return 2;
+        if (/used|open box|opened|no shrink|without shrink|damaged|for parts/.test(value)) return 3;
+        return 2;
+      };
+      return offers.filter(offer => Number(offer.price) > 0 && offer.url && Number(offer.matchConfidence) >= 70)
+        .sort((a, b) => {
+          const conditionDiff = conditionRank(a.condition) - conditionRank(b.condition);
+          if (conditionDiff) return conditionDiff;
+          const aTotal = a.totalPrice !== null && Number.isFinite(Number(a.totalPrice));
+          const bTotal = b.totalPrice !== null && Number.isFinite(Number(b.totalPrice));
+          if (aTotal !== bTotal) return aTotal ? -1 : 1;
+          const aFeedback = Number(a.sellerFeedbackPercent);
+          const bFeedback = Number(b.sellerFeedbackPercent);
+          const aHasFeedback = a.sellerFeedbackPercent !== null && a.sellerFeedbackPercent !== undefined && Number.isFinite(aFeedback);
+          const bHasFeedback = b.sellerFeedbackPercent !== null && b.sellerFeedbackPercent !== undefined && Number.isFinite(bFeedback);
+          if (aHasFeedback !== bHasFeedback) return aHasFeedback ? -1 : 1;
+          if (aHasFeedback && bHasFeedback && aFeedback !== bFeedback) return bFeedback - aFeedback;
+          const matchDiff = Number(b.matchConfidence || 0) - Number(a.matchConfidence || 0);
+          if (matchDiff) return matchDiff;
+          return Number(a.totalPrice ?? a.price) - Number(b.totalPrice ?? b.price);
+        })[0] || null;
+    };
+    filtered = [...filtered].sort((a, b) => {
+      const aOffer = offerFor(a);
+      const bOffer = offerFor(b);
+      if (!aOffer && !bOffer) return a.name.localeCompare(b.name);
+      if (!aOffer) return 1;
+      if (!bOffer) return -1;
+      const aRank = conditionRankForSort(aOffer.condition);
+      const bRank = conditionRankForSort(bOffer.condition);
+      if (aRank !== bRank) return aRank - bRank;
+      const aHasTotal = aOffer.totalPrice !== null && Number.isFinite(Number(aOffer.totalPrice));
+      const bHasTotal = bOffer.totalPrice !== null && Number.isFinite(Number(bOffer.totalPrice));
+      if (aHasTotal !== bHasTotal) return aHasTotal ? -1 : 1;
+      const aFeedback = Number(aOffer.sellerFeedbackPercent);
+      const bFeedback = Number(bOffer.sellerFeedbackPercent);
+      const aFeedbackOk = aOffer.sellerFeedbackPercent !== null && aOffer.sellerFeedbackPercent !== undefined && Number.isFinite(aFeedback);
+      const bFeedbackOk = bOffer.sellerFeedbackPercent !== null && bOffer.sellerFeedbackPercent !== undefined && Number.isFinite(bFeedback);
+      if (aFeedbackOk !== bFeedbackOk) return aFeedbackOk ? -1 : 1;
+      if (aFeedbackOk && bFeedbackOk && aFeedback !== bFeedback) return bFeedback - aFeedback;
+      const matchDiff = Number(bOffer.matchConfidence || 0) - Number(aOffer.matchConfidence || 0);
+      if (matchDiff) return matchDiff;
+      return Number(aOffer.totalPrice ?? aOffer.price) - Number(bOffer.totalPrice ?? bOffer.price);
     });
   }
 
