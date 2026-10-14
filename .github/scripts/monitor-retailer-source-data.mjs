@@ -61,10 +61,11 @@ function jsonScripts(html) {
 function extractEvidence(html, expectedName) {
   const expected = expectedName.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
   const objects = jsonScripts(html).flatMap(value => collectObjects(value));
-  const matched = objects.filter(object => {
+  const roots = objects.filter(object => {
     const name = String(object.name ?? object.productName ?? object.title ?? '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
     return name && (name.includes(expected) || expected.includes(name));
-  }).slice(0, 80);
+  });
+  const matched = roots.flatMap(root => collectObjects(root)).slice(0, 200);
   let price = null, availability = 'unknown', title = null;
   const quantities = [];
   for (const object of matched) {
