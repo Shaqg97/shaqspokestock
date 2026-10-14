@@ -30,12 +30,7 @@ jobs:
             ['PRICE-DROP / DEALS', process.env.DISCORD_PRICE_DROP_WEBHOOK_URL || main],
             ['NEW RELEASES', process.env.DISCORD_RELEASE_WEBHOOK_URL || main],
           ];
-          const sent = new Set();
           for (const [label, url] of channels) {
-            if (sent.has(url)) {
-              console.log(label + ': uses a webhook already tested above; no duplicate message sent.');
-              continue;
-            }
             const parsed = new URL(url);
             if (parsed.protocol !== 'https:' || !['discord.com', 'discordapp.com'].includes(parsed.hostname) || !parsed.pathname.startsWith('/api/webhooks/')) {
               throw new Error(label + ': configured URL is not a valid Discord webhook URL.');
@@ -50,7 +45,6 @@ jobs:
               }),
             });
             if (!response.ok) throw new Error(label + ' webhook rejected test message (HTTP ' + response.status + ').');
-            sent.add(url);
             console.log(label + ': test message delivered.');
           }
           console.log('All distinct configured Discord notification webhooks passed.');
