@@ -82,7 +82,8 @@ function extractEvidence(html, expectedName) {
     if (typeof name === 'string' && name.length < 240) title ??= name;
     const currency = String(object.priceCurrency ?? object.currency ?? object.priceSpecification?.priceCurrency ?? 'AUD').toUpperCase();
     const amount = Number(object.price ?? object.lowPrice ?? object.priceSpecification?.price);
-    if (currency === 'AUD' && Number.isFinite(amount) && amount > 0 && amount < 100000) price ??= Math.round(amount * 100) / 100;
+    // Reject implausibly large Pokémon TCG prices instead of displaying values that may be minor-unit amounts or unrelated page data.
+    if (currency === 'AUD' && Number.isFinite(amount) && amount > 0 && amount < 5000) price ??= Math.round(amount * 100) / 100;
     const raw = String(object.availability ?? object.stockStatus ?? object.inventoryStatus ?? '').toLowerCase();
     if (/pre.?order|presale/.test(raw)) availability = 'pre-order';
     else if (/outofstock|out of stock|sold.?out|discontinued/.test(raw)) { if (availability !== 'pre-order') availability = 'out of stock'; }
