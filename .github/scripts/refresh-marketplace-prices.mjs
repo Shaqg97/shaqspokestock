@@ -235,10 +235,19 @@ const historyProducts = snapshots.map(product => {
   const comparable = (product.offers || [])
     .map(offer => offer.totalPrice !== null && Number.isFinite(Number(offer.totalPrice)) ? Number(offer.totalPrice) : Number(offer.price))
     .filter(price => Number.isFinite(price) && price > 0);
+  // A sealed-only series avoids comparing an opened/used listing with a sealed product.
+  // Require a known delivered total for this series so shipping uncertainty does not
+  // create a false discount signal.
+  const sealedComparable = (product.offers || [])
+    .filter(offer => /factory sealed|new sealed|brand new sealed|sealed new|new\/factory sealed/i.test(String(offer.condition || "")))
+    .filter(offer => offer.totalPrice !== null && Number.isFinite(Number(offer.totalPrice)) && Number(offer.totalPrice) > 0)
+    .map(offer => Number(offer.totalPrice));
   return {
     key: product.key,
     lowestPrice: comparable.length ? Number(Math.min(...comparable).toFixed(2)) : null,
     offerCount: comparable.length,
+    lowestSealedPrice: sealedComparable.length ? Number(Math.min(...sealedComparable).toFixed(2)) : null,
+    sealedOfferCount: sealedComparable.length,
   };
 });
 historyByDate.set(historyDate, { date: historyDate, products: historyProducts });
