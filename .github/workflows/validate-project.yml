@@ -51,6 +51,10 @@ jobs:
           node --check .github/scripts/refresh-marketplace-prices.mjs
           node --check .github/scripts/test-marketplace-quality-rules.mjs
           node --check .github/scripts/test-marketplace-snapshot-quality.mjs
+          node --check .github/scripts/test-product-image-quality.mjs
+
+      - name: Test product image data quality
+        run: node --test .github/scripts/test-product-image-quality.mjs
 
       - name: Test marketplace quality ranking safeguards
         run: node --test .github/scripts/test-marketplace-quality-rules.mjs
