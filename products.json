@@ -1203,12 +1203,6 @@
         "price": 6.45,
         "stock": "Check Retailer",
         "url": "https://www.gameology.com.au/products/pokemon-tcg-abyss-eye-single-booster-pack-m5-japanese"
-      },
-      {
-        "name": "TC Game",
-        "price": 0,
-        "stock": "Check Retailer",
-        "url": "https://tcgame.com.au/products/pokemon-abyss-eye-booster-pack-japanese"
       }
     ],
     "restock": false
