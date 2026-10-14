@@ -957,7 +957,7 @@ button,nav button,.filter-buttons button { touch-action:manipulation; }
 
   <section class="price-alert-tools" aria-labelledby="price-alert-heading">
     <h3 id="price-alert-heading">🎯 Your price targets</h3>
-    <p>Set a target price on any product card. Targets are saved only in this browser. Alerts can evaluate freshly verified retailer prices when you open or refresh the site; this static site cannot monitor in the background while closed. Catalogue-only and marketplace prices never trigger a verified retailer alert.</p>
+    <p>Set a target on any product card and choose a source. Targets are saved only in this browser. Verified-retailer alerts use fresh retailer checks; eBay alerts use recent factory-sealed listings with a known delivered total and are marketplace references, not stock verification. Checks run when you open or refresh the site; this static site cannot monitor in the background while closed.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
       <button class="price-alert-notify" type="button" onclick="enablePriceNotifications()">🔔 Enable browser notifications</button>
       <span id="priceAlertPermission" class="price-alert-status">In-page alerts work without notification permission.</span>
@@ -1959,7 +1959,11 @@ ${renderMarketplaceOffers(product)}
         <div class="price-alert-form" aria-label="Set a price target for ${escapeHtml(product.name)}">
           <label for="price-target-${encodeURIComponent(product.name).replace(/%/g, '')}" style="font-size:12px;font-weight:700;">🎯 Alert at A$</label>
           <input id="price-target-${encodeURIComponent(product.name).replace(/%/g, '')}" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="Target price" value="${getPriceAlert(product.name) ? getPriceAlert(product.name).target : ''}" aria-label="Target price in Australian dollars for ${escapeHtml(product.name)}">
-          <button type="button" onclick="savePriceAlert(${JSON.stringify(product.name).replace(/"/g, '&quot;')}, this.parentElement.querySelector('input').value)">Save target</button>
+          <select class="price-alert-source" aria-label="Price alert source for ${escapeHtml(product.name)}" onchange="this.title=this.options[this.selectedIndex].text">
+            <option value="retailer" ${!getPriceAlert(product.name) || (getPriceAlert(product.name).source || 'retailer') === 'retailer' ? 'selected' : ''}>Verified retailer</option>
+            <option value="marketplace" ${getPriceAlert(product.name)?.source === 'marketplace' ? 'selected' : ''}>Sealed eBay AU total</option>
+          </select>
+          <button type="button" onclick="savePriceAlert(${JSON.stringify(product.name).replace(/"/g, '&quot;')}, this.parentElement.querySelector('input').value, this.parentElement.querySelector('select').value)">Save target</button>
         </div>
         <div class="price-alert-status">${getPriceAlertStatusMarkup(product.name)}</div>
         ${dealButton}
