@@ -49,6 +49,10 @@ jobs:
           node --check .github/scripts/monitor-priority-retailers.mjs
           node --check .github/scripts/monitor-retailer-source-data.mjs
           node --check .github/scripts/refresh-marketplace-prices.mjs
+          node --check .github/scripts/test-marketplace-quality-rules.mjs
+
+      - name: Test marketplace quality ranking safeguards
+        run: node --test .github/scripts/test-marketplace-quality-rules.mjs
 
       - name: Test Discord alert safety rules
         run: node --test .github/scripts/test-discord-alert-rules.mjs
