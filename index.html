@@ -761,6 +761,17 @@ label[for="typeFilter"] { color:#cbd5e1; }
 #source-tracker p { color:#a7b4c7 !important; }
 #sourceTrackerSummary { background:#0f172a; }
 #sourceTrackerRows > * { background:#172337 !important; color:#e2e8f0; border-color:#334155 !important; }
+#external-stock-sources > p { color:#a7b4c7 !important; }
+
+.external-source-card{min-width:0;padding:16px;border:1px solid #dbe3ed;border-radius:14px;background:#f8fafc;color:#172033}
+.external-source-card h3{font-size:16px;line-height:1.35;margin-bottom:7px}
+.external-source-card p{font-size:13px;line-height:1.55;color:#526078;margin-bottom:10px}
+.external-source-card .source-status{display:inline-block;margin-bottom:9px;padding:4px 8px;border-radius:999px;background:#e2e8f0;color:#334155;font-size:11px;font-weight:800}
+.external-source-card a{display:inline-flex;align-items:center;gap:6px;color:#075985;font-weight:800;text-decoration:none}
+.external-source-card a:hover{text-decoration:underline}
+.external-source-card .source-next-step{font-size:12px;color:#64748b;margin-top:9px;margin-bottom:0}
+@media(max-width:600px){.external-source-grid{grid-template-columns:1fr!important}.external-source-card{padding:14px}}
+
 #stores .set { color:#a7b4c7; }
 footer { color:#8190a5; }
 a { overflow-wrap:anywhere; }
@@ -1141,6 +1152,16 @@ button,nav button,.filter-buttons button { touch-action:manipulation; }
   <p style="color:#64748b;font-size:12px;line-height:1.5;margin-top:14px;">Sources: first-party product pages from retailers in the current catalogue, including BIG W, Kmart, Target, JB Hi-Fi, EB Games and specialist Australian card shops where accessible. Availability can change and is not a guarantee of shelf stock.</p>
 </section>
 
+<section id="external-stock-sources" aria-labelledby="external-stock-sources-title" style="margin:28px 0;padding:clamp(18px,3vw,28px);background:#111c2e;border:1px solid #334155;border-radius:20px;box-shadow:0 5px 18px #10182c0b;color:#e2e8f0;">
+  <div class="section-header" style="margin-top:0;">
+    <h2 id="external-stock-sources-title">🔎 More stock & price sources</h2>
+  </div>
+  <p style="color:#64748b;font-size:14px;line-height:1.6;margin-bottom:16px;">Cross-check another tracker when a retailer is blocked or a price looks unusual. These are clearly labelled external references—not feeds imported into Shaqs Poke Stock—so they cannot silently overwrite our verified retailer data or trigger duplicate Discord pings.</p>
+  <div id="externalStockSourcesStatus" class="loading" style="padding:16px;">Loading external source directory…</div>
+  <div id="externalStockSourcesRows" class="external-source-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px;"></div>
+  <p style="color:#64748b;font-size:12px;line-height:1.5;margin-top:14px;">Always confirm the product, stock and final delivered price at the retailer checkout. Integration is enabled only when a provider offers an authorised API/feed or written permission.</p>
+</section>
+
 <section id="stores">
 
   <div class="section-header">
@@ -1192,6 +1213,7 @@ async function loadProducts() {
     checkPriceAlerts();
     renderPriceAlerts();
     loadSourceTracker();
+    loadExternalStockSources();
 
   } catch (error) {
 
@@ -2264,6 +2286,37 @@ async function enablePriceNotifications() {
     if (label) label.textContent = "Could not request permission; in-page targets still work.";
   }
 }
+
+async function loadExternalStockSources() {
+  const status = document.getElementById("externalStockSourcesStatus");
+  const rows = document.getElementById("externalStockSourcesRows");
+  if (!status || !rows) return;
+  try {
+    const response = await fetch("external-stock-sources.json", { cache: "no-store" });
+    if (!response.ok) throw new Error("External source directory is not available");
+    const data = await response.json();
+    const sources = Array.isArray(data.sources) ? data.sources : [];
+    if (!sources.length) throw new Error("No external sources are configured");
+    rows.innerHTML = sources.map(source => {
+      const safeUrl = /^https:\/\//i.test(String(source.url || "")) ? String(source.url) : "";
+      const link = safeUrl
+        ? '<a href="' + escapeHtml(safeUrl) + '" target="_blank" rel="noopener noreferrer">Open ' + escapeHtml(source.name) + ' ↗</a>'
+        : '<span>External link unavailable</span>';
+      return '<article class="external-source-card">' +
+        '<span class="source-status">' + escapeHtml(source.statusLabel || "External reference") + '</span>' +
+        '<h3>' + escapeHtml(source.name || "External source") + '</h3>' +
+        '<p>' + escapeHtml(source.description || "") + '</p>' +
+        link +
+        '<p class="source-next-step"><strong>Next step:</strong> ' + escapeHtml(source.nextStep || "Confirm access and usage terms.") + '</p>' +
+        '</article>';
+    }).join("");
+    status.textContent = sources.length + " sources reviewed · " + (data.checkedAtLabel || "status checked before integration");
+  } catch (error) {
+    status.textContent = "External source directory unavailable. The retailer catalogue and direct-source tracker still work.";
+    console.warn("External stock-source directory unavailable.", error);
+  }
+}
+
 
 function scrollToSection(id) {
 

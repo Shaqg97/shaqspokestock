@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "checkedAtLabel": "Reviewed 14 October 2026",
+  "policy": "External services are linked for manual cross-checking unless an authorised API/feed or written permission is confirmed. Do not scrape, mirror, or redistribute third-party tracker data against its terms.",
+  "sources": [
+    {
+      "id": "cardwatch-au",
+      "name": "CardWatch AU",
+      "url": "https://www.cardwatch.com.au/stock/available",
+      "statusLabel": "Manual cross-check only",
+      "integrationMode": "external-link",
+      "description": "Australian Pokémon TCG stock, release and restock reference. CardWatch's current terms prohibit scraping, mirroring, bulk re-extraction and redistribution of its catalogue, pricing and stock data.",
+      "nextStep": "Use the public page as a manual cross-check. Do not ingest its data unless CardWatch provides written permission or an authorised integration."
+    },
+    {
+      "id": "cardtracker-api",
+      "name": "CardTracker.au Developer API",
+      "url": "https://cardtracker.au/api",
+      "statusLabel": "Integration candidate · access required",
+      "integrationMode": "pending-authorisation",
+      "description": "Advertises market and deals APIs plus retailer-restock webhooks. API/webhook pricing varies by use case; no access credentials or approved schema are configured in this repository.",
+      "nextStep": "Request API documentation, pricing, allowed display/cache use and webhook payload examples. Build the adapter only after access and terms are confirmed."
+    },
+    {
+      "id": "dexcompare",
+      "name": "DexCompare AU",
+      "url": "https://www.dexcompare.app/au",
+      "statusLabel": "Manual price cross-check",
+      "integrationMode": "external-link",
+      "description": "Australian sealed Pokémon product price and availability comparison across multiple stores. No public API/feed permission has been verified for this project.",
+      "nextStep": "Compare selected catalogue products manually; ask the operator about an authorised data feed before automation."
+    },
+    {
+      "id": "tcg-tracker-au",
+      "name": "TCG Tracker AU",
+      "url": "https://www.tcgtrackerapp.com/",
+      "statusLabel": "External alert reference",
+      "integrationMode": "external-link",
+      "description": "Australian TCG restock alerts across major retailers. Useful as a second alert channel, but no supported integration endpoint has been verified.",
+      "nextStep": "Use as an independent comparison, not a source to copy in bulk. Ask the operator about an official integration if needed."
+    },
+    {
+      "id": "buywisely",
+      "name": "BuyWisely",
+      "url": "https://buywisely.com.au/au/about",
+      "statusLabel": "General price-history reference",
+      "integrationMode": "external-link",
+      "description": "Broad Australian price comparison and price-drop tracking. Coverage for specific Pokémon TCG products and stock status may vary.",
+      "nextStep": "Use for occasional price-history cross-checks; do not treat it as confirmed Pokémon stock."
+    }
+  ]
+}

@@ -59,6 +59,24 @@ jobs:
         run: |
           node --input-type=module -e "import fs from 'node:fs'; const data=JSON.parse(fs.readFileSync('retailer-source-data.json','utf8')); if(!Array.isArray(data.catalogueHostCoverage)||data.catalogueHostCoverage.length!==data.retailerCount) throw new Error('Retailer host coverage count mismatch'); if(!Array.isArray(data.observations)||data.observations.length!==data.observationCount) throw new Error('Retailer observation count mismatch'); const statuses=new Set(['ok','blocked','skipped','http-error','error']); const availability=new Set(['in stock','pre-order','out of stock','unknown']); for(const item of data.observations){ if(!item.key||!item.host||!item.url||!statuses.has(item.fetchStatus)||!availability.has(item.availability)) throw new Error('Invalid retailer observation for '+(item.key||'unknown key')); if(['blocked','skipped','http-error','error'].includes(item.fetchStatus)&&item.availability!=='unknown') throw new Error('Unavailable source must remain unknown: '+item.key); for(const q of item.quantities||[]) if(!Number.isInteger(q.quantity)||q.quantity<0) throw new Error('Invalid explicit quantity: '+item.key); } console.log('Validated '+data.observations.length+' retailer observations across '+data.retailerCount+' catalogue domains');"
 
+      - name: Validate external stock-source registry
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const data = JSON.parse(fs.readFileSync('external-stock-sources.json', 'utf8'));
+          if (!Array.isArray(data.sources) || data.sources.length < 1) throw new Error('External source registry must contain sources');
+          const ids = new Set();
+          for (const source of data.sources) {
+            if (!source.id || ids.has(source.id)) throw new Error('Missing or duplicate external source id: ' + source.id);
+            ids.add(source.id);
+            for (const field of ['name', 'description', 'statusLabel', 'nextStep']) if (!source[field]) throw new Error('Missing ' + field + ' for ' + source.id);
+            const url = new URL(source.url);
+            if (url.protocol !== 'https:') throw new Error('External source must use HTTPS: ' + source.id);
+            if (!['external-link', 'pending-authorisation'].includes(source.integrationMode)) throw new Error('Unknown integration mode: ' + source.id);
+          }
+          console.log('Validated ' + data.sources.length + ' external source entries');
+          NODE
+
       - name: Check inline website JavaScript syntax
         run: |
           node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); const scripts=[...html.matchAll(/<script\\b[^>]*>([\\s\\S]*?)<\\/script>/gi)].map(match=>match[1]).filter(source=>source.trim()); if(!scripts.length) throw new Error('No inline page JavaScript found'); fs.writeFileSync('/tmp/shaqspokestock-page.js',scripts.join('\\n')); console.log('Extracted '+scripts.length+' inline script block(s)');"
@@ -101,4 +119,4 @@ jobs:
 
       - name: Check required page features
         run: |
-          node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); for(const token of ['products.json','marketplace-prices.json','retailer-source-data.json','source-tracker','function loadSourceTracker','function renderProducts','function setFilter','function toggleFavorite','function isFreshVerifiedStock','function renderMarketplaceOffers','function renderMarketplacePriceHistory','watchlist','My Watchlist','retailerStockLabel','stockCheckStatus','meta name=','prefers-reduced-motion','Buy Now at ','Pre-order at ','Also verified available at','You’ll complete checkout on the retailer’s website.','Search eBay AU','Search Amazon AU','Marketplace quality: sealed + delivery + seller','function conditionRankForSort','sellerFeedbackScore','Seller feedback not supplied']) if(!html.includes(token)) throw new Error('Missing expected page feature: '+token); console.log('Core page features found');"
+          node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); for(const token of ['products.json','marketplace-prices.json','retailer-source-data.json','external-stock-sources.json','external-stock-sources','function loadExternalStockSources','source-tracker','function loadSourceTracker','function renderProducts','function setFilter','function toggleFavorite','function isFreshVerifiedStock','function renderMarketplaceOffers','function renderMarketplacePriceHistory','watchlist','My Watchlist','retailerStockLabel','stockCheckStatus','meta name=','prefers-reduced-motion','Buy Now at ','Pre-order at ','Also verified available at','You’ll complete checkout on the retailer’s website.','Search eBay AU','Search Amazon AU','Marketplace quality: sealed + delivery + seller','function conditionRankForSort','sellerFeedbackScore','Seller feedback not supplied']) if(!html.includes(token)) throw new Error('Missing expected page feature: '+token); console.log('Core page features found');"
