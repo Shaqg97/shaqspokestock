@@ -2,9 +2,13 @@ import { execFileSync } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 
 const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+const stockWebhookUrl = process.env.DISCORD_STOCK_WEBHOOK_URL || webhookUrl;
+const priceDropWebhookUrl = process.env.DISCORD_PRICE_DROP_WEBHOOK_URL || webhookUrl;
+const releaseWebhookUrl = process.env.DISCORD_RELEASE_WEBHOOK_URL || webhookUrl;
 const beforeSha = process.env.BEFORE_SHA;
 const stockAlertRoleId = process.env.DISCORD_STOCK_ALERT_ROLE_ID;
 const priceDropRoleId = process.env.DISCORD_PRICE_DROP_ROLE_ID;
+const releaseAlertRoleId = process.env.DISCORD_RELEASE_ALERT_ROLE_ID;
 
 if (stockAlertRoleId && !/^\d{17,20}$/.test(stockAlertRoleId)) {
   throw new Error('DISCORD_STOCK_ALERT_ROLE_ID must be a Discord role ID made of 17–20 digits.');
@@ -17,14 +21,21 @@ if (!webhookUrl) {
   throw new Error('Add the DISCORD_WEBHOOK_URL repository secret before enabling Discord alerts.');
 }
 
-const parsedWebhookUrl = new URL(webhookUrl);
-if (
-  parsedWebhookUrl.protocol !== 'https:' ||
-  !['discord.com', 'discordapp.com'].includes(parsedWebhookUrl.hostname) ||
-  !parsedWebhookUrl.pathname.startsWith('/api/webhooks/')
-) {
-  throw new Error('DISCORD_WEBHOOK_URL must be a Discord webhook HTTPS URL.');
-}
+const validateWebhook = (value, label) => {
+  if (!value) return;
+  const parsed = new URL(value);
+  if (
+    parsed.protocol !== 'https:' ||
+    !['discord.com', 'discordapp.com'].includes(parsed.hostname) ||
+    !parsed.pathname.startsWith('/api/webhooks/')
+  ) {
+    throw new Error(`${label} must be a Discord webhook HTTPS URL.`);
+  }
+};
+validateWebhook(webhookUrl, 'DISCORD_WEBHOOK_URL');
+validateWebhook(stockWebhookUrl, 'DISCORD_STOCK_WEBHOOK_URL');
+validateWebhook(priceDropWebhookUrl, 'DISCORD_PRICE_DROP_WEBHOOK_URL');
+validateWebhook(releaseWebhookUrl, 'DISCORD_RELEASE_WEBHOOK_URL');
 
 if (!beforeSha) {
   throw new Error('The previous commit could not be identified; no alert was sent.');
@@ -130,25 +141,38 @@ if (alerts.length === 0) {
 const groups = [
   {
     roleId: stockAlertRoleId,
+    webhookUrl: stockWebhookUrl,
     message: 'New stock or pre-order alert(s) just landed.',
     items: alerts.filter((alert) => alert.pingMembers),
   },
   {
     roleId: priceDropRoleId,
+    webhookUrl: priceDropWebhookUrl,
     message: 'A verified price drop just landed.',
     items: alerts.filter((alert) => alert.pingPriceDrops),
   },
   {
+    roleId: releaseAlertRoleId,
+    webhookUrl: releaseWebhookUrl,
+    message: 'A new Pokémon release is being tracked.',
+    items: alerts.filter((alert) => alert.title.startsWith('New release tracked:')),
+  },
+  {
     roleId: null,
+    webhookUrl,
     message: '',
-    items: alerts.filter((alert) => !alert.pingMembers && !alert.pingPriceDrops),
+    items: alerts.filter((alert) =>
+      !alert.pingMembers &&
+      !alert.pingPriceDrops &&
+      !alert.title.startsWith('New release tracked:')
+    ),
   },
 ].filter((group) => group.items.length > 0);
 
 for (const group of groups) {
   for (let index = 0; index < group.items.length; index += 10) {
     const shouldPingRole = Boolean(group.roleId);
-    const response = await fetch(webhookUrl, {
+    const response = await fetch(group.webhookUrl, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
