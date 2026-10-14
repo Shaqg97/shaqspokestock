@@ -1187,29 +1187,52 @@ return matchesSearch && matchesFilter;
         ? cataloguePool.reduce((best, retailer) => Number(retailer.price) < Number(best.price) ? retailer : best)
         : null;
 
+    // If direct retailer checks are blocked/stale, use the latest eBay AU snapshot
+    // as a clearly labelled price alternative. This never changes stock status.
+    const marketplaceRecord = (marketplaceSnapshot.products || []).find(item => item.key === marketplaceProductKey(product));
+    const marketplaceTimestamp = Date.parse(marketplaceSnapshot.checkedAt || "");
+    const marketplaceAgeHours = Number.isFinite(marketplaceTimestamp) ? (Date.now() - marketplaceTimestamp) / 3600000 : null;
+    const marketplaceFresh = marketplaceAgeHours !== null && marketplaceAgeHours >= -1 && marketplaceAgeHours <= 36;
+    const marketplaceCandidates = marketplaceFresh && Array.isArray(marketplaceRecord?.offers)
+      ? marketplaceRecord.offers.filter(offer => Number(offer.price) > 0 && offer.url && Number(offer.matchConfidence) >= 70)
+      : [];
+    const bestMarketplaceOffer = [...marketplaceCandidates].sort((a, b) => {
+      const aTotal = a.totalPrice !== null && Number.isFinite(Number(a.totalPrice)) ? Number(a.totalPrice) : Number(a.price);
+      const bTotal = b.totalPrice !== null && Number.isFinite(Number(b.totalPrice)) ? Number(b.totalPrice) : Number(b.price);
+      return aTotal - bTotal;
+    })[0] || null;
+    const useMarketplaceFallback = !verifiedPurchasableRetailers.length && !!bestMarketplaceOffer;
     const allRetailersSoldOut = retailers.length > 0 &&
       retailers.every(retailer =>
         ["sold out", "out of stock"].includes(String(retailer.stock || "").toLowerCase())
       );
-    const displayPrice = bestRetailer
-      ? Number(bestRetailer.price)
-      : allRetailersSoldOut ? 0 : Number(product.price || 0);
+    const displayPrice = useMarketplaceFallback
+      ? (bestMarketplaceOffer.totalPrice !== null && Number.isFinite(Number(bestMarketplaceOffer.totalPrice)) ? Number(bestMarketplaceOffer.totalPrice) : Number(bestMarketplaceOffer.price))
+      : bestRetailer
+        ? Number(bestRetailer.price)
+        : allRetailersSoldOut ? 0 : Number(product.price || 0);
 
-    const displayStore = bestRetailer
-      ? bestRetailer.name
-      : product.store;
+    const displayStore = useMarketplaceFallback
+      ? "eBay AU marketplace alternative"
+      : bestRetailer
+        ? bestRetailer.name
+        : product.store;
 
-    const displayStock = bestRetailer
-      ? bestRetailer.stock
-      : allRetailersSoldOut ? "Sold Out" : product.stock;
+    const displayStock = useMarketplaceFallback
+      ? "Marketplace listing"
+      : bestRetailer
+        ? bestRetailer.stock
+        : allRetailersSoldOut ? "Sold Out" : product.stock;
 
     // A date alone is not proof of a successful stock check.
-    const stockVerified = isFreshVerifiedStock(bestRetailer);
-    const freshnessLabel = stockVerified
-      ? "Retailer stock verified: " + new Date(bestRetailer.checkedAt + "T00:00:00").toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })
-      : bestRetailer && bestRetailer.stockCheckStatus === "verified" && bestRetailer.checkedAt
-        ? "Last verified " + new Date(bestRetailer.checkedAt + "T00:00:00").toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" }) + " — check is stale"
-        : "Catalogue listing only — live stock not verified";
+    const stockVerified = !useMarketplaceFallback && isFreshVerifiedStock(bestRetailer);
+    const freshnessLabel = useMarketplaceFallback
+      ? "Fallback price from recent eBay AU snapshot — confirm listing, condition and shipping"
+      : stockVerified
+        ? "Retailer stock verified: " + new Date(bestRetailer.checkedAt + "T00:00:00").toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })
+        : bestRetailer && bestRetailer.stockCheckStatus === "verified" && bestRetailer.checkedAt
+          ? "Last verified " + new Date(bestRetailer.checkedAt + "T00:00:00").toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" }) + " — check is stale"
+          : "Catalogue listing only — live stock not verified";
     const stockLabel = stockVerified ? displayStock : "Listed: " + displayStock;
 
     let stockClass = "";
@@ -1267,19 +1290,23 @@ return matchesSearch && matchesFilter;
       `;
     }
 
-    const dealUrl = bestRetailer
-      ? bestRetailer.url
-      : product.url;
+    const dealUrl = useMarketplaceFallback
+      ? bestMarketplaceOffer.url
+      : bestRetailer
+        ? bestRetailer.url
+        : product.url;
 
-    const verifiedPurchasable = verifiedAvailableRetailers.some(retailer => retailer.url === (bestRetailer && bestRetailer.url));
-    const verifiedPreorder = !verifiedPurchasable && verifiedPreorderRetailers.some(retailer => retailer.url === (bestRetailer && bestRetailer.url));
-    const dealActionLabel = verifiedPurchasable
-      ? "🛒 Buy Now at " + bestRetailer.name
-      : verifiedPreorder
-        ? "🛒 Pre-order at " + bestRetailer.name
-        : bestRetailer
-          ? "↗ Check " + bestRetailer.name
-          : "↗ View retailer listing";
+    const verifiedPurchasable = !useMarketplaceFallback && verifiedAvailableRetailers.some(retailer => retailer.url === (bestRetailer && bestRetailer.url));
+    const verifiedPreorder = !useMarketplaceFallback && !verifiedPurchasable && verifiedPreorderRetailers.some(retailer => retailer.url === (bestRetailer && bestRetailer.url));
+    const dealActionLabel = useMarketplaceFallback
+      ? "↗ Check eBay AU alternative"
+      : verifiedPurchasable
+        ? "🛒 Buy Now at " + bestRetailer.name
+        : verifiedPreorder
+          ? "🛒 Pre-order at " + bestRetailer.name
+          : bestRetailer
+            ? "↗ Check " + bestRetailer.name
+            : "↗ View retailer listing";
 
     const dealButton = dealUrl
       ? `
@@ -1293,7 +1320,7 @@ return matchesSearch && matchesFilter;
         >
           ${escapeHtml(dealActionLabel)}
         </a>
-        <p class="checkout-note">${verifiedPurchasable ? "Recently verified available stock — stock can still change." : verifiedPreorder ? "Recently verified pre-order listing — confirm release and terms with the retailer." : "No retailer currently has freshly verified availability for this item. Check the retailer for current stock and price."} You’ll complete checkout on the retailer’s website.</p>
+        <p class="checkout-note">${useMarketplaceFallback ? "Retailer checks are not currently verified, so this is the next-best recent eBay AU price alternative — not a retailer stock confirmation. Check condition, seller, shipping and final checkout price." : verifiedPurchasable ? "Recently verified available stock — stock can still change." : verifiedPreorder ? "Recently verified pre-order listing — confirm release and terms with the retailer." : "No retailer currently has freshly verified availability for this item. Check the retailer for current stock and price."} You’ll complete checkout on the retailer’s website.</p>
         ${verifiedAvailableRetailers.filter(retailer => retailer.url && retailer.url !== (bestRetailer && bestRetailer.url)).length ? `
           <div class="available-retailers" aria-label="Other retailers with recently verified stock">
             <strong>Also verified available at:</strong>
