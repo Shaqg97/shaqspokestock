@@ -1089,7 +1089,8 @@
         "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-pitch-black-elite-trainer-box"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://novabreak.com/cdn/shop/files/pitchblacketb.png?v=1780501051"
   },
   {
     "name": "Mega Evolution—Chaos Rising Booster Box",
@@ -1110,7 +1111,8 @@
         "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-chaos-rising-booster-box"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://myshopville.com/cdn/shop/files/pokemon-tcg-mega-evolution-chaos-rising-booster-box-36-packs-mega-greninja-ex-cover.jpg"
   },
   {
     "name": "Mega Evolution—Chaos Rising ETB",
@@ -1131,7 +1133,8 @@
         "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-chaos-rising-elite-trainer-box"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://www.chiefcards.co.uk/cdn/shop/files/Chaos-Rising-Elite-Trainer-Box.jpg?v=1779646790"
   },
   {
     "name": "30th Celebration Poster Collection",
@@ -1152,7 +1155,8 @@
         "url": "https://treasurevaultau.com/collections/30th-celebration"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://primary.jwwb.nl/public/h/t/i/temp-zjpebgcobmaxydcmrfwb/p11453_30th_celebration_3d_poster_collection_front_en-3164x2939-a0b353a-high.jpg"
   },
   {
     "name": "30th Celebration Knock Out Collection",
@@ -1173,7 +1177,8 @@
         "url": "https://treasurevaultau.com/products/pokemon-tcg-30th-celebration-knock-out-collection"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://www.pokebox.com.au/cdn/shop/files/Pokemon-TCG-30th-Celebration-Knock-Out-Collection_EN.jpg?v=1784249816"
   },
   {
     "name": "30th Celebration Tech Sticker Collection",
@@ -1194,7 +1199,8 @@
         "url": "https://treasurevaultau.com/collections/30th-celebration"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://target.scene7.com/is/image/Target/GUEST_138b6053-6f06-48b9-99fb-21fee8b3194f"
   },
   {
     "name": "Abyss Eye M5 Japanese Booster Pack",
@@ -1215,7 +1221,8 @@
         "url": "https://www.gameology.com.au/products/pokemon-tcg-abyss-eye-single-booster-pack-m5-japanese"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://cdn.shopify.com/s/files/1/0586/9243/5991/files/JapanesePokemon_AbyssEye_BoosterPack_EternaCards-1.png?v=1776679494"
   },
   {
     "name": "Ninja Spinner M4 Japanese Booster Pack",
@@ -1242,7 +1249,8 @@
         "url": "https://lightofcards.com.au/products/single-pack-pokemon-tcg-m4-ninja-spinner-jp"
       }
     ],
-    "restock": false
+    "restock": false,
+    "image": "https://www.pokeboxusa.com/cdn/shop/files/Screenshot2026-03-13145505.png?v=1773503489&width=863"
   },
   {
     "name": "Ninja Spinner M4 10-Pack Bundle",
@@ -1291,5 +1299,102 @@
       }
     ],
     "restock": false
+  },
+  {
+    "name": "Mega Evolution—Pitch Black Booster Bundle",
+    "set": "Mega Evolution—Pitch Black",
+    "language": "English",
+    "type": "Booster Bundle",
+    "store": "Kmart",
+    "price": 50,
+    "stock": "Check Retailer",
+    "releaseDate": "2026-07-17",
+    "url": "https://www.kmart.com.au/product/pokemon-trading-card-game%3A-mega-evolution-pitch-black-booster-bundle-43788798/",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Kmart",
+        "price": 50,
+        "stock": "Check Retailer",
+        "url": "https://www.kmart.com.au/product/pokemon-trading-card-game%3A-mega-evolution-pitch-black-booster-bundle-43788798/",
+        "checkedAt": "2026-10-14"
+      },
+      {
+        "name": "PokéBox",
+        "price": 79.99,
+        "stock": "Check Retailer",
+        "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me05-pitch-black-booster-bundle",
+        "checkedAt": "2026-10-14"
+      },
+      {
+        "name": "BIG W",
+        "price": 84.99,
+        "stock": "Check Retailer",
+        "url": "https://www.bigw.com.au/product/pokemon-tcg-mega-evolutions-pitch-black-booster-bundle/p/9905328057",
+        "checkedAt": "2026-10-14"
+      }
+    ],
+    "restock": false,
+    "image": "https://i5.walmartimages.com/asr/485fa741-4fec-412a-92bf-da9e93dd87ff.d49d6eee45fce23b9da1ec69f4ea098f.jpeg"
+  },
+  {
+    "name": "Mega Evolution—Chaos Rising Booster Bundle",
+    "set": "Mega Evolution—Chaos Rising",
+    "language": "English",
+    "type": "Booster Bundle",
+    "store": "Kmart",
+    "price": 50,
+    "stock": "Check Retailer",
+    "releaseDate": "2026-05-22",
+    "url": "https://www.kmart.com.au/product/pokemon-trading-card-game%3A-mega-evolution-chaos-rising-booster-bundle-43756063/",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Kmart",
+        "price": 50,
+        "stock": "Check Retailer",
+        "url": "https://www.kmart.com.au/product/pokemon-trading-card-game%3A-mega-evolution-chaos-rising-booster-bundle-43756063/",
+        "checkedAt": "2026-10-14"
+      },
+      {
+        "name": "PokéBox",
+        "price": 74.99,
+        "stock": "Check Retailer",
+        "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me04-chaos-rising-booster-bundle",
+        "checkedAt": "2026-10-14"
+      },
+      {
+        "name": "BIG W",
+        "price": 79.95,
+        "stock": "Check Retailer",
+        "url": "https://www.bigw.com.au/product/mega-evolution-chaos-rising-booster-bundle-pokemon-tcg/p/9905448084",
+        "checkedAt": "2026-10-14"
+      }
+    ],
+    "restock": false,
+    "image": "https://www.gamery.com.au/cdn/shop/files/4_d7df43e9-c51a-4bdc-ad51-16678c8bb877.png?v=1774350378&width=1445"
+  },
+  {
+    "name": "30th Celebration Sylveon ex / Greninja ex Tin (Assorted)",
+    "set": "30th Celebration",
+    "language": "English",
+    "type": "Tin",
+    "store": "Warhold",
+    "price": 0,
+    "stock": "Coming Soon",
+    "releaseDate": "2026-12-04",
+    "url": "https://www.warhold.com.au/product/pokemon-tcg-30th-celebration-tin",
+    "status": "Upcoming",
+    "retailers": [
+      {
+        "name": "Warhold",
+        "price": 0,
+        "stock": "Coming Soon",
+        "url": "https://www.warhold.com.au/product/pokemon-tcg-30th-celebration-tin",
+        "checkedAt": "2026-10-14"
+      }
+    ],
+    "restock": false,
+    "image": "https://tcgplayer-cdn.tcgplayer.com/product/704151_in_1000x1000.jpg"
   }
 ]
