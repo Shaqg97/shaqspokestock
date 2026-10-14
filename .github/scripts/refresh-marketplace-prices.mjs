@@ -218,6 +218,32 @@ if (warnings.length) {
   throw new Error('eBay price refresh had ' + warnings.length + ' failed catalogue search(es); existing snapshot preserved to prevent stale prices appearing fresh.');
 }
 
+// Keep a compact daily history of the lowest comparable eBay AU offer per
+// catalogue product. History is a trend reference, not proof of retailer stock.
+const historyByDate = new Map();
+for (const point of Array.isArray(previousSnapshot.history) ? previousSnapshot.history : []) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(point.date || '')) || !Array.isArray(point.products)) continue;
+  historyByDate.set(point.date, {
+    date: point.date,
+    products: point.products.filter(item => item && typeof item.key === 'string' &&
+      (item.lowestPrice === null || (Number.isFinite(Number(item.lowestPrice)) && Number(item.lowestPrice) > 0)) &&
+      Number.isInteger(item.offerCount) && item.offerCount >= 0)
+  });
+}
+const historyDate = today.slice(0, 10);
+const historyProducts = snapshots.map(product => {
+  const comparable = (product.offers || [])
+    .map(offer => offer.totalPrice !== null && Number.isFinite(Number(offer.totalPrice)) ? Number(offer.totalPrice) : Number(offer.price))
+    .filter(price => Number.isFinite(price) && price > 0);
+  return {
+    key: product.key,
+    lowestPrice: comparable.length ? Number(Math.min(...comparable).toFixed(2)) : null,
+    offerCount: comparable.length,
+  };
+});
+historyByDate.set(historyDate, { date: historyDate, products: historyProducts });
+const history = [...historyByDate.values()].sort((a, b) => a.date.localeCompare(b.date)).slice(-90);
+
 const snapshot = {
   version: 1,
   source: 'eBay Browse API',
@@ -225,6 +251,7 @@ const snapshot = {
   currency: 'AUD',
   checkedAt: today,
   products: snapshots,
+  history,
   warnings: warnings.slice(0, 30),
 };
 await writeFile(snapshotUrl, JSON.stringify(snapshot, null, 2) + '\n', 'utf8');
