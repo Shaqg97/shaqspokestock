@@ -1026,5 +1026,164 @@
     ],
     "restock": false,
     "image": "https://cdn11.bigcommerce.com/s-vz3etek0gv/images/stencil/1200w/products/82823/113882/PKU10463_web_Box_3D_L__62643.1782845597.jpg"
+  },
+  {
+    "name": "Mega Evolution—Pitch Black Booster Box",
+    "set": "Mega Evolution—Pitch Black",
+    "language": "English",
+    "type": "Booster Box",
+    "store": "Gameology",
+    "price": 359.95,
+    "stock": "Check Retailer",
+    "releaseDate": "2026-07-17",
+    "url": "https://www.gameology.com.au/products/mega-evolution-pitch-black-booster-box-pokemon-tcg",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Gameology",
+        "price": 359.95,
+        "stock": "Check Retailer",
+        "url": "https://www.gameology.com.au/products/mega-evolution-pitch-black-booster-box-pokemon-tcg"
+      },
+      {
+        "name": "Drop Store",
+        "price": 399.95,
+        "stock": "Check Retailer",
+        "url": "https://dropstore.com.au/products/mega-evolution-pitch-black-booster-box"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "Mega Evolution—Pitch Black ETB",
+    "set": "Mega Evolution—Pitch Black",
+    "language": "English",
+    "type": "ETB",
+    "store": "Drop Store",
+    "price": 159.95,
+    "stock": "Check Retailer",
+    "releaseDate": "2026-07-17",
+    "url": "https://dropstore.com.au/products/mega-evolution-pitch-black-elite-trainer-box",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Drop Store",
+        "price": 159.95,
+        "stock": "Check Retailer",
+        "url": "https://dropstore.com.au/products/mega-evolution-pitch-black-elite-trainer-box"
+      },
+      {
+        "name": "Gameology",
+        "price": 189.95,
+        "stock": "Check Retailer",
+        "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-pitch-black-elite-trainer-box"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "Mega Evolution—Chaos Rising Booster Box",
+    "set": "Mega Evolution—Chaos Rising",
+    "language": "English",
+    "type": "Booster Box",
+    "store": "Gameology",
+    "price": 319.95,
+    "stock": "Check Retailer",
+    "releaseDate": "2026-05-22",
+    "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-chaos-rising-booster-box",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Gameology",
+        "price": 319.95,
+        "stock": "Check Retailer",
+        "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-chaos-rising-booster-box"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "Mega Evolution—Chaos Rising ETB",
+    "set": "Mega Evolution—Chaos Rising",
+    "language": "English",
+    "type": "ETB",
+    "store": "Gameology",
+    "price": 199.95,
+    "stock": "Check Retailer",
+    "releaseDate": "2026-05-22",
+    "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-chaos-rising-elite-trainer-box",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Gameology",
+        "price": 199.95,
+        "stock": "Check Retailer",
+        "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-chaos-rising-elite-trainer-box"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "30th Celebration Poster Collection",
+    "set": "30th Celebration",
+    "language": "English",
+    "type": "Poster Collection",
+    "store": "Treasure Vault",
+    "price": 89,
+    "stock": "Check Retailer",
+    "releaseDate": "2026-09-16",
+    "url": "https://treasurevaultau.com/collections/30th-celebration",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Treasure Vault",
+        "price": 89,
+        "stock": "Check Retailer",
+        "url": "https://treasurevaultau.com/collections/30th-celebration"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "30th Celebration Knock Out Collection",
+    "set": "30th Celebration",
+    "language": "English",
+    "type": "Knock Out Collection",
+    "store": "Treasure Vault",
+    "price": 59,
+    "stock": "Check Retailer",
+    "releaseDate": "2026-09-16",
+    "url": "https://treasurevaultau.com/products/pokemon-tcg-30th-celebration-knock-out-collection",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Treasure Vault",
+        "price": 59,
+        "stock": "Check Retailer",
+        "url": "https://treasurevaultau.com/products/pokemon-tcg-30th-celebration-knock-out-collection"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "30th Celebration Tech Sticker Collection",
+    "set": "30th Celebration",
+    "language": "English",
+    "type": "Tech Sticker Collection",
+    "store": "Treasure Vault",
+    "price": 89,
+    "stock": "Check Retailer",
+    "releaseDate": "2026-09-16",
+    "url": "https://treasurevaultau.com/collections/30th-celebration",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Treasure Vault",
+        "price": 89,
+        "stock": "Check Retailer",
+        "url": "https://treasurevaultau.com/collections/30th-celebration"
+      }
+    ],
+    "restock": false
   }
 ]
