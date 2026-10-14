@@ -35,6 +35,7 @@ jobs:
           node --check .github/scripts/monitor-gameology.mjs
           node --check .github/scripts/monitor-shopify-retailers.mjs
           node --check .github/scripts/monitor-priority-retailers.mjs
+          node --check .github/scripts/monitor-retailer-source-data.mjs
           node --check .github/scripts/refresh-marketplace-prices.mjs
 
       - name: Test Discord alert safety rules
@@ -45,4 +46,4 @@ jobs:
 
       - name: Check required page features
         run: |
-          node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); for(const token of ['products.json','marketplace-prices.json','function renderProducts','function setFilter','function toggleFavorite','function isFreshVerifiedStock','function renderMarketplaceOffers','retailerStockLabel','stockCheckStatus','meta name=','prefers-reduced-motion','Buy Now at ','Pre-order at ','Also verified available at','You’ll complete checkout on the retailer’s website.','Search eBay AU','Search Amazon AU']) if(!html.includes(token)) throw new Error('Missing expected page feature: '+token); console.log('Core page features found');"
+          node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); for(const token of ['products.json','marketplace-prices.json','retailer-source-data.json','source-tracker','function loadSourceTracker','function renderProducts','function setFilter','function toggleFavorite','function isFreshVerifiedStock','function renderMarketplaceOffers','retailerStockLabel','stockCheckStatus','meta name=','prefers-reduced-motion','Buy Now at ','Pre-order at ','Also verified available at','You’ll complete checkout on the retailer’s website.','Search eBay AU','Search Amazon AU']) if(!html.includes(token)) throw new Error('Missing expected page feature: '+token); console.log('Core page features found');"
