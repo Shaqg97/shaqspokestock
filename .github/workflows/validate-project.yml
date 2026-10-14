@@ -28,6 +28,15 @@ jobs:
       - name: Validate marketplace snapshot history schema
         run: node --input-type=module -e "import fs from 'node:fs'; const data=JSON.parse(fs.readFileSync('marketplace-prices.json','utf8')); if(!Array.isArray(data.products)) throw new Error('Marketplace snapshot products must be an array'); if(data.history!==undefined){ if(!Array.isArray(data.history)) throw new Error('Marketplace history must be an array'); for(const day of data.history){ if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(day.date)||!Array.isArray(day.products)) throw new Error('Invalid daily marketplace history record'); for(const item of day.products){ if(typeof item.key!=='string'||!Number.isInteger(item.offerCount)||item.offerCount<0||(item.lowestPrice!==null&&(!Number.isFinite(Number(item.lowestPrice))||Number(item.lowestPrice)<=0))) throw new Error('Invalid marketplace history product entry'); } } if(data.history.length>90) throw new Error('Marketplace history must be capped at 90 daily records'); } console.log('Marketplace snapshot and optional history schema are valid');"
 
+      - name: Validate direct retailer source snapshot
+        run: |
+          node --input-type=module -e "import fs from 'node:fs'; const data=JSON.parse(fs.readFileSync('retailer-source-data.json','utf8')); if(!Array.isArray(data.catalogueHostCoverage)||data.catalogueHostCoverage.length!==data.retailerCount) throw new Error('Retailer host coverage count mismatch'); if(!Array.isArray(data.observations)||data.observations.length!==data.observationCount) throw new Error('Retailer observation count mismatch'); const statuses=new Set(['ok','blocked','skipped','http-error','error']); const availability=new Set(['in stock','pre-order','out of stock','unknown']); for(const item of data.observations){ if(!item.key||!item.host||!item.url||!statuses.has(item.fetchStatus)||!availability.has(item.availability)) throw new Error('Invalid retailer observation for '+(item.key||'unknown key')); if(['blocked','skipped','http-error','error'].includes(item.fetchStatus)&&item.availability!=='unknown') throw new Error('Unavailable source must remain unknown: '+item.key); for(const q of item.quantities||[]) if(!Number.isInteger(q.quantity)||q.quantity<0) throw new Error('Invalid explicit quantity: '+item.key); } console.log('Validated '+data.observations.length+' retailer observations across '+data.retailerCount+' catalogue domains');"
+
+      - name: Check inline website JavaScript syntax
+        run: |
+          node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); const scripts=[...html.matchAll(/<script\\b[^>]*>([\\s\\S]*?)<\\/script>/gi)].map(match=>match[1]).filter(source=>source.trim()); if(!scripts.length) throw new Error('No inline page JavaScript found'); fs.writeFileSync('/tmp/shaqspokestock-page.js',scripts.join('\\n')); console.log('Extracted '+scripts.length+' inline script block(s)');"
+          node --check /tmp/shaqspokestock-page.js
+
       - name: Check JavaScript syntax
         run: |
           node --check .github/scripts/audit-retailer-links.mjs
