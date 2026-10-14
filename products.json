@@ -322,13 +322,23 @@
     "set": "30th Celebration",
     "language": "English",
     "type": "Collection Box",
-    "store": "Pokémon TCG Retailers",
-    "price": 0,
-    "stock": "Coming Soon",
-    "releaseDate": "2026-10-23",
-    "url": "",
-    "status": "Upcoming",
-    "retailers": [],
+    "store": "Kmart",
+    "price": 20,
+    "stock": "Pre-Order",
+    "releaseDate": "2026-11-13",
+    "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-deck-crafter%27s-collection-43848645/",
+    "status": "Pre-Order",
+    "retailers": [
+      {
+        "name": "Kmart",
+        "price": 20,
+        "stock": "Pre-Order",
+        "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-deck-crafter%27s-collection-43848645/",
+        "retailerItemId": "P_43848645",
+        "retailerItemIdType": "SKU",
+        "checkedAt": "2026-10-14"
+      }
+    ],
     "restock": false,
     "image": "https://cdn11.bigcommerce.com/s-a0ebd/images/stencil/1920w/products/9077/23195/pokemon-deck-crafters-collection-box__64511.1790022481.jpg?c=2"
   },
