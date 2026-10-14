@@ -68,7 +68,7 @@ function jsonScripts(html) {
   return values;
 }
 function extractEvidence(html, expectedName) {
-  const normalize = value => String(value ?? '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().split(/\s+/).filter(Boolean);
+  const normalize = value => String(value ?? '').toLowerCase().replace(/pokémon/g, 'pokemon').replace(/[^a-z0-9]+/g, ' ').trim().split(/\s+/).filter(Boolean);
   const generic = new Set(['pokemon', 'tcg', 'trading', 'card', 'cards', 'booster', 'box', 'pack', 'packs', 'japanese', 'english', 'sealed', 'the', 'and', 'for', 'with', 'premium', 'collection', 'figure']);
   const expectedTokens = [...new Set(normalize(expectedName).filter(token => token.length > 2 && !generic.has(token)))];
   const objects = jsonScripts(html).flatMap(value => collectObjects(value));
