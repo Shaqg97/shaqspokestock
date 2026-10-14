@@ -48,7 +48,7 @@ test("marketplace offers are explicitly not verified retailer stock", () => {
 });
 
 test("missing or broken product images show branded coming-soon fallback", () => {
-  assert.match(html, /class="image-fallback"/);
+  assert.match(html, /class="(?:image-fallback|product-summary-fallback)"/);
   assert.match(html, /Shaqs Poke Stock/);
   assert.match(html, /Image coming soon/);
   assert.match(html, /onerror="this\.style\.display='none';this\.nextElementSibling\.style\.display='flex';"/);
