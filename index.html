@@ -951,6 +951,15 @@ button,nav button,.filter-buttons button { touch-action:manipulation; }
     <div id="priceAlertList" class="price-alert-list" aria-live="polite"></div>
   </section>
 
+  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0 16px;">
+    <label for="dealSort" style="font-weight:700;font-size:13px;">Sort deals:</label>
+    <select id="dealSort" onchange="renderProducts()" style="padding:10px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#172033;">
+      <option value="catalogue">Catalogue order</option>
+      <option value="verified-price">Lowest fresh verified retailer price</option>
+    </select>
+    <small style="color:#64748b;">Unverified or stale listings are not ranked as verified deals.</small>
+  </div>
+
  <div class="filter-buttons">
 
   <button class="active" onclick="setFilter('all', this)">
@@ -1377,7 +1386,7 @@ function renderProducts() {
     .trim()
     .toLocaleLowerCase();
 
-  const filtered = products.filter(product => {
+  let filtered = products.filter(product => {
 
     // Search all key product fields safely, even if a future catalogue entry
     // has a missing optional value or a non-string field.
@@ -1444,6 +1453,18 @@ if (currentFilter === "watchlist") {
 
 return matchesSearch && matchesFilter;
   });
+
+  const dealSort = document.getElementById("dealSort")?.value || "catalogue";
+  if (dealSort === "verified-price") {
+    filtered = [...filtered].sort((a, b) => {
+      const aPrice = getFreshVerifiedPrice(a);
+      const bPrice = getFreshVerifiedPrice(b);
+      if (aPrice === null && bPrice === null) return a.name.localeCompare(b.name);
+      if (aPrice === null) return 1;
+      if (bPrice === null) return -1;
+      return aPrice - bPrice;
+    });
+  }
 
   if (!filtered.length) {
     container.innerHTML = currentFilter === "watchlist"
