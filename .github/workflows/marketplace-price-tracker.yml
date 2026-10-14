@@ -14,7 +14,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: marketplace-price-tracker
+  group: generated-data-publish
   cancel-in-progress: false
 
 jobs:
@@ -52,5 +52,16 @@ jobs:
           git commit -m "Refresh eBay Australia marketplace prices"
           # Site/code commits can land while this scheduled refresh is running.
           # Rebase the generated snapshot onto the latest main before pushing.
-          git pull --rebase origin main
-          git push
+          # Serialize generated-data publishers and retry if another repository update
+          # lands between the rebase and push. Never force-push generated snapshots.
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              echo "Could not publish generated data after three attempts." >&2
+              exit 1
+            fi
+            sleep "$attempt"
+          done
