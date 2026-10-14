@@ -1668,9 +1668,22 @@ return matchesSearch && matchesFilter;
       };
       const conditionDifference = conditionRank(a.condition) - conditionRank(b.condition);
       if (conditionDifference) return conditionDifference;
-      const aHasTotal = a.totalPrice !== null && Number.isFinite(Number(a.totalPrice));
-      const bHasTotal = b.totalPrice !== null && Number.isFinite(Number(b.totalPrice));
+      // Keep card fallback selection aligned with Best Deals: match quality
+      // comes before seller popularity or price so unrelated listings do not win.
+      const matchDifference = Number(b.matchConfidence || 0) - Number(a.matchConfidence || 0);
+      if (matchDifference) return matchDifference;
+      const aHasTotal = a.totalPrice !== null && a.totalPrice !== undefined &&
+        Number.isFinite(Number(a.totalPrice)) && Number(a.totalPrice) > 0;
+      const bHasTotal = b.totalPrice !== null && b.totalPrice !== undefined &&
+        Number.isFinite(Number(b.totalPrice)) && Number(b.totalPrice) > 0;
       if (aHasTotal !== bHasTotal) return aHasTotal ? -1 : 1;
+      const aFeedbackRaw = String(a.sellerFeedbackPercent ?? "").replace("%", "").trim();
+      const bFeedbackRaw = String(b.sellerFeedbackPercent ?? "").replace("%", "").trim();
+      const aFeedback = Number(aFeedbackRaw), bFeedback = Number(bFeedbackRaw);
+      const aFeedbackOk = aFeedbackRaw !== "" && Number.isFinite(aFeedback) && aFeedback >= 0 && aFeedback <= 100;
+      const bFeedbackOk = bFeedbackRaw !== "" && Number.isFinite(bFeedback) && bFeedback >= 0 && bFeedback <= 100;
+      if (aFeedbackOk !== bFeedbackOk) return aFeedbackOk ? -1 : 1;
+      if (aFeedbackOk && bFeedbackOk && aFeedback !== bFeedback) return bFeedback - aFeedback;
       const aTotal = aHasTotal ? Number(a.totalPrice) : Number(a.price);
       const bTotal = bHasTotal ? Number(b.totalPrice) : Number(b.price);
       return aTotal - bTotal;
