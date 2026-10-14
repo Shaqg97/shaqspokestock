@@ -14,7 +14,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: retailer-source-monitor
+  group: generated-data-publish
   cancel-in-progress: false
 
 jobs:
@@ -42,5 +42,16 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add retailer-source-data.json
           git commit -m "Refresh direct retailer source observations"
-          git pull --rebase origin main
-          git push
+          # Serialize generated-data publishers and retry if another repository update
+          # lands between the rebase and push. Never force-push generated snapshots.
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              echo "Could not publish generated data after three attempts." >&2
+              exit 1
+            fi
+            sleep "$attempt"
+          done
