@@ -1916,20 +1916,24 @@ return matchesSearch && matchesFilter;
     return `
       <div class="product">
 
-        <div class="product-image">
-          ${product.image ? `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)} product image" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">` : ""}
-          <span class="image-fallback" style="${product.image ? "display:none;" : ""}" aria-label="Product image unavailable"><span aria-hidden="true">📦</span><small>Shaqs Poke Stock</small><small>Image coming soon</small></span>
+        <div class="product-summary">
+          <div class="product-summary-text">
+            <h3>${escapeHtml(product.name)}</h3>
+            <div class="set">${escapeHtml(product.set)}</div>
+          </div>
+          <div class="product-summary-price">${displayPrice > 0 ? "$" + Number(displayPrice).toFixed(2) : "Price TBA"}</div>
         </div>
+        <details class="product-details">
+          <summary>Product details, prices & alerts</summary>
+          <div class="product-details-content">
+            <div class="product-image">
+              ${product.image ? `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)} product image" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">` : ""}
+              <span class="image-fallback" style="${product.image ? "display:none;" : ""}" aria-label="Product image unavailable"><span aria-hidden="true">📦</span><small>Shaqs Poke Stock</small><small>Image coming soon</small></span>
+            </div>
 
         <button class="favorite ${isFavorite(product.name) ? "saved" : ""}" onclick="toggleFavorite('${JSON.stringify(product.name).replace(/"/g, "&quot;")}')" aria-label="${isFavorite(product.name) ? "Remove from watchlist" : "Add to watchlist"}" title="${isFavorite(product.name) ? "Remove from watchlist" : "Add to watchlist"}">
           ${isFavorite(product.name) ? "★" : "☆"}
         </button>
-
-        <h3>${escapeHtml(product.name)}</h3>
-
-        <div class="set">
-          ${escapeHtml(product.set)}
-        </div>
 
         <div style="
           margin:10px 0;
@@ -2049,7 +2053,8 @@ ${renderMarketplaceOffers(product)}
         </div>
         <div class="price-alert-status">${getPriceAlertStatusMarkup(product.name)}</div>
         ${dealButton}
-
+          </div>
+        </details>
       </div>
     `;
   }).join("");
@@ -2281,3 +2286,44 @@ loadProducts();
 
 </body>
 </html>
+
+
+<!-- Compact product rows: show only name, set and best listed price until expanded. -->
+<style>
+.products { grid-template-columns: 1fr !important; gap: 10px !important; }
+.product {
+  display: block !important;
+  padding: 13px 15px !important;
+  border-radius: 14px !important;
+  box-shadow: 0 2px 8px rgba(15,23,42,.035) !important;
+  transition: border-color .18s ease, box-shadow .18s ease !important;
+}
+.product:hover { transform: none !important; box-shadow: 0 4px 12px rgba(15,23,42,.07) !important; }
+.product-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-right: 42px;
+  min-height: 46px;
+}
+.product-summary-text { min-width: 0; }
+.product-summary h3 { margin: 0 0 3px !important; font-size: 15px !important; line-height: 1.3 !important; overflow-wrap: anywhere; }
+.product-summary .set { margin: 0 !important; font-size: 12px !important; }
+.product-summary-price { flex: 0 0 auto; font-size: 19px; font-weight: 800; color: #0f172a; white-space: nowrap; }
+.product .favorite { z-index: 1; top: 16px; right: 14px; width: 30px; height: 30px; }
+.product-details { border-top: 1px solid #edf1f6; margin-top: 9px; padding-top: 7px; }
+.product-details > summary { cursor: pointer; color: #475569; font-size: 12px; font-weight: 700; list-style-position: inside; padding: 5px 0; }
+.product-details[open] > summary { margin-bottom: 10px; color: #1d4ed8; }
+.product-details-content { padding-top: 2px; }
+.product-details-content .product-image { max-width: 210px; height: 110px; min-height: 110px; margin-bottom: 12px; }
+.product-details-content > .price-row { margin-top: 8px; }
+@media (max-width: 520px) {
+  .container { padding: 18px 12px 36px; }
+  .product { padding: 12px !important; }
+  .product-summary { gap: 8px; padding-right: 38px; }
+  .product-summary h3 { font-size: 14px !important; }
+  .product-summary-price { font-size: 17px; }
+  .product .favorite { top: 13px; right: 10px; }
+}
+</style>
