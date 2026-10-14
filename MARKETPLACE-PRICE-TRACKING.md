@@ -16,6 +16,8 @@ Do not place credentials in website JavaScript or commit them into the repositor
 
 The first successful run establishes a baseline. Later runs send a Discord alert when the same eBay item ID's estimated total falls by at least A$2 or 5%. A price is considered delivered total only when the API supplies a shipping cost; otherwise the UI identifies it as item price with shipping not confirmed.
 
+Daily history is retained for up to 90 dates. The site also records a separate sealed-condition price series only for listings explicitly identified as sealed/new and where shipping-inclusive totals are available. After at least two successful daily snapshots, the UI can show a historical sealed-price movement signal when the recorded low moves by 5% or more. This is a marketplace reference, not proof of retailer stock or a guarantee that the current offer is still available. Older records without the sealed fields remain valid and are not backfilled or guessed.
+
 ## Amazon Australia
 
 Amazon price data is not enabled yet. Its official Creators API requires a valid Amazon Australia Associates account and API credentials tied to that marketplace. Add that only after the account/API access is approved; don't scrape Amazon pages or put private keys in the browser. The front end is designed to keep marketplace offers separate from retailer catalogue data.
