@@ -32,25 +32,42 @@ jobs:
           package-manager-cache: false
       - name: Collect public first-party retailer data
         run: node .github/scripts/monitor-retailer-source-data.mjs
-      - name: Publish observations
+      - name: Publish observations safely
+        shell: bash
         run: |
+          set -euo pipefail
           if git diff --quiet -- retailer-source-data.json; then
             echo "No source-data changes."
             exit 0
           fi
+          # Keep this run's candidate outside the worktree while syncing main.
+          cp retailer-source-data.json "$RUNNER_TEMP/retailer-source-data.json"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add retailer-source-data.json
-          git commit -m "Refresh direct retailer source observations"
-          # Serialize generated-data publishers and retry if another repository update
-          # lands between the rebase and push. Never force-push generated snapshots.
           for attempt in 1 2 3; do
-            git pull --rebase origin main
-            if git push; then
+            git fetch origin main
+            git reset --hard origin/main
+            # Never let a delayed scan replace a newer published snapshot.
+            if node --input-type=module -e "import fs from 'node:fs'; const candidate=JSON.parse(fs.readFileSync(process.env.RUNNER_TEMP+'/retailer-source-data.json','utf8')); const current=JSON.parse(fs.readFileSync('retailer-source-data.json','utf8')); const a=Date.parse(candidate.checkedAt||''); const b=Date.parse(current.checkedAt||''); if(!Number.isFinite(a)) throw new Error('Candidate snapshot has invalid checkedAt'); if(Number.isFinite(b)&&b>=a){console.log('A snapshot at least as recent is already published; skipping.'); process.exit(2)}"; then
+              :
+            else
+              status=$?
+              if [ "$status" -eq 2 ]; then exit 0; fi
+              exit "$status"
+            fi
+            cp "$RUNNER_TEMP/retailer-source-data.json" retailer-source-data.json
+            git add retailer-source-data.json
+            if git diff --cached --quiet; then
+              echo "Generated snapshot already matches main."
+              exit 0
+            fi
+            git commit -m "Refresh direct retailer source observations"
+            if git push origin HEAD:main; then
+              echo "Published retailer observations."
               exit 0
             fi
             if [ "$attempt" -eq 3 ]; then
-              echo "Could not publish generated data after three attempts." >&2
+              echo "Could not publish retailer data after three attempts." >&2
               exit 1
             fi
             sleep "$attempt"
