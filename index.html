@@ -1260,8 +1260,23 @@ return matchesSearch && matchesFilter;
       ? marketplaceRecord.offers.filter(offer => Number(offer.price) > 0 && offer.url && Number(offer.matchConfidence) >= 70)
       : [];
     const bestMarketplaceOffer = [...marketplaceCandidates].sort((a, b) => {
-      const aTotal = a.totalPrice !== null && Number.isFinite(Number(a.totalPrice)) ? Number(a.totalPrice) : Number(a.price);
-      const bTotal = b.totalPrice !== null && Number.isFinite(Number(b.totalPrice)) ? Number(b.totalPrice) : Number(b.price);
+      // Compare like-for-like first: new/sealed listings outrank opened or used
+      // listings, then compare delivered totals where both are available.
+      const conditionRank = condition => {
+        const value = String(condition || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+        if (/new factory sealed|factory sealed|brand new|new sealed/.test(value)) return 0;
+        if (value === "new") return 1;
+        if (!value || value === "not specified") return 2;
+        if (/used|open box|opened|no shrink|without shrink|damaged|for parts/.test(value)) return 3;
+        return 2;
+      };
+      const conditionDifference = conditionRank(a.condition) - conditionRank(b.condition);
+      if (conditionDifference) return conditionDifference;
+      const aHasTotal = a.totalPrice !== null && Number.isFinite(Number(a.totalPrice));
+      const bHasTotal = b.totalPrice !== null && Number.isFinite(Number(b.totalPrice));
+      if (aHasTotal !== bHasTotal) return aHasTotal ? -1 : 1;
+      const aTotal = aHasTotal ? Number(a.totalPrice) : Number(a.price);
+      const bTotal = bHasTotal ? Number(b.totalPrice) : Number(b.price);
       return aTotal - bTotal;
     })[0] || null;
     const useMarketplaceFallback = !verifiedPurchasableRetailers.length && !!bestMarketplaceOffer;
