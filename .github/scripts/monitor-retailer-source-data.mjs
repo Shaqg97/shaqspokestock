@@ -5,7 +5,16 @@ const products = JSON.parse(await readFile(new URL('products.json', root), 'utf8
 const outputUrl = new URL('retailer-source-data.json', root);
 const previous = await readFile(outputUrl, 'utf8').then(JSON.parse).catch(() => ({ observations: [] }));
 const checkedAt = new Date().toISOString();
-const supported = new Set(['bigw.com.au', 'kmart.com.au', 'target.com.au', 'jbhifi.com.au', 'ebgames.com.au']);
+// Discover retailer hosts from the curated catalogue so coverage expands as
+// new Australian retailer offers are added, without hard-coding only the big chains.
+const supported = new Set(products.flatMap(product => (product.retailers || []).map(offer => {
+  try {
+    const url = new URL(offer.url);
+    return ['http:', 'https:'].includes(url.protocol) ? url.hostname.toLowerCase().replace(/^www\./, '') : '';
+  } catch {
+    return '';
+  }
+}).filter(Boolean)));
 const robotsCache = new Map();
 const observations = [];
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -122,6 +131,7 @@ const summary = {
   purpose: 'First-party public product-page observations. Quantity fields appear only when explicitly present in retailer structured data; missing quantities are not zero.',
   sourcePolicy: 'Public retailer pages only; robots.txt respected; blocked pages skipped; no CAPTCHA or access-control bypass.',
   retailerCount: new Set(observations.map(item => item.host)).size,
+  catalogueHostCoverage: [...supported].sort(),
   observationCount: observations.length,
   successfulFetches: observations.filter(item => item.fetchStatus === 'ok').length,
   blockedOrSkipped: observations.filter(item => ['blocked', 'skipped'].includes(item.fetchStatus)).length,
