@@ -747,6 +747,10 @@ button, nav button, .filter-buttons button { touch-action:manipulation; }
     🟢 Verified In Stock
   </button>
 
+  <button onclick="setFilter('watchlist', this)">
+    ⭐ My Watchlist
+  </button>
+
 </div>
   <div style="margin: 16px 0;">
   <label for="typeFilter" style="font-weight:600; margin-right:10px;">
@@ -1196,11 +1200,17 @@ if (currentFilter === "instock") {
   matchesFilter = matchesFilter && retailerHasStock;
 }
 
+if (currentFilter === "watchlist") {
+  matchesFilter = matchesFilter && getFavorites().includes(product.name);
+}
+
 return matchesSearch && matchesFilter;
   });
 
   if (!filtered.length) {
-    container.innerHTML = '<div class="empty">No Pokémon products match that search. Try a set name, product type, language, or retailer.</div>';
+    container.innerHTML = currentFilter === "watchlist"
+      ? '<div class="empty">Your watchlist is empty. Tap the star on any product to save it on this device.</div>'
+      : '<div class="empty">No Pokémon products match that search. Try a set name, product type, language, or retailer.</div>';
     return;
   }
 
