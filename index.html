@@ -1263,21 +1263,45 @@ function renderMarketplaceOffers(product) {
     const hasTotal = offer.totalPrice !== null && Number.isFinite(Number(offer.totalPrice));
     const shownPrice = hasTotal ? Number(offer.totalPrice) : itemPrice;
     const displayPrice = hasTotal ? "A$" + shownPrice.toFixed(2) : "A$" + itemPrice.toFixed(2) + " + ship";
-    const confidence = Number(offer.matchConfidence) >= 90 ? "High title match" : "Possible match — check title";
-    const shippingLabel = hasTotal ? "total includes listed shipping" : "shipping not confirmed; item price only";
-    const conditionLabel = offer.condition ? " · " + offer.condition : "";
+    const matchScore = Number(offer.matchConfidence);
+    const confidence = matchScore >= 90 ? "Strong title match" : "Possible match — inspect title";
+    const confidenceColor = matchScore >= 90 ? "#166534" : "#92400e";
+    const shippingLabel = hasTotal ? "Shipping included in displayed total" : "Shipping unconfirmed";
+    const shippingColor = hasTotal ? "#166534" : "#92400e";
+    const rawCondition = String(offer.condition || "").trim();
+    const conditionKey = rawCondition.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+    let conditionLabel = "Condition not specified";
+    let conditionColor = "#64748b";
+    if (/new factory sealed|factory sealed|brand new|new sealed/.test(conditionKey)) {
+      conditionLabel = "Factory sealed";
+      conditionColor = "#166534";
+    } else if (conditionKey === "new") {
+      conditionLabel = "Listed as new — seal not confirmed";
+      conditionColor = "#166534";
+    } else if (/used|open box|opened|no shrink|without shrink|damaged|for parts/.test(conditionKey)) {
+      conditionLabel = "Opened / used / condition caveat";
+      conditionColor = "#92400e";
+    } else if (rawCondition) {
+      conditionLabel = rawCondition;
+    }
+    const feedbackRaw = String(offer.sellerFeedbackPercent ?? "").replace("%", "").trim();
+    const feedback = Number(feedbackRaw);
+    const hasFeedback = feedbackRaw !== "" && Number.isFinite(feedback) && feedback >= 0 && feedback <= 100;
+    const sellerLabel = hasFeedback ? "Seller feedback " + feedback.toFixed(1) + "% positive" : "Seller feedback not supplied";
+    const sellerColor = hasFeedback && feedback >= 98 ? "#166534" : "#64748b";
+    const badge = (label, color) => '<span style="display:inline-block;padding:4px 7px;border-radius:6px;background:#f1f5f9;color:' + color + ';font-weight:700;">' + escapeHtml(label) + '</span>';
     return `
       <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 10px;align-items:start;padding:9px;background:#f8fafc;border-radius:9px;">
         <a href="${escapeHtml(offer.url || "#")}" target="_blank" rel="noopener noreferrer" style="color:#1d4ed8;text-decoration:none;font-weight:700;overflow-wrap:anywhere;">${escapeHtml(offer.title || "eBay listing")}</a>
         <strong style="white-space:nowrap;">${displayPrice}</strong>
-        <span style="font-size:11px;color:#64748b;">${escapeHtml(offer.seller || "Seller not supplied")} · ${escapeHtml(confidence)}${escapeHtml(conditionLabel)} · ${shippingLabel}</span>
-        <span style="font-size:11px;color:#64748b;text-align:right;">Item A${itemPrice.toFixed(2)}</span>
+        <div style="grid-column:1/-1;display:flex;flex-wrap:wrap;gap:5px;">${badge(conditionLabel, conditionColor)}${badge(shippingLabel, shippingColor)}${badge(confidence, confidenceColor)}${badge(sellerLabel, sellerColor)}</div>
+        <span style="grid-column:1/-1;font-size:11px;color:#64748b;">Seller: ${escapeHtml(offer.seller || "Not supplied")} · Item price A${itemPrice.toFixed(2)}${hasTotal ? " · Listed total A$" + shownPrice.toFixed(2) : ""}</span>
       </div>`;
   }).join("");
   return `
     <details style="margin-top:10px;font-size:12px;">
       <summary style="cursor:pointer;font-weight:700;color:#334155;">🛒 Marketplace deals (${offers.length})</summary>
-      <p style="margin-top:8px;color:#64748b;"><strong style="color:${marketplaceIsFresh ? "#15803d" : "#b45309"};">${marketplaceFreshnessLabel}</strong> · eBay AU candidates · ${marketplaceSnapshot.checkedAt ? "checked " + new Date(marketplaceSnapshot.checkedAt).toLocaleString("en-AU", {day:"numeric",month:"short",hour:"numeric",minute:"2-digit"}) : "check time unavailable"}. Only stronger title matches are shown, but matching is automated. ${marketplaceIsFresh ? "" : "Treat these as older reference prices until refreshed. "}“+ ship” means shipping is not confirmed, so compare the final checkout total before buying.</p>
+      <p style="margin-top:8px;color:#64748b;"><strong style="color:${marketplaceIsFresh ? "#15803d" : "#b45309"};">${marketplaceFreshnessLabel}</strong> · eBay AU candidates · ${marketplaceSnapshot.checkedAt ? "checked " + new Date(marketplaceSnapshot.checkedAt).toLocaleString("en-AU", {day:"numeric",month:"short",hour:"numeric",minute:"2-digit"}) : "check time unavailable"}. Matching and seller data may be incomplete. Compare condition, seller feedback, title match and delivery certainty before choosing; open the listing and confirm details and final checkout total. ${marketplaceIsFresh ? "" : "Treat these as older reference prices until refreshed. "}</p>
       <div style="display:grid;gap:7px;margin-top:8px;">${rows}</div>
       ${searchLinks}
     </details>`;
