@@ -5,7 +5,7 @@ A mobile-first Pokémon TCG catalogue and deal-finding site for Australian colle
 ## Project files
 
 - `index.html` — site UI, product cards, Best Deals sorting, price history, local watchlist and price targets.
-- `products.json` — curated catalogue (currently intentionally validated as 31 products). Keep existing entries unless a catalogue change is deliberately reviewed.
+- `products.json` — curated catalogue (38 products as of 14 October 2026). Additions are reviewed, duplicate product names are blocked by validation, and existing entries should be preserved.
 - `marketplace-prices.json` — eBay AU marketplace snapshot and daily history. Do not hand-edit prices or invent historical observations.
 - `retailer-source-data.json` — latest direct-source retailer scan; blocked or skipped sources must remain unknown rather than being treated as sold out.
 - `.github/scripts/` — scheduled data refresh, source monitoring, catalogue quality checks and Discord alert logic.
