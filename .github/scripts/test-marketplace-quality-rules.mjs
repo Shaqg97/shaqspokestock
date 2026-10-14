@@ -53,3 +53,11 @@ test("missing or broken product images show branded coming-soon fallback", () =>
   assert.match(html, /Image coming soon/);
   assert.match(html, /onerror="this\.style\.display='none';this\.nextElementSibling\.style\.display='flex';"/);
 });
+
+test("marketplace sort explains when the card price is still a retailer price", () => {
+  assert.match(html, /The card can still show a verified retailer price when one is available/);
+});
+
+test("marketplace offer display does not treat zero or missing totals as delivered prices", () => {
+  assert.match(html, /const hasTotal = offer\.totalPrice !== null && offer\.totalPrice !== undefined &&\s*Number\.isFinite\(Number\(offer\.totalPrice\)\) && Number\(offer\.totalPrice\) > 0/);
+});
