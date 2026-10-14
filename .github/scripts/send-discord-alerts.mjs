@@ -6,15 +6,21 @@ const stockWebhookUrl = process.env.DISCORD_STOCK_WEBHOOK_URL || webhookUrl;
 const priceDropWebhookUrl = process.env.DISCORD_PRICE_DROP_WEBHOOK_URL || webhookUrl;
 const releaseWebhookUrl = process.env.DISCORD_RELEASE_WEBHOOK_URL || webhookUrl;
 const beforeSha = process.env.BEFORE_SHA;
-const stockAlertRoleId = process.env.DISCORD_STOCK_ALERT_ROLE_ID;
-const priceDropRoleId = process.env.DISCORD_PRICE_DROP_ROLE_ID;
-const releaseAlertRoleId = process.env.DISCORD_RELEASE_ALERT_ROLE_ID;
+let stockAlertRoleId = process.env.DISCORD_STOCK_ALERT_ROLE_ID?.trim() || '';
+let priceDropRoleId = process.env.DISCORD_PRICE_DROP_ROLE_ID?.trim() || '';
+let releaseAlertRoleId = process.env.DISCORD_RELEASE_ALERT_ROLE_ID?.trim() || '';
 
-if (stockAlertRoleId && !/^\d{17,20}$/.test(stockAlertRoleId)) {
-  throw new Error('DISCORD_STOCK_ALERT_ROLE_ID must be a Discord role ID made of 17–20 digits.');
-}
-if (priceDropRoleId && !/^\d{17,20}$/.test(priceDropRoleId)) {
-  throw new Error('DISCORD_PRICE_DROP_ROLE_ID must be a Discord role ID made of 17–20 digits.');
+// Optional role IDs should never block verified stock, deal, or release alerts.
+// Ignore malformed values safely; the general webhook still delivers the alert.
+for (const [label, value, clear] of [
+  ['DISCORD_STOCK_ALERT_ROLE_ID', stockAlertRoleId, () => { stockAlertRoleId = ''; }],
+  ['DISCORD_PRICE_DROP_ROLE_ID', priceDropRoleId, () => { priceDropRoleId = ''; }],
+  ['DISCORD_RELEASE_ALERT_ROLE_ID', releaseAlertRoleId, () => { releaseAlertRoleId = ''; }],
+]) {
+  if (value && !/^\d{17,20}$/.test(value)) {
+    console.warn(`${label} is not a valid Discord role ID; continuing without that role mention.`);
+    clear();
+  }
 }
 
 if (!webhookUrl) {
