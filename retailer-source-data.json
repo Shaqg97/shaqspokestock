@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": null,
+  "purpose": "First-party public product-page observations. Quantity fields appear only when explicitly present in retailer structured data; missing quantities are not zero.",
+  "sourcePolicy": "Public retailer pages only; robots.txt respected; blocked pages skipped; no CAPTCHA or access-control bypass.",
+  "retailerCount": 0,
+  "observationCount": 0,
+  "successfulFetches": 0,
+  "blockedOrSkipped": 0,
+  "observations": []
+}
