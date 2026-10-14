@@ -20,8 +20,9 @@ test("used, opened, damaged and no-shrink offers are excluded from price-drop co
   assert.match(source, /if \(group === 'excluded' \|\| !Number\.isFinite\(newTotal\) \|\| newTotal <= 0\) continue/);
 });
 
-test("Discord price-drop embeds suppress automatic role and user mentions", () => {
-  assert.match(source, /allowed_mentions: \{ parse: \[\] \}/);
+test("Discord price-drop embeds suppress all mentions except the explicitly configured role", () => {
+  assert.match(source, /allowed_mentions: \{ parse: \[\], roles: priceDropRoleId \? \[priceDropRoleId\] : \[\] \}/);
+  assert.match(source, /content: priceDropRoleId \? `<@&\$\{priceDropRoleId\}> eBay price-drop alert\(s\) just landed\.` : undefined/);
   assert.match(source, /title: 'eBay price drop: ' \+ alert\.product/);
 });
 
