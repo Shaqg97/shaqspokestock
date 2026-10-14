@@ -1545,23 +1545,27 @@ return matchesSearch && matchesFilter;
         .sort((a, b) => {
           const conditionDiff = conditionRank(a.condition) - conditionRank(b.condition);
           if (conditionDiff) return conditionDiff;
-          const aTotal = a.totalPrice !== null && Number.isFinite(Number(a.totalPrice));
-          const bTotal = b.totalPrice !== null && Number.isFinite(Number(b.totalPrice));
+          // Correct product matching must outrank seller popularity; a trusted
+          // seller listing the wrong product is not a good deal for this item.
+          const matchDiff = Number(b.matchConfidence || 0) - Number(a.matchConfidence || 0);
+          if (matchDiff) return matchDiff;
+          const aTotal = a.totalPrice !== null && a.totalPrice !== undefined && Number.isFinite(Number(a.totalPrice)) && Number(a.totalPrice) > 0;
+          const bTotal = b.totalPrice !== null && b.totalPrice !== undefined && Number.isFinite(Number(b.totalPrice)) && Number(b.totalPrice) > 0;
           if (aTotal !== bTotal) return aTotal ? -1 : 1;
-          const aFeedback = Number(a.sellerFeedbackPercent);
-          const bFeedback = Number(b.sellerFeedbackPercent);
-          const aHasFeedback = a.sellerFeedbackPercent !== null && a.sellerFeedbackPercent !== undefined && Number.isFinite(aFeedback);
-          const bHasFeedback = b.sellerFeedbackPercent !== null && b.sellerFeedbackPercent !== undefined && Number.isFinite(bFeedback);
+          const aFeedbackRaw = String(a.sellerFeedbackPercent ?? "").replace("%", "").trim();
+          const bFeedbackRaw = String(b.sellerFeedbackPercent ?? "").replace("%", "").trim();
+          const aFeedback = Number(aFeedbackRaw);
+          const bFeedback = Number(bFeedbackRaw);
+          const aHasFeedback = aFeedbackRaw !== "" && Number.isFinite(aFeedback) && aFeedback >= 0 && aFeedback <= 100;
+          const bHasFeedback = bFeedbackRaw !== "" && Number.isFinite(bFeedback) && bFeedback >= 0 && bFeedback <= 100;
           if (aHasFeedback !== bHasFeedback) return aHasFeedback ? -1 : 1;
           if (aHasFeedback && bHasFeedback && aFeedback !== bFeedback) return bFeedback - aFeedback;
           const aScore = Number(a.sellerFeedbackScore);
           const bScore = Number(b.sellerFeedbackScore);
-          const aScoreOk = a.sellerFeedbackScore !== null && a.sellerFeedbackScore !== undefined && Number.isFinite(aScore);
-          const bScoreOk = b.sellerFeedbackScore !== null && b.sellerFeedbackScore !== undefined && Number.isFinite(bScore);
+          const aScoreOk = a.sellerFeedbackScore !== null && a.sellerFeedbackScore !== undefined && Number.isFinite(aScore) && aScore >= 0;
+          const bScoreOk = b.sellerFeedbackScore !== null && b.sellerFeedbackScore !== undefined && Number.isFinite(bScore) && bScore >= 0;
           if (aScoreOk !== bScoreOk) return aScoreOk ? -1 : 1;
           if (aScoreOk && bScoreOk && aScore !== bScore) return bScore - aScore;
-          const matchDiff = Number(b.matchConfidence || 0) - Number(a.matchConfidence || 0);
-          if (matchDiff) return matchDiff;
           return Number(a.totalPrice ?? a.price) - Number(b.totalPrice ?? b.price);
         })[0] || null;
     };
