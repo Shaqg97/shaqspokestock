@@ -1194,13 +1194,19 @@ function renderMarketplacePriceHistory(product) {
     .filter(point => /^\d{4}-\d{2}-\d{2}$/.test(point.date) &&
       Number.isFinite(Number(point.price)) && Number(point.price) > 0)
     .slice(-30);
-  let sealedSignalMarkup = '<p style="margin-top:7px;color:#64748b;font-size:11px;">Sealed price-drop signals will appear after at least two successful daily snapshots contain sealed-condition offers with known shipping totals.</p>';
+  let sealedSignalMarkup = '<p style="margin-top:7px;color:#64748b;font-size:11px;">Sealed price-drop signals start after two successful daily snapshots contain sealed-condition offers with known shipping totals.</p>';
   if (sealedPoints.length >= 2) {
     const previous = sealedPoints[sealedPoints.length - 2];
     const latest = sealedPoints[sealedPoints.length - 1];
     const changePercent = ((Number(latest.price) - Number(previous.price)) / Number(previous.price)) * 100;
     if (changePercent <= -5) {
-      sealedSignalMarkup = '<p style="margin-top:7px;color:#166534;font-weight:800;">📉 Sealed listing signal: down ' + Math.abs(changePercent).toFixed(1) + '% (A
+      sealedSignalMarkup = '<p style="margin-top:7px;color:#166534;font-weight:800;">Sealed listing signal: down ' + Math.abs(changePercent).toFixed(1) + '% (AUD ' + Number(previous.price).toFixed(2) + ' to AUD ' + Number(latest.price).toFixed(2) + ') versus previous recorded snapshot.</p>';
+    } else if (changePercent >= 5) {
+      sealedSignalMarkup = '<p style="margin-top:7px;color:#92400e;font-weight:800;">Sealed listing reference: up ' + changePercent.toFixed(1) + '% versus previous recorded snapshot.</p>';
+    } else {
+      sealedSignalMarkup = '<p style="margin-top:7px;color:#64748b;font-size:11px;">Sealed listing reference: ' + (changePercent >= 0 ? 'up ' : 'down ') + Math.abs(changePercent).toFixed(1) + '% versus previous recorded snapshot; below the 5% signal threshold.</p>';
+    }
+  }
   if (!points.length) {
     return `<details style="margin-top:10px;font-size:12px;"><summary style="cursor:pointer;font-weight:700;color:#334155;">📉 Price history</summary><p style="margin-top:8px;color:#64748b;">Daily history starts with the next successful marketplace refresh. Earlier prices have not been reconstructed or guessed.</p></details>`;
   }
