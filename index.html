@@ -605,6 +605,20 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media (max-width: 900px) { .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
+/* Accessible keyboard focus and predictable touch targets on mobile. */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline:3px solid #d4a900; outline-offset:3px; }
+button, nav button, .filter-buttons button { touch-action:manipulation; }
+@media (max-width: 420px) {
+  .header-inner { gap:8px; align-items:flex-start; flex-wrap:wrap; }
+  nav { flex-wrap:wrap; }
+  nav button { min-height:38px; }
+  .stats { gap:7px; }
+  .stat { min-width:0; }
+  .product .price-row { align-items:flex-start; flex-wrap:wrap; gap:6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior:auto!important; animation-duration:0.01ms!important; animation-iteration-count:1!important; transition-duration:0.01ms!important; }
+}
 </style>
 </head>
 
@@ -914,6 +928,45 @@ function isFreshVerifiedStock(offer) {
 
 function marketplaceProductKey(product) {
   return [product.name, product.set, product.language, product.type].join("|");
+}
+
+function renderMarketplacePriceHistory(product) {
+  const key = marketplaceProductKey(product);
+  const points = (Array.isArray(marketplaceSnapshot.history) ? marketplaceSnapshot.history : [])
+    .map(day => ({
+      date: String(day.date || ""),
+      entry: Array.isArray(day.products) ? day.products.find(item => item.key === key) : null
+    }))
+    .filter(point => /^\d{4}-\d{2}-\d{2}$/.test(point.date) &&
+      point.entry && Number.isFinite(Number(point.entry.lowestPrice)) && Number(point.entry.lowestPrice) > 0)
+    .slice(-30);
+  if (!points.length) {
+    return `<details style="margin-top:10px;font-size:12px;"><summary style="cursor:pointer;font-weight:700;color:#334155;">📉 Price history</summary><p style="margin-top:8px;color:#64748b;">Daily history starts with the next successful marketplace refresh. Earlier prices have not been reconstructed or guessed.</p></details>`;
+  }
+  const prices = points.map(point => Number(point.entry.lowestPrice));
+  const low = Math.min(...prices);
+  const high = Math.max(...prices);
+  const width = 320, height = 62, pad = 5;
+  const span = high - low || 1;
+  const coordinates = prices.map((price, index) => {
+    const x = points.length === 1 ? width / 2 : pad + index * (width - pad * 2) / (points.length - 1);
+    const y = height - pad - ((price - low) / span) * (height - pad * 2);
+    return x.toFixed(1) + "," + y.toFixed(1);
+  }).join(" ");
+  const first = points[0].date;
+  const last = points[points.length - 1].date;
+  return `
+    <details style="margin-top:10px;font-size:12px;">
+      <summary style="cursor:pointer;font-weight:700;color:#334155;">📉 Price history · ${points.length} day${points.length === 1 ? "" : "s"}</summary>
+      <div style="margin-top:9px;padding:10px;background:#f8fafc;border-radius:10px;">
+        <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;"><span style="color:#64748b;">Lowest comparable eBay AU offer</span><strong>A${low.toFixed(2)}–A${high.toFixed(2)}</strong></div>
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Daily lowest eBay AU listing price trend from A${prices[0].toFixed(2)} to A${prices[prices.length - 1].toFixed(2)}" style="display:block;width:100%;height:auto;margin-top:8px;overflow:visible;">
+          <polyline points="${coordinates}" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline>
+        </svg>
+        <div style="display:flex;justify-content:space-between;gap:8px;color:#64748b;font-size:10px;"><span>${escapeHtml(first)}</span><span>${escapeHtml(last)}</span></div>
+        <p style="margin-top:7px;color:#64748b;font-size:11px;">Marketplace reference only, not retailer stock. Daily points begin from this feature's first successful refresh; offers can differ by condition and shipping.</p>
+      </div>
+    </details>`;
 }
 
 function renderMarketplaceOffers(product) {
@@ -1451,6 +1504,7 @@ ${[...availableRetailers]
   </details>
 ` : ""}
 ${renderMarketplaceOffers(product)}
+        ${renderMarketplacePriceHistory(product)}
         ${releaseDate}
 
         ${dealButton}
