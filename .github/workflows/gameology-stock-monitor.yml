@@ -35,6 +35,24 @@ jobs:
       - name: Check supported Shopify retailer product pages
         run: node .github/scripts/monitor-shopify-retailers.mjs
 
+      - name: Send Discord alerts for verified stock and price changes
+        if: success()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_STOCK_WEBHOOK_URL: ${{ secrets.DISCORD_STOCK_WEBHOOK_URL }}
+          DISCORD_PRICE_DROP_WEBHOOK_URL: ${{ secrets.DISCORD_PRICE_DROP_WEBHOOK_URL }}
+          DISCORD_RELEASE_WEBHOOK_URL: ${{ secrets.DISCORD_RELEASE_WEBHOOK_URL }}
+          DISCORD_STOCK_ALERT_ROLE_ID: ${{ secrets.DISCORD_STOCK_ALERT_ROLE_ID }}
+          DISCORD_PRICE_DROP_ROLE_ID: ${{ secrets.DISCORD_PRICE_DROP_ROLE_ID }}
+          DISCORD_RELEASE_ALERT_ROLE_ID: ${{ secrets.DISCORD_RELEASE_ALERT_ROLE_ID }}
+          BEFORE_SHA: ${{ github.sha }}
+        run: |
+          if git diff --quiet -- products.json; then
+            echo "No verified product changes; no alert to send."
+            exit 0
+          fi
+          node .github/scripts/send-discord-alerts.mjs
+
       - name: Commit verified catalogue updates
         if: success()
         run: |
