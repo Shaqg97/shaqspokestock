@@ -3,7 +3,7 @@
   "source": "eBay Browse API",
   "marketplace": "EBAY_AU",
   "currency": "AUD",
-  "checkedAt": "2026-10-14T03:48:56.376Z",
+  "checkedAt": "2026-10-14T03:59:52.119Z",
   "products": [
     {
       "key": "Delta Reign Booster Box|Mega Evolution—Delta Reign|English|Booster Box",
@@ -19,11 +19,12 @@
           "shipping": 0,
           "totalPrice": 348,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/366728180722?_skw=Delta+Reign+Booster+Box+Mega+Evolution%E2%80%94Delta+Reign&hash=item5562b3f3f2:g:RcwAAeSwgZhqzFyi&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7nXmLTELOJqhPrjTUId6OuDb%2Bxwg%2BRgoiLqF9Sbk5A5zSrOXLx0EJMatSpvYWg7WxxMIKCU6LbJm6jBXdRvSBAjxZkP2A1KdXsLgsDlLGPqC%2FHJAUy9IvdaUkgB5pvKs9GvEdyWJCkGttsNlMVGUV2vqzGiRiEyzBIR1JBDiPF5NHBuC20VIKLX2QSm2DaREWosg8sfGXIRYt1D6auA5Vc9FLoFXqyzX%2F8qix8uYheznGe2EyVtgR3SeI0oimsXTAATAbjKhw0qckPolZsH4p0VTvPPpIVjS%2FNopLe89rzhBbCflRuoxTwehfufaBGNdKio4ddc5YJe7yjUIEfXLvez",
+          "url": "https://www.ebay.com.au/itm/366728180722?_skw=Delta+Reign+Booster+Box+Mega+Evolution%E2%80%94Delta+Reign&hash=item5562b3f3f2:g:RcwAAeSwgZhqzFyi&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7nXmLTELOJqhPrjTUId6OuDb%2Bxwg%2BRgoiLqF9Sbk5A5zSrOXLx0EJMatSpvYWg7WxxMIKCU6LbJm6jBXdRvSBAjxZkP2A1KdXsLgsDlLGPqC%2FHJAUy9IvdaUkgB5pvKs9HlpojGxSxb%2Ftjh3yvPk%2B0mEXKjKPkhs7tOxXZtXKLlK5UqKOmzUOKgAUcNm8TyZsJ4W31QUuoKDei%2FJ5D9h5t5Tt8GJ7Y6GWurLd6CyYdn%2BuRihcafZ%2BhH66Qwbd1Yt5oTdRj37rnYWbzJ%2FTaVUX5n4r%2F6JpPsN7%2BnMagDpwwY9fZHDiRe9rwWJEkLIc7JIEatFSNgMVeaNGJP87awkopw",
           "image": "https://i.ebayimg.com/images/g/RcwAAeSwgZhqzFyi/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "meg_gk",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 59,
           "availability": null,
           "matchConfidence": 100
         },
@@ -34,26 +35,12 @@
           "shipping": 0,
           "totalPrice": 379.99,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/178563269115?_skw=Delta+Reign+Booster+Box+Mega+Evolution%E2%80%94Delta+Reign&hash=item29933341fb:g:7~8AAeSwuqxqsNIg&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7mTBNnaPvrrEiDo2agZp9LVtx%2BzBoHxpywyZnVFEAvxIvTD8n38ftIlKx5KKI9OHcb9JyyxLDdoKZUGfHdB2nD4bJOD1h%2BrMIWTx8vLHqRAJOdLF4moZxRp1ulTQ3RSw4iU6UnYcKUC55T23E43xwpY7jlYQWLNnCLpmEswvUC8%2FGNbB0rGTaa3FKZF%2FwJBw7zLaIAdAsnrKSSBwoDkSqTA7qnZUxNGSgCPZww33WGPSPMVtO5LkhIhBy78meJvBtv8xlsUIbKiacjUlpetusze--EvoOrdz25zWQ1i0UezekFuk0wc0cyTcwwmy5ECfUjPfjixtnv6Zoio8TeUCec9",
+          "url": "https://www.ebay.com.au/itm/178563269115?_skw=Delta+Reign+Booster+Box+Mega+Evolution%E2%80%94Delta+Reign&hash=item29933341fb:g:7~8AAeSwuqxqsNIg&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7mTBNnaPvrrEiDo2agZp9LVtx%2BzBoHxpywyZnVFEAvxIvTD8n38ftIlKx5KKI9OHcb9JyyxLDdoKZUGfHdB2nD4bJOD1h%2BrMIWTx8vLHqRAJOdLF4moZxRp1ulTQ3RSw4hC6su3D6NgT%2BkBd0rhzbX%2FUw00p07ea9lLDO5Wl2bghB89o0in3sgno64llHa2GY4Mp1go%2BzK7kqICi%2BCsV8FlhPOMRX2xlv1Oiz4vLjj5Ib2E0Evtcw%2FauEf2rhvhOttiTjGEmBIYR8%2BdsvRCJFb7vOpxYCV%2BHDWattEp00YWfofZYQjnAngtTPuo7MhU6VwBGhTWgsEXfQRjA8Qv6Hfb",
           "image": "https://i.ebayimg.com/images/g/7~8AAeSwuqxqsNIg/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "captaincollectibles223",
           "sellerFeedbackPercent": "100.0",
-          "availability": null,
-          "matchConfidence": 100
-        },
-        {
-          "itemId": "v1|158210698371|0",
-          "title": "PRESALE Pokemon -TCG- Mega Evolution Delta Reign Booster Box SHIPS NOVEMBER 6",
-          "price": 387.6,
-          "shipping": 0,
-          "totalPrice": 387.6,
-          "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/158210698371?_skw=Delta+Reign+Booster+Box+Mega+Evolution%E2%80%94Delta+Reign&hash=item24d617ac83:g:fSEAAeSw-Mtqh549",
-          "image": "https://i.ebayimg.com/images/g/fSEAAeSw-Mtqh549/s-l225.jpg",
-          "condition": "New/Factory Sealed",
-          "seller": "jslei-73",
-          "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 34,
           "availability": null,
           "matchConfidence": 100
         },
@@ -69,6 +56,7 @@
           "condition": "New/Factory Sealed",
           "seller": "sassyotto",
           "sellerFeedbackPercent": "99.9",
+          "sellerFeedbackScore": 173992,
           "availability": null,
           "matchConfidence": 100
         },
@@ -79,11 +67,28 @@
           "shipping": 35.92,
           "totalPrice": 395.53,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/940007272506?_skw=Delta+Reign+Booster+Box+Mega+Evolution%E2%80%94Delta+Reign&hash=itemdadcccb03a:g:58MAAeSwg71qzFR1&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7kU2vjbghuBEmVUDpBqZNitU%2FLI%2Bti8mzF6KMaBBbqST%2BZW7KCWug3mc3QlMdmc%2FSw9qJcDU%2F6G6Ykghb5gr%2Bk1T%2FU4QUsKPxXYm9z2Rw0VwBdbDWI6Xv6QFj1oQrFVy4Pl0S4VfvWPgYVS%2FFLLB5ZGq2Ose%2BRx2pbOhmfz9X5kKP7ds888U2AIpor%2BPB5VsZfKUGd6w%2F5p2zje3yoapm2YKa0o%2FFwMZqe8J%2FjvOZ6A2ULwbdsEIKr6Emh85K%2BW6gz87dYe5J6v--UBcdXKHy50TwAgCvO2rOelt6eAFWiawWJmfIL2Z%2BU6bcL2cLhFzVVE5neRyt%2B1OSwdQgrTftri",
+          "url": "https://www.ebay.com.au/itm/940007272506?_skw=Delta+Reign+Booster+Box+Mega+Evolution%E2%80%94Delta+Reign&hash=itemdadcccb03a:g:58MAAeSwg71qzFR1&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7kU2vjbghuBEmVUDpBqZNitU%2FLI%2Bti8mzF6KMaBBbqST%2BZW7KCWug3mc3QlMdmc%2FSw9qJcDU%2F6G6Ykghb5gr%2Bk1T%2FU4QUsKPxXYm9z2Rw0VwBdbDWI6Xv6QFj1oQrFVy4PoraeG46d%2BxQfG14k8zSIhGt6OLSspU7JAI67wqeBU0lobXKzK2RKw8sLhLoXHddCbIPcDPsyKqHjTGPTfM6t5hdJv%2BqHE67jOJt9QL8PO8IKtf%2FE9mFP9cAElA1fOf%2Bqf4ZRsp%2FQoiCBwi1qhkGrzcTEepapCfGKecNC1KCGbfCIrGQ5%2BX9mACWg242KOb0bCYydlWET8J6uYU%2B1%2Fx%2BL1",
           "image": "https://i.ebayimg.com/images/g/58MAAeSwg71qzFR1/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "isomerism",
           "sellerFeedbackPercent": "98.5",
+          "sellerFeedbackScore": 1037,
+          "availability": null,
+          "matchConfidence": 100
+        },
+        {
+          "itemId": "v1|920036702554|0",
+          "title": "Pokemon Mega Evolution Delta Reign Booster Box Factory Sealed Presale 11/6",
+          "price": 347.75,
+          "shipping": 49.99,
+          "totalPrice": 397.74,
+          "currency": "AUD",
+          "url": "https://www.ebay.com.au/itm/920036702554?_skw=Delta+Reign+Booster+Box+Mega+Evolution%E2%80%94Delta+Reign&hash=itemd63675f95a:g:e1gAAeSwXIZqzoPJ",
+          "image": "https://i.ebayimg.com/images/g/e1gAAeSwXIZqzoPJ/s-l225.jpg",
+          "condition": "New/Factory Sealed",
+          "seller": "goodgamearcade",
+          "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 154,
           "availability": null,
           "matchConfidence": 100
         }
@@ -104,11 +109,12 @@
           "shipping": 0,
           "totalPrice": 169.95,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/237108947082?_skw=Delta+Reign+ETB+Mega+Evolution%E2%80%94Delta+Reign&hash=item3734cb688a:g:mwYAAeSwtHBqyg9x&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7kmLIwxqf7t1xcfjZZOZdyrUvcmhsTdWfCR0TXmtnzZS6YpBfucZQoy6Ijba%2FVytxIQWDGbVb%2B3vfxLFqEQsXeEpkDjKYB0TPHfwZByAroMZqeaP2tAol0uFWy3NyWJMFZPfPycz3BfIII6Ray3dIrNHJf6W3%2BkO2wkkTvleZB6ZNMDaev716gTIJGHGC6gaCLEcfSckpbN2CyXTlKMTdBxwenQf6OTzY8FwcsEtUJfY4GLqzz%2BvqY1A%2FfNyYglt9hZjmzS2J2MlWXeBC%2F5cA2ogRlkxPOAzb0bhnGDxfsw537W7TpxPi%2FBFYvbbBTvyAj%2FqQX3YrmlkjwF4hqoje56",
+          "url": "https://www.ebay.com.au/itm/237108947082?_skw=Delta+Reign+ETB+Mega+Evolution%E2%80%94Delta+Reign&hash=item3734cb688a:g:mwYAAeSwtHBqyg9x&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7kmLIwxqf7t1xcfjZZOZdyrUvcmhsTdWfCR0TXmtnzZS6YpBfucZQoy6Ijba%2FVytxIQWDGbVb%2B3vfxLFqEQsXeEpkDjKYB0TPHfwZByAroMZqeaP2tAol0uFWy3NyWJMFYnqVAC1aW9ffWEcTSPRmVVOXdxPX%2FyEJlm7KYUNiJ%2FhqHgB9uSxpo6VhL%2FgRVRfB7RWU31lGjOrbXJJWsaBGHCe%2BIKzAkrbrn5cjGsPFwp%2Buht%2FaTXpdFgO1JlvV7HQWObM9zDvVQiyuo%2Fv4S2ku2NPEMtubG0oJvFuPHsqJ7t3U5G8J21QGVZyfCKd2qpC117kR1LZCQMHQptDeJqwjPh",
           "image": "https://i.ebayimg.com/images/g/mwYAAeSwtHBqyg9x/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "souldivision",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 183,
           "availability": null,
           "matchConfidence": 100
         },
@@ -124,6 +130,7 @@
           "condition": "New/Factory Sealed",
           "seller": "aussie.sneaks",
           "sellerFeedbackPercent": "88.9",
+          "sellerFeedbackScore": 133,
           "availability": null,
           "matchConfidence": 100
         },
@@ -134,11 +141,12 @@
           "shipping": 0,
           "totalPrice": 170,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/287636517083?_skw=Delta+Reign+ETB+Mega+Evolution%E2%80%94Delta+Reign&hash=item42f878f0db:g:XdkAAeSw-31qyF~4&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7li1aSLeWw2Exwe%2FfOqN7ZHpzNwefapxr1fWrd8TEssLMrGQQQmHFuFDK%2F6PZDwEgqABYlfQeQL9o4MwYcncKXUZcMSf%2BG7%2FWx19UcCWIYv1WDSov4y7keLm8B3wNbB2D4lLVG84SGVbmQYuU7GKxqrdXeZWe4qS3o%2FAJHu4XlCr5--BOGrRJH8nUiwAbPW%2FCjOnbR0Jphx0aOXOZ6Alv5oKMj9JjeO%2FP5DvGoxNNcb8jQZbha5r7Mld6kzxsKfu4AkA92R3HEsfcgHIyyv7Pp8rgx3VRyQ1AywLIPBBDw08Iwgqn2qIvdMjKEwkNf0DpGChyoVVq0adbf%2FEpqJwK7%2B",
+          "url": "https://www.ebay.com.au/itm/287636517083?_skw=Delta+Reign+ETB+Mega+Evolution%E2%80%94Delta+Reign&hash=item42f878f0db:g:XdkAAeSw-31qyF~4&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7li1aSLeWw2Exwe%2FfOqN7ZHpzNwefapxr1fWrd8TEssLMrGQQQmHFuFDK%2F6PZDwEgqABYlfQeQL9o4MwYcncKXUZcMSf%2BG7%2FWx19UcCWIYv1WDSov4y7keLm8B3wNbB2D6kXEtzqrFDXHwwuVly1RAX0HKF9smD4WtIOBplpKngPw%2Bf%2FdMos1OLNg7rQ3ISc93Tp8kY97xUq4EtnBVCUXfJZbEyzNYgZ%2Fc9mfO29KA9jk2mU%2BtI0Cu4WXloBqB4RP1VLSNorgoucIfBbsRDjfNFESFYLcTo4SX0EcKKBLAdMg%2Fpd%2B4kqakk0Vi2XJ%2Fv2ELdWXxndeTVXANnPDFflqEI",
           "image": "https://i.ebayimg.com/images/g/XdkAAeSw-31qyF~4/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "delboy-au",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 90,
           "availability": null,
           "matchConfidence": 100
         },
@@ -154,6 +162,7 @@
           "condition": "New/Factory Sealed",
           "seller": "meimei211",
           "sellerFeedbackPercent": "0.0",
+          "sellerFeedbackScore": 0,
           "availability": null,
           "matchConfidence": 100
         },
@@ -169,6 +178,7 @@
           "condition": "New/Factory Sealed",
           "seller": "silkiemeadow",
           "sellerFeedbackPercent": "99.5",
+          "sellerFeedbackScore": 352,
           "availability": null,
           "matchConfidence": 100
         }
@@ -194,6 +204,7 @@
           "condition": "New/Factory Sealed",
           "seller": "liontcgaustralia",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 169,
           "availability": null,
           "matchConfidence": 100
         },
@@ -209,6 +220,7 @@
           "condition": "New/Factory Sealed",
           "seller": "thetcgshack123",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 725,
           "availability": null,
           "matchConfidence": 100
         },
@@ -224,6 +236,7 @@
           "condition": "New/Factory Sealed",
           "seller": "kami.collectibles",
           "sellerFeedbackPercent": "99.9",
+          "sellerFeedbackScore": 2406,
           "availability": null,
           "matchConfidence": 100
         },
@@ -234,11 +247,12 @@
           "shipping": 0,
           "totalPrice": 117.3,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/147627337742?_skw=Mega+Brave+M1L+Booster+Box+Mega+Brave&hash=item225f46680e:g:5a8AAeSwASdqvjUC&amdata=enc%3AAQALAAABAOf5zIIojhOf%2BkQK%2Bxzjn7lnL%2BK7ZkaogiupW6XhaWJV%2BQdyq8xXlr0yxjLKOJVXf4sbegISHv8mZN9QhgCFKtgOOxNXj1Y7kb64A45Qc093N0NQaa8p5FmrClWTkfLr4mxY%2FsDJPQrhLhzO5PI9C8co3MsoxUlGlAOQp%2FyBG1IOBZ6QiDpK03P86CnvOv29XPEDvc3xB%2Bp1C2rtQrc4tVz7mfmNeiACKjMgNevbBb%2BV3qAZ642lg5S2IPmqAEM%2Fqdb0niZ4zsBJINq2KcYy5on8ZZoHIwdtoy3%2B4sWO2SKO87v19yPw08ii8cU0%2B8%2Be%2Fw%2FTRReA2N3ZTUPXJwvSXjw%3D",
+          "url": "https://www.ebay.com.au/itm/147627337742?_skw=Mega+Brave+M1L+Booster+Box+Mega+Brave&hash=item225f46680e:g:5a8AAeSwASdqvjUC&amdata=enc%3AAQALAAABAOf5zIIojhOf%2BkQK%2Bxzjn7lnL%2BK7ZkaogiupW6XhaWJV%2BQdyq8xXlr0yxjLKOJVXf4sbegISHv8mZN9QhgCFKtgOOxNXj1Y7kb64A45Qc093N0NQaa8p5FmrClWTkfLr4mxY%2FsDJPQrhLhzO5PI9C8fSeEknzYVCEPdFDz8JaOX04TuPCdFXlHYeuKge3sClOowu7T8t7MlM6UMqSx43dssMVGSKILydgDGEIPpsD4xJ1Jc%2BEW0md%2FkyOpWFn6jx9vv0lZthMdXTBE%2FWXwjj4Cxb4Mp6Dj1GKFHC3vY18LUpuCWPXNj822Ov9SSFYNZoJs2HqQ%2FJlo8e7m2o8Ghqmds%3D",
           "image": "https://i.ebayimg.com/images/g/5a8AAeSwASdqvjUC/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "rachandtictac",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 1007,
           "availability": null,
           "matchConfidence": 100
         },
@@ -254,6 +268,7 @@
           "condition": "New/Factory Sealed",
           "seller": "exsport-us",
           "sellerFeedbackPercent": "98.8",
+          "sellerFeedbackScore": 6245,
           "availability": null,
           "matchConfidence": 100
         }
@@ -288,6 +303,7 @@
           "condition": "New/Factory Sealed",
           "seller": "forexdex",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 1469,
           "availability": null,
           "matchConfidence": 100
         },
@@ -303,6 +319,7 @@
           "condition": "New/Factory Sealed",
           "seller": "maus_collective",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 1,
           "availability": null,
           "matchConfidence": 100
         },
@@ -318,6 +335,7 @@
           "condition": "New/Factory Sealed",
           "seller": "poketas",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 210,
           "availability": null,
           "matchConfidence": 100
         },
@@ -333,6 +351,7 @@
           "condition": "New/Factory Sealed",
           "seller": "rachandtictac",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 1007,
           "availability": null,
           "matchConfidence": 100
         },
@@ -348,6 +367,7 @@
           "condition": "New/Factory Sealed",
           "seller": "sturdyoakt1",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 631,
           "availability": null,
           "matchConfidence": 100
         }
@@ -373,6 +393,7 @@
           "condition": "New/Factory Sealed",
           "seller": "incdesk",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 1196,
           "availability": null,
           "matchConfidence": 100
         },
@@ -388,6 +409,7 @@
           "condition": "New/Factory Sealed",
           "seller": "collectable_claw",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 546,
           "availability": null,
           "matchConfidence": 100
         },
@@ -403,6 +425,7 @@
           "condition": "New/Factory Sealed",
           "seller": "holowave",
           "sellerFeedbackPercent": "98.0",
+          "sellerFeedbackScore": 49,
           "availability": null,
           "matchConfidence": 100
         },
@@ -418,6 +441,7 @@
           "condition": "New/Factory Sealed",
           "seller": "pikacardsau",
           "sellerFeedbackPercent": "99.5",
+          "sellerFeedbackScore": 434,
           "availability": null,
           "matchConfidence": 100
         },
@@ -433,6 +457,7 @@
           "condition": "New/Factory Sealed",
           "seller": "pikacardsau",
           "sellerFeedbackPercent": "99.5",
+          "sellerFeedbackScore": 434,
           "availability": null,
           "matchConfidence": 100
         }
@@ -458,6 +483,7 @@
           "condition": "New/Factory Sealed",
           "seller": "wayfinderhouse",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 638,
           "availability": null,
           "matchConfidence": 100
         },
@@ -473,6 +499,7 @@
           "condition": "New/Factory Sealed",
           "seller": "wayfinderhouse",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 638,
           "availability": null,
           "matchConfidence": 100
         },
@@ -488,6 +515,7 @@
           "condition": "New/Factory Sealed",
           "seller": "wayfinderhouse",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 638,
           "availability": null,
           "matchConfidence": 100
         },
@@ -503,6 +531,7 @@
           "condition": "New/Factory Sealed",
           "seller": "wayfinderhouse",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 638,
           "availability": null,
           "matchConfidence": 100
         }
@@ -537,6 +566,7 @@
           "condition": "New/Factory Sealed",
           "seller": "yami_tackle",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 42,
           "availability": null,
           "matchConfidence": 100
         },
@@ -547,11 +577,12 @@
           "shipping": 0,
           "totalPrice": 59.9,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/198695449717?_skw=30th+Celebration+Mini+Tin+30th+Celebration&hash=item2e432bf475:g:oGYAAeSwqcpqxhVh&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7nMjd9Fmfcxdc9w8GrHnng%2F45JdLjUTmDjYe8WZ0AlrDrEl9201uqmZNC1NzpUkZ6ROgEQoGlgciqbJKEWrgq0GSwvNNwqo8wt2VL1NEQ6rbqGmH%2FH%2FVaf8jDpJRiKSXhb6zMwmjmMwBcC0utB4I1oFFy5YBLRExuWl9MVIDd%2Fx%2BahieZL%2BdrKL238tNC5%2FhKQGBUEWt55ZAz6OyoQ1pvwvRU8w44dCc9EC6SLA4jvE1Q4EV7NydtZDMCBglsg2m79n5JmyhjhG8HNFszG%2FuuZs7Y7g%2FhXUwCi8MIVNqMx2FI3VMSKBAs0%2FYQptZq%2BSGcpAsZEDgXwPmXLDVu0PU4Zh",
+          "url": "https://www.ebay.com.au/itm/198695449717?_skw=30th+Celebration+Mini+Tin+30th+Celebration&hash=item2e432bf475:g:oGYAAeSwqcpqxhVh&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7nMjd9Fmfcxdc9w8GrHnng%2F45JdLjUTmDjYe8WZ0AlrDrEl9201uqmZNC1NzpUkZ6ROgEQoGlgciqbJKEWrgq0GSwvNNwqo8wt2VL1NEQ6rbqGmH%2FH%2FVaf8jDpJRiKSXhZ8MuzN7g0uHfaR%2FtvoLowQZ%2Fwt03ccucV31ISgUji%2BaW40om7kxDwZkpDkrLYSGCcmfV3F1tR%2Fn0erZ2xoYHRfCRkcJS%2F4DBotjwEwHdkGG0%2FawCRC4hF1aYchmGSbDFQ5r25haYwfIMmaTlyg3DLrz9URPLLbtxVukUfS9TD741Lgz1NJI6iIHXFCIITwD6sfbh4mFXqh5aLwIKopY4Av",
           "image": "https://i.ebayimg.com/images/g/oGYAAeSwqcpqxhVh/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "starboard-games",
           "sellerFeedbackPercent": "99.0",
+          "sellerFeedbackScore": 46026,
           "availability": null,
           "matchConfidence": 100
         },
@@ -567,6 +598,7 @@
           "condition": "New/Factory Sealed",
           "seller": "irockine-bay",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 115,
           "availability": null,
           "matchConfidence": 100
         },
@@ -577,11 +609,12 @@
           "shipping": 0,
           "totalPrice": 69.95,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/237122998127?_skw=30th+Celebration+Mini+Tin+30th+Celebration&hash=item3735a1cf6f:g:PCkAAeSw0UxqzvKq&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7lXbkOpH3IPJ1SBL91%2BMEp0r9eCt3Y9aBSCiN5YG76MZYrB9xNvc7BsxChzEd8vH4i1gxJZ5WHKJu7jZErlp6HDrkcRueZhReYNC10nBkhSlkkN2cd9J6cj2l1%2F84LGnDe6eDxsTn91DjjDd780s2loNIvsy3YxsIlRC4r0OqAXvQ3iYVujJCwePEyPCFFBkepRe%2F8cNfLPZSBn07BzwK3%2BvowyDrOAuiKLhBlZ7QcNl%2Fj45ce7ysc%2BXDWewsLPqzgAUqsAge7F8I5H9Qphz9VcPzG8YgOkX%2Btxy9fQ4Z4NAEenYItgdpG4SJ%2B00%2FFB7yoOiFqItiGu7KCvKVXB9pXW",
+          "url": "https://www.ebay.com.au/itm/237122998127?_skw=30th+Celebration+Mini+Tin+30th+Celebration&hash=item3735a1cf6f:g:PCkAAeSw0UxqzvKq&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7lXbkOpH3IPJ1SBL91%2BMEp0r9eCt3Y9aBSCiN5YG76MZYrB9xNvc7BsxChzEd8vH4i1gxJZ5WHKJu7jZErlp6HDrkcRueZhReYNC10nBkhSlkkN2cd9J6cj2l1%2F84LGnDcvl9UK3NvzrSPdLYXZX%2FSLeqW4TOWabLD1XA6LcA7yohp8lTt3s7amRt7SINi79hHtfShWhfSubwVkI%2BvulDHXXYsgrDUdRWj3MsvjZkCIdBYF55pmIBH64S61Q%2FreQg%2BOjG7b%2Bcv%2B2rrug1TMqKG7PALf%2FsmxgTXB%2BtMFySvIuC8YioepXQaktJsn3QWPreRV8zL8wfuMO9rMqyl54s6K",
           "image": "https://i.ebayimg.com/images/g/PCkAAeSw0UxqzvKq/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "angketo_0",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 1620,
           "availability": null,
           "matchConfidence": 100
         },
@@ -592,11 +625,12 @@
           "shipping": 0,
           "totalPrice": 69.95,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/237122997523?_skw=30th+Celebration+Mini+Tin+30th+Celebration&hash=item3735a1cd13:g:U8wAAeSw0MdqzvJp&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7kowyCFKYpUXxD%2Bt2s%2BXwxmUNagPy39SAZ6C75ErVpKRcDbz2%2BS7KpwsYEATe7W2AmFOpD%2B%2BUF6IU0Zp1LSsHAOmJpX96eQTASUujlEXcyC0bZvOTFf4Wl37%2BJT6c9qDmq6KExOWF%2BT0wAn9CwGbDEg%2BDNsZh%2BbrxaiKhPt1uQZL5QRtsTJAIMDIHFaa6DJT0HUuxFkW5HT6OkwB2apbVqITlXiXxBIcfjbGIrG5NDjP8h3F39FuZAIUFqGVMpdR7e%2BUu9f38zN5cH%2FpL88axvOgNHJPIKNI86%2Fc4CzMLOPWOo7nysRzOw%2FE74S6m5sTxd%2B%2BKnINuB6mVr5iaW0NK%2FE",
+          "url": "https://www.ebay.com.au/itm/237122997523?_skw=30th+Celebration+Mini+Tin+30th+Celebration&hash=item3735a1cd13:g:U8wAAeSw0MdqzvJp&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7kowyCFKYpUXxD%2Bt2s%2BXwxmUNagPy39SAZ6C75ErVpKRcDbz2%2BS7KpwsYEATe7W2AmFOpD%2B%2BUF6IU0Zp1LSsHAOmJpX96eQTASUujlEXcyC0bZvOTFf4Wl37%2BJT6c9qDmoqip%2BWz%2BKUYjY5CjL2CaSrev0uti11XE1JZ3JnYQYPninWdXd%2Bg20BT0RTnx%2FAkKN3NSjplSk1LI%2FOVTBqrbxI1vMrl1wBNe7ocMxQnd7pTYoUuTWFhhn0D%2FXwaoND%2FiiJcl5j0nBAJ5Fayz9vwN3IejRUi7FOthWkPVVh1yqD3KtE%2BhmyDol0Q1i4Dg0RAmu6gYorOnNDYdhku3CKamDS",
           "image": "https://i.ebayimg.com/images/g/U8wAAeSw0MdqzvJp/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "angketo_0",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 1620,
           "availability": null,
           "matchConfidence": 100
         }
@@ -631,6 +665,7 @@
           "condition": "New/Factory Sealed",
           "seller": "dcv-official",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 1540,
           "availability": null,
           "matchConfidence": 100
         },
@@ -646,6 +681,7 @@
           "condition": "New/Factory Sealed",
           "seller": "gsxriang93",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 57,
           "availability": null,
           "matchConfidence": 100
         },
@@ -661,6 +697,7 @@
           "condition": "New/Factory Sealed",
           "seller": "cards-and-collectibles-down-under",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 183,
           "availability": null,
           "matchConfidence": 100
         },
@@ -676,6 +713,7 @@
           "condition": "New/Factory Sealed",
           "seller": "fired42fred",
           "sellerFeedbackPercent": "98.9",
+          "sellerFeedbackScore": 1598,
           "availability": null,
           "matchConfidence": 100
         },
@@ -691,6 +729,7 @@
           "condition": "New/Factory Sealed",
           "seller": "dollyscards",
           "sellerFeedbackPercent": "99.3",
+          "sellerFeedbackScore": 59861,
           "availability": null,
           "matchConfidence": 100
         }
@@ -716,6 +755,7 @@
           "condition": "New/Factory Sealed",
           "seller": "marketbuy_llc",
           "sellerFeedbackPercent": "98.9",
+          "sellerFeedbackScore": 421,
           "availability": null,
           "matchConfidence": 100
         },
@@ -726,11 +766,12 @@
           "shipping": 0,
           "totalPrice": 120.99,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/298624178242?_skw=30th+Celebration+Battle+Deck%E2%80%94Umbreon+ex+30th+Celebration&hash=item4587635842:g:Kq0AAeSwWihqka1d&amdata=enc%3AAQALAAABIOf5zIIojhOf%2BkQK%2Bxzjn7le8uKuHTsNyEJQZIvpq4cEzjKN1DohN5EIVPZLT%2BofFSdYJwyc6dypTptOB2tGIk7XEQaKtKuSZBqhJ2s3jfMeODx%2BYt0hjayOh8xAW4CemEr73CT34q%2BmMTO%2B8jotF6T1kkoKnu%2BUjv9q%2BsrwutcAdZe124OQD4LqiUrZ0FVvw9gDyif2%2Fvxq85AG3GkpcOjMafAc26eVjHvpEiV0Ol13TU13zVIDlR0PoyNa9UatFRiiptbl%2BfAYiLn6wtw79YAfKt2SnkPy0FtJHGw61SQIafvy17UT8o4s%2Ftkyuf2iemOmGmw7mSs%2BE26gD5P2pQRarpOdNbQkZgoksoOEtZgdU0N5yJ7o1%2FazfSIcCohg4Q%3D%3D",
+          "url": "https://www.ebay.com.au/itm/298624178242?_skw=30th+Celebration+Battle+Deck%E2%80%94Umbreon+ex+30th+Celebration&hash=item4587635842:g:Kq0AAeSwWihqka1d&amdata=enc%3AAQALAAABIOf5zIIojhOf%2BkQK%2Bxzjn7le8uKuHTsNyEJQZIvpq4cEzjKN1DohN5EIVPZLT%2BofFSdYJwyc6dypTptOB2tGIk7XEQaKtKuSZBqhJ2s3jfMeODx%2BYt0hjayOh8xAW4CemEr73CT34q%2BmMTO%2B8jotF6Sv7wBW4QTeGwL68opz424vcnNTZHFNf3q3FtRoHtIRpsIr0q5wmM1OJivZEmsl8chCvRKViGf80kL2c6oOjxTeWfIXY8%2FE%2BggnuHxwc4lOhDfZ5jamkLAzrltK5GiaB6aiT%2B0iBvHZ9GQnpY8ngUlXp404gHMHdjbTSsVsLpYx5ALK4ixz%2Bpi35FZm9ZxE6bQ3dHonVUQaj6LJFMRRBFG2Etc%2FyLdDN01bR6mIBVoNDw%3D%3D",
           "image": "https://i.ebayimg.com/images/g/Kq0AAeSwWihqka1d/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "cards-and-collectibles-down-under",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 183,
           "availability": null,
           "matchConfidence": 100
         },
@@ -746,6 +787,7 @@
           "condition": "New/Factory Sealed",
           "seller": "richcollectiblesinc",
           "sellerFeedbackPercent": "99.4",
+          "sellerFeedbackScore": 423,
           "availability": null,
           "matchConfidence": 100
         },
@@ -761,6 +803,7 @@
           "condition": "New/Factory Sealed",
           "seller": "kickswithcaden",
           "sellerFeedbackPercent": "93.3",
+          "sellerFeedbackScore": 32,
           "availability": null,
           "matchConfidence": 100
         },
@@ -776,6 +819,7 @@
           "condition": "New/Factory Sealed",
           "seller": "archivetcg",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 167,
           "availability": null,
           "matchConfidence": 100
         }
@@ -801,6 +845,7 @@
           "condition": "New/Factory Sealed",
           "seller": "bitsnbobzinuk",
           "sellerFeedbackPercent": "75.0",
+          "sellerFeedbackScore": 26,
           "availability": null,
           "matchConfidence": 100
         },
@@ -816,6 +861,7 @@
           "condition": "New/Factory Sealed",
           "seller": "inculture",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 1275,
           "availability": null,
           "matchConfidence": 100
         },
@@ -831,6 +877,7 @@
           "condition": "New/Factory Sealed",
           "seller": "larchi22",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 495,
           "availability": null,
           "matchConfidence": 100
         },
@@ -846,6 +893,7 @@
           "condition": "New/Factory Sealed",
           "seller": "snorlaxvaults",
           "sellerFeedbackPercent": "99.7",
+          "sellerFeedbackScore": 421,
           "availability": null,
           "matchConfidence": 100
         },
@@ -861,6 +909,7 @@
           "condition": "New/Factory Sealed",
           "seller": "collectwithkaido",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 31,
           "availability": null,
           "matchConfidence": 100
         }
@@ -886,6 +935,7 @@
           "condition": "New/Factory Sealed",
           "seller": "lu808958",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 493,
           "availability": null,
           "matchConfidence": 100
         },
@@ -901,6 +951,7 @@
           "condition": "New/Factory Sealed",
           "seller": "swagamuffintcg",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 22,
           "availability": null,
           "matchConfidence": 100
         },
@@ -916,6 +967,7 @@
           "condition": "New/Factory Sealed",
           "seller": "sassyotto",
           "sellerFeedbackPercent": "99.9",
+          "sellerFeedbackScore": 173992,
           "availability": null,
           "matchConfidence": 100
         },
@@ -931,6 +983,7 @@
           "condition": "New/Factory Sealed",
           "seller": "icysoleznstuff",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 47,
           "availability": null,
           "matchConfidence": 100
         },
@@ -946,6 +999,7 @@
           "condition": "New/Factory Sealed",
           "seller": "bktrugs",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 299,
           "availability": null,
           "matchConfidence": 100
         }
@@ -966,11 +1020,12 @@
           "shipping": 0,
           "totalPrice": 152.95,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/237117333399?_skw=30th+Celebration+Figure+Collection%E2%80%94Mew+30th+Celebration&hash=item37354b5f97:g:XbMAAeSwufhqyyLx&amdata=enc%3AAQALAAABIOf5zIIojhOf%2BkQK%2Bxzjn7mvTqFzT1LCEk86Lo4J7uNsmN6Gy9BVO9be6GMNhpiQPvkypkFv7cMR4q5qTau5EESuDP20vMywEBiRNTw8TdUrhPvCGR4jGT%2F5sWLZVy8eJKe%2F6VE6bmS7s8uLchVcjVyEItr%2FO0%2Br%2BNrbaseEw7TUm0D5%2BGM2O5XNLK4v8N2Or6w5XmT1H6BStgfZ8xleoB7Y9Cz%2BmqPgL6DGxVwGFDyhpcDW1Z06f9qjQ%2BcM1eZOuZXxmPbmtUAn5PkY%2BGiguAftw5P9YNVCjG0DfhhpGYmFV3RnxanJXwpLI2pXkGmNyfLPD6iotNND5sCBp5YRKPZ0nqOhApQelajSnaHZ1AJFmiMniTiQJm3MtJm8k2qWDQ%3D%3D",
+          "url": "https://www.ebay.com.au/itm/237117333399?_skw=30th+Celebration+Figure+Collection%E2%80%94Mew+30th+Celebration&hash=item37354b5f97:g:XbMAAeSwufhqyyLx&amdata=enc%3AAQALAAABIOf5zIIojhOf%2BkQK%2Bxzjn7mvTqFzT1LCEk86Lo4J7uNsmN6Gy9BVO9be6GMNhpiQPvkypkFv7cMR4q5qTau5EESuDP20vMywEBiRNTw8TdUrhPvCGR4jGT%2F5sWLZVy8eJKe%2F6VE6bmS7s8uLchVcjVxsqJfgvL%2Fm9AY55lZSP9UagM1%2FC5hdf1C70K6hNJ0%2BLjSCwMn9RjDSJCgVN3hLEiEsxHWlDmfG9OZGbvUYvheUjx1hvO4M29W7YSQuEZCSuiUP2FPsBrRt%2BXv1FQ93SZE0hYpW5oB0s1ThlzT0NYw3RPSVsHz0GGMaIv%2FyTcTQ2Duz%2FbwtK8rZb1TWLK96Xrzn6JkCK3jr92AjrFfYwnkLLB6TN9Mlda7nw9GZ2xlJ8g%3D%3D",
           "image": "https://i.ebayimg.com/images/g/XbMAAeSwufhqyyLx/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "souldivision",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 183,
           "availability": null,
           "matchConfidence": 100
         },
@@ -986,6 +1041,7 @@
           "condition": "New/Factory Sealed",
           "seller": "gottacatchemallaustralia",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 592,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1001,6 +1057,7 @@
           "condition": "New/Factory Sealed",
           "seller": "broey2000",
           "sellerFeedbackPercent": "98.0",
+          "sellerFeedbackScore": 133,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1016,6 +1073,7 @@
           "condition": "New/Factory Sealed",
           "seller": "broey2000",
           "sellerFeedbackPercent": "98.0",
+          "sellerFeedbackScore": 133,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1031,6 +1089,7 @@
           "condition": "New/Factory Sealed",
           "seller": "broey2000",
           "sellerFeedbackPercent": "98.0",
+          "sellerFeedbackScore": 133,
           "availability": null,
           "matchConfidence": 100
         }
@@ -1056,6 +1115,7 @@
           "condition": "New/Factory Sealed",
           "seller": "primcollects",
           "sellerFeedbackPercent": "99.8",
+          "sellerFeedbackScore": 608,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1071,6 +1131,7 @@
           "condition": "New/Factory Sealed",
           "seller": "trustsnkrs",
           "sellerFeedbackPercent": "99.5",
+          "sellerFeedbackScore": 227,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1081,11 +1142,12 @@
           "shipping": 0,
           "totalPrice": 349.95,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/117455782584?_skw=30th+Celebration+Figure+Collection%E2%80%94Mewtwo+30th+Celebration&hash=item1b58e902b8:g:f2oAAeSwfBBqyDyi&amdata=enc%3AAQALAAABIOf5zIIojhOf%2BkQK%2Bxzjn7n5Eyag%2Fxy7ZmtL3xmMjZxxMuj9DjYAf2QjH6l59vG%2BWz2Oxe9ZgH85a%2BNUYIGwLvPEacGX1AryJ5bK%2Bk6mBfuHz5XKPaw2SX1xeKzr60mebIkDNrNx18xUDKsvtak6McaicBZ%2FFdAlNU6LCSN6iExEKXwh0WhUfVxwyQy1cRivrQgqkmN64vvh82qy%2BTw6vp538r9WIJjlKtQ9SExtUoZqiv%2BjaF7XT5SJbVyCZHec1rRDFDVpIvJ51lOBVYGot3D%2F1v%2BDH%2BhG2T5HXxhaNfkkeidlwrZajMSTx2YY%2FKaBnL%2FcGG88A%2FxPos%2BK4%2B8qTOli%2F5ei5rPNSjtOFtDJj5%2F4h2BfFR2rWnJ2qRYdJ%2BBwbA%3D%3D",
+          "url": "https://www.ebay.com.au/itm/117455782584?_skw=30th+Celebration+Figure+Collection%E2%80%94Mewtwo+30th+Celebration&hash=item1b58e902b8:g:f2oAAeSwfBBqyDyi&amdata=enc%3AAQALAAABIOf5zIIojhOf%2BkQK%2Bxzjn7n5Eyag%2Fxy7ZmtL3xmMjZxxMuj9DjYAf2QjH6l59vG%2BWz2Oxe9ZgH85a%2BNUYIGwLvPEacGX1AryJ5bK%2Bk6mBfuHz5XKPaw2SX1xeKzr60mebIkDNrNx18xUDKsvtak6McYQytdf96FHxztYABnSQhDtGzF07E%2Bnbk8MHyviz6ln7yHl0TZfeJRGLD6nOCcvjsyfaj2qlAjrzTdE1%2FakKOfCQ7FCKJ8WLq%2FBpa4ZV92NCw7Lafk%2Fytesg%2BsiAJYccgrO1kG%2BDsWuq3I0oUCg6DcmFNrQ4umfxR%2FfXhtTsQIFVJh4%2FwfyofkRn2zqocxPBteMBjxoDJelufiCbGXH6zRuI91x9WR4B6CP4swPMhdtTw%3D%3D",
           "image": "https://i.ebayimg.com/images/g/f2oAAeSwfBBqyDyi/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "chewkeanleong",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 240,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1101,6 +1163,7 @@
           "condition": "New/Factory Sealed",
           "seller": "familyflippers",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 119,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1116,6 +1179,7 @@
           "condition": "New/Factory Sealed",
           "seller": "trident_collectables",
           "sellerFeedbackPercent": "99.8",
+          "sellerFeedbackScore": 3105,
           "availability": null,
           "matchConfidence": 100
         }
@@ -1141,6 +1205,7 @@
           "condition": "New/Factory Sealed",
           "seller": "lotttradingco",
           "sellerFeedbackPercent": "99.9",
+          "sellerFeedbackScore": 1028,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1156,6 +1221,7 @@
           "condition": "New/Factory Sealed",
           "seller": "lidun_54",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 120,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1171,6 +1237,23 @@
           "condition": "New/Factory Sealed",
           "seller": "ena_cards",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 27,
+          "availability": null,
+          "matchConfidence": 100
+        },
+        {
+          "itemId": "v1|227544300140|0",
+          "title": "Pokemon TCG 30th Celebration Binder Collection Box Sealed (FREE SHIPPING)",
+          "price": 139.95,
+          "shipping": 0,
+          "totalPrice": 139.95,
+          "currency": "AUD",
+          "url": "https://www.ebay.com.au/itm/227544300140?_skw=30th+Celebration+Binder+Collection+30th+Celebration&hash=item34fab27a6c:g:kC4AAeSwwqpqu4My",
+          "image": "https://i.ebayimg.com/images/g/kC4AAeSwwqpqu4My/s-l225.jpg",
+          "condition": "New/Factory Sealed",
+          "seller": "gameovercollection",
+          "sellerFeedbackPercent": "98.6",
+          "sellerFeedbackScore": 70,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1181,26 +1264,12 @@
           "shipping": 0,
           "totalPrice": 149.95,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/178503820610?_skw=30th+Celebration+Binder+Collection+30th+Celebration&hash=item298fa82542:g:Z3gAAeSwWP1qq1XR&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7n9C5zK867MDKAZ%2BlvfH06Nji8eajp03zktwXmAQHEyp%2BiOgFO5WZ9mO8hqN2iyiYjUwTQM4Zm%2BOwePqjeULZcEMgf1SipliVG4Yo8qE8rtftJ91HvWzmRRu%2F5VQoDa81Qvgoa4tfDFX--Lb1sp4Se3HWyn2xpodZuAh4%2Bi1yhyrOgKie9BRWuib%2FEK4dU6zCXyuzy4nlcxbydSUtvJa%2FSRA3uisYRUU7GDHFwQpUUoLCOPMpT9GTIDnTWsLPOGnHWxDCRHRHKYiBqwvAPM62QGzNdoo5%2BQ8XcpNwA3cXfxbAu1siPUbyFOGQY6bzrghXkJABRe8kAU3tJzZU6GGaRF",
+          "url": "https://www.ebay.com.au/itm/178503820610?_skw=30th+Celebration+Binder+Collection+30th+Celebration&hash=item298fa82542:g:Z3gAAeSwWP1qq1XR&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7n9C5zK867MDKAZ%2BlvfH06Nji8eajp03zktwXmAQHEyp%2BiOgFO5WZ9mO8hqN2iyiYjUwTQM4Zm%2BOwePqjeULZcEMgf1SipliVG4Yo8qE8rtftJ91HvWzmRRu%2F5VQoDa81QeLSYxQL7rUxFh%2BvUpaZWmgy7a5FIhwgNedpK1ixXAWI8Jfal9rsOI0ezSDRCMbLCgsPtNJ1%2FAAYqisR%2FisBvEYfOO1yUgK14QRRElzHj9bgIxdVrezdrnA7%2BHOQg10q8Ram0akIYbb4dbbG47nPE83CztXh8Y%2FTG9NGHxp8vIK8qFU2gamARfVLSTjKG8dxBAmKFktIYPhf%2B74Hxq9nrw",
           "image": "https://i.ebayimg.com/images/g/Z3gAAeSwWP1qq1XR/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "ontrend_express",
           "sellerFeedbackPercent": "99.9",
-          "availability": null,
-          "matchConfidence": 100
-        },
-        {
-          "itemId": "v1|366728384476|0",
-          "title": "Pokemon TCG 30th Anniversary Celebration Binder Collection",
-          "price": 130,
-          "shipping": 25,
-          "totalPrice": 155,
-          "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/366728384476?_skw=30th+Celebration+Binder+Collection+30th+Celebration&hash=item5562b70fdc:g:Sx0AAeSwHkZqzIWa",
-          "image": "https://i.ebayimg.com/images/g/Sx0AAeSwHkZqzIWa/s-l225.jpg",
-          "condition": "New/Factory Sealed",
-          "seller": "matttullytcg",
-          "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 71318,
           "availability": null,
           "matchConfidence": 100
         }
@@ -1235,6 +1304,7 @@
           "condition": "New/Factory Sealed",
           "seller": "tcg-will",
           "sellerFeedbackPercent": "0.0",
+          "sellerFeedbackScore": 15,
           "availability": null,
           "matchConfidence": 100
         }
@@ -1260,6 +1330,7 @@
           "condition": "New/Factory Sealed",
           "seller": "jaxxon97",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 18,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1275,6 +1346,7 @@
           "condition": "New/Factory Sealed",
           "seller": "clutchcardsoz",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 585,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1290,6 +1362,23 @@
           "condition": "New/Factory Sealed",
           "seller": "user771655",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 7,
+          "availability": null,
+          "matchConfidence": 100
+        },
+        {
+          "itemId": "v1|198703895663|0",
+          "title": "Pokemon TCG 30th Anniversary Celebration Booster Bundle",
+          "price": 139.99,
+          "shipping": 0,
+          "totalPrice": 139.99,
+          "currency": "AUD",
+          "url": "https://www.ebay.com.au/itm/198703895663?_skw=30th+Celebration+Booster+Bundle+30th+Celebration&hash=item2e43acd46f:g:0QUAAeSwX9NqxaWS",
+          "image": "https://i.ebayimg.com/images/g/0QUAAeSwX9NqxaWS/s-l225.jpg",
+          "condition": "New/Factory Sealed",
+          "seller": "collector.kiz",
+          "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 88,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1305,21 +1394,7 @@
           "condition": "New/Factory Sealed",
           "seller": "vzcollectables",
           "sellerFeedbackPercent": "100.0",
-          "availability": null,
-          "matchConfidence": 100
-        },
-        {
-          "itemId": "v1|237110246875|0",
-          "title": "Pokemon TCG 30th Anniversary Celebration Booster Bundle ✅FREE SHIP✅ ￼",
-          "price": 155,
-          "shipping": 0,
-          "totalPrice": 155,
-          "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/237110246875?_skw=30th+Celebration+Booster+Bundle+30th+Celebration&hash=item3734df3ddb:g:Nl4AAeSwlyRqwp2r",
-          "image": "https://i.ebayimg.com/images/g/Nl4AAeSwlyRqwp2r/s-l225.jpg",
-          "condition": "New/Factory Sealed",
-          "seller": "collectorvaulttcg",
-          "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 18,
           "availability": null,
           "matchConfidence": 100
         }
@@ -1345,6 +1420,7 @@
           "condition": "New/Factory Sealed",
           "seller": "rez-mart",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 64,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1360,6 +1436,7 @@
           "condition": "New/Factory Sealed",
           "seller": "kami.collectibles",
           "sellerFeedbackPercent": "99.9",
+          "sellerFeedbackScore": 2406,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1375,6 +1452,7 @@
           "condition": "New/Factory Sealed",
           "seller": "thetcgshack123",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 725,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1390,6 +1468,7 @@
           "condition": "New/Factory Sealed",
           "seller": "eondistrict",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 1,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1405,6 +1484,7 @@
           "condition": "New/Factory Sealed",
           "seller": "rkxn9680",
           "sellerFeedbackPercent": "97.3",
+          "sellerFeedbackScore": 840,
           "availability": null,
           "matchConfidence": 100
         }
@@ -1430,21 +1510,7 @@
           "condition": "New/Factory Sealed",
           "seller": "wakorea",
           "sellerFeedbackPercent": "100.0",
-          "availability": null,
-          "matchConfidence": 100
-        },
-        {
-          "itemId": "v1|336822153448|0",
-          "title": "Pokemon Korean Abyss Eye [M5] Booster Box (30 Packs) - New & Sealed",
-          "price": 66.22,
-          "shipping": 37.31,
-          "totalPrice": 103.53,
-          "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/336822153448?_skw=Abyss+Eye+M5+Booster+Box+Abyss+Eye+M5&hash=item4e6c2a30e8:g:2g8AAeSwnBtqvkrw&amdata=enc%3AAQALAAABAOf5zIIojhOf%2BkQK%2Bxzjn7m47D5xaK5yQX0mE9UbQJVUClkLNhgJbtrGGOWBDhmGLh0lay9jMOCJ8JrZQqqx656ExFhLASvvI1TKTqlkrDpJ7TdrRIhaAhgDvgQoFzM45U5uwi8L%2FTAYsDNMCX1ygefqK44y29xYZxs8QLVXUmWtVhCtq90nsbrJwRa%2B8tzATXsV%2B1hN8NV9wkF0ZSczD%2Bo9P1iV7HxzR7BJyI9%2FaJVegFCiRQ4am%2FP9Mdw54DXM24MZRVzWDC5cFA39CKKbVKhgWowrrkqIhQW%2BDFuNImMh2yjvYkmuAMKW5Fx85qMzChOHCW2jb%2BR27Guuu76nJ6U%3D",
-          "image": "https://i.ebayimg.com/images/g/2g8AAeSwnBtqvkrw/s-l225.jpg",
-          "condition": "New/Factory Sealed",
-          "seller": "pokenium",
-          "sellerFeedbackPercent": "99.2",
+          "sellerFeedbackScore": 818,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1460,6 +1526,7 @@
           "condition": "New/Factory Sealed",
           "seller": "liontcgaustralia",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 169,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1475,6 +1542,7 @@
           "condition": "New/Factory Sealed",
           "seller": "tcg-holics",
           "sellerFeedbackPercent": "99.9",
+          "sellerFeedbackScore": 1285,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1490,6 +1558,23 @@
           "condition": "New/Factory Sealed",
           "seller": "sumogreginc",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 891,
+          "availability": null,
+          "matchConfidence": 100
+        },
+        {
+          "itemId": "v1|206432249557|0",
+          "title": "Abyss Eye M5 Box Booster Box - Pokémon TCG",
+          "price": 110,
+          "shipping": 10,
+          "totalPrice": 120,
+          "currency": "AUD",
+          "url": "https://www.ebay.com.au/itm/206432249557?_skw=Abyss+Eye+M5+Booster+Box+Abyss+Eye+M5&hash=item30105226d5:g:ffcAAeSwQw5qYGYZ",
+          "image": "https://i.ebayimg.com/images/g/ffcAAeSwQw5qYGYZ/s-l225.jpg",
+          "condition": "New/Factory Sealed",
+          "seller": "kngdre",
+          "sellerFeedbackPercent": "99.6",
+          "sellerFeedbackScore": 405,
           "availability": null,
           "matchConfidence": 100
         }
@@ -1515,6 +1600,7 @@
           "condition": "New/Factory Sealed",
           "seller": "szrs2019",
           "sellerFeedbackPercent": "96.2",
+          "sellerFeedbackScore": 908,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1530,6 +1616,7 @@
           "condition": "New/Factory Sealed",
           "seller": "ryaug06",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 11,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1545,21 +1632,7 @@
           "condition": "New/Factory Sealed",
           "seller": "exsport-us",
           "sellerFeedbackPercent": "98.8",
-          "availability": null,
-          "matchConfidence": 100
-        },
-        {
-          "itemId": "v1|358868728229|0",
-          "title": "Pokemon TCG Mega Ninja Spinner (Japanese) m4 SEALED (In Shrink) Booster Box",
-          "price": 126.95,
-          "shipping": 0,
-          "totalPrice": 126.95,
-          "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/358868728229?_skw=Ninja+Spinner+M4+Booster+Box+Ninja+Spinner+M4&hash=item538e3e39a5:g:nGcAAeSwY89qbVw2&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7m%2BD38Un%2FspUH1%2FiFG10vbYZtBhKVfJX46M4vTm1V5sXU9QJgUHR92luuBLsSxs2nzpN%2FcMP%2FEmaHLLZbxVv1D0wqkWPvzyL77lmngceI4b9aneLSsSPXUYaXwopMz4FDMSIGWh2mbCLv24mrsP1COhDmgZ9n%2BsPqqHdLRmSWTkOFju0%2Fsl%2B1DKzWlBLyl%2FQAI078ZVgfJm%2FnWbLFbwC8cXEQNbeRk7EOTtbYoJt8sfYCauVkaxsIEF7G%2FnWP6D9i%2B8K7w29ArhwLBzy74Hc%2B%2BlXiFsjEwtHjGOXxmdyzwph1alTco92Ne346pjBuHwiIvvOGRA2ntLez%2Bqe5nUS3Vy",
-          "image": "https://i.ebayimg.com/images/g/nGcAAeSwY89qbVw2/s-l225.jpg",
-          "condition": "New/Factory Sealed",
-          "seller": "charlie_cards2015",
-          "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 6245,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1575,6 +1648,23 @@
           "condition": "New/Factory Sealed",
           "seller": "jinh23",
           "sellerFeedbackPercent": "96.2",
+          "sellerFeedbackScore": 416,
+          "availability": null,
+          "matchConfidence": 100
+        },
+        {
+          "itemId": "v1|800326494653|0",
+          "title": "Pokemon MEGA Ninja Spinner Booster Box M4 Japanese w/Shrink new AU EXPRESS POST",
+          "price": 128,
+          "shipping": 0,
+          "totalPrice": 128,
+          "currency": "AUD",
+          "url": "https://www.ebay.com.au/itm/800326494653?_skw=Ninja+Spinner+M4+Booster+Box+Ninja+Spinner+M4&hash=itemba572d29bd:g:H1sAAeSwCABqUuaM",
+          "image": "https://i.ebayimg.com/images/g/H1sAAeSwCABqUuaM/s-l225.jpg",
+          "condition": "New/Factory Sealed",
+          "seller": "tie7192",
+          "sellerFeedbackPercent": "97.2",
+          "sellerFeedbackScore": 696,
           "availability": null,
           "matchConfidence": 100
         }
@@ -1600,6 +1690,7 @@
           "condition": "New/Factory Sealed",
           "seller": "ryaug06",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 11,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1615,6 +1706,7 @@
           "condition": "New/Factory Sealed",
           "seller": "szrs2019",
           "sellerFeedbackPercent": "96.2",
+          "sellerFeedbackScore": 908,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1630,6 +1722,7 @@
           "condition": "New/Factory Sealed",
           "seller": "exsport-us",
           "sellerFeedbackPercent": "98.8",
+          "sellerFeedbackScore": 6245,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1645,6 +1738,7 @@
           "condition": "New/Factory Sealed",
           "seller": "xclusivgamingtcg",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 1855,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1660,6 +1754,7 @@
           "condition": "New/Factory Sealed",
           "seller": "elitecollectibles-23948",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 103,
           "availability": null,
           "matchConfidence": 100
         }
@@ -1685,6 +1780,7 @@
           "condition": "New/Factory Sealed",
           "seller": "6qr4w88",
           "sellerFeedbackPercent": "97.5",
+          "sellerFeedbackScore": 164,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1700,6 +1796,7 @@
           "condition": "New/Factory Sealed",
           "seller": "szrs2019",
           "sellerFeedbackPercent": "96.2",
+          "sellerFeedbackScore": 908,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1715,6 +1812,7 @@
           "condition": "New/Factory Sealed",
           "seller": "exsport-us",
           "sellerFeedbackPercent": "98.8",
+          "sellerFeedbackScore": 6245,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1730,6 +1828,7 @@
           "condition": "New/Factory Sealed",
           "seller": "tiktech_original",
           "sellerFeedbackPercent": "97.6",
+          "sellerFeedbackScore": 47,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1740,11 +1839,12 @@
           "shipping": 15.79,
           "totalPrice": 123.28,
           "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/377547530875?_skw=Mega+Dream+ex+M2a+Booster+Box+Mega+Dream+ex+M2a&hash=item57e796227b:g:1IQAAeSwSz5qGq7A&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7nzgZvR0W%2FHT4XmvQTfvQcEbtME4IbGjDlYPOiOmXBD5KDXo60DxDmFhcKPI0cuXnFF6jmjiBTLYYTeUJ%2FeWyhoq6Wcrp8cw5LFUFj0mk0gKmi5NtuYfIAoyFKLsy2T8%2B8AOc0GTJ%2B4kQeGC0b5oM7t4TPokADrGGsZTjhoaEOg4XutwuLpTvVpCB3WbZtWIKMFl4Z15R21sFU8BlaIZx4GIjVNFwlwolkIH3hL9KDWdIPjBj1Y4%2F22MM0FCyPHT57vtY2V9%2Fo%2Bfd7ff4vsEocplOdAetQUUIEm4R7gEuFaX53GSkD4XwjPpXpC0uwcuDt1dF%2FhE8mdvgEhky0x0T7c",
+          "url": "https://www.ebay.com.au/itm/377547530875?_skw=Mega+Dream+ex+M2a+Booster+Box+Mega+Dream+ex+M2a&hash=item57e796227b:g:1IQAAeSwSz5qGq7A&amdata=enc%3AAQALAAABEOf5zIIojhOf%2BkQK%2Bxzjn7nzgZvR0W%2FHT4XmvQTfvQcEbtME4IbGjDlYPOiOmXBD5KDXo60DxDmFhcKPI0cuXnFF6jmjiBTLYYTeUJ%2FeWyhoq6Wcrp8cw5LFUFj0mk0gKmi5NtuYfIAoyFKLsy2T8%2B%2BHNbvSG%2ByDMmJszYmcMlaveT6%2Fr1ysJ3BHGvk0jClw9xdC3DNcSCtAYCmbYLLMt%2FF5HRyeJ2%2Bi2vHiAGpRp3Wnh%2Bh4dtP9Paw8q6XfTDRdKZ7ivi0wDKtipDM6P7vJk%2BQMBvQkYKlep%2BxleeVU5GfMqs%2F9C1HB%2FvFKnoa1PCxVyGgLeTzzEM0weVyOiJkaEZjsrFpn83uL%2BGmPGbXS1lUO",
           "image": "https://i.ebayimg.com/images/g/1IQAAeSwSz5qGq7A/s-l225.jpg",
           "condition": "New/Factory Sealed",
           "seller": "m18560-91",
           "sellerFeedbackPercent": "99.7",
+          "sellerFeedbackScore": 1617,
           "availability": null,
           "matchConfidence": 100
         }
@@ -1770,6 +1870,7 @@
           "condition": "New/Factory Sealed",
           "seller": "kami.collectibles",
           "sellerFeedbackPercent": "99.9",
+          "sellerFeedbackScore": 2406,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1785,6 +1886,7 @@
           "condition": "New/Factory Sealed",
           "seller": "rk.tcg",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 204,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1800,6 +1902,7 @@
           "condition": "New/Factory Sealed",
           "seller": "tomo12_japan",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 1118,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1815,6 +1918,7 @@
           "condition": "New/Factory Sealed",
           "seller": "chucks_jp_collectables",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 125,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1830,6 +1934,7 @@
           "condition": "New/Factory Sealed",
           "seller": "onetwonine_collect",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 478,
           "availability": null,
           "matchConfidence": 100
         }
@@ -1844,6 +1949,22 @@
       "type": "ETB",
       "offers": [
         {
+          "itemId": "v1|128133053942|0",
+          "title": "✅SEALED✅ Pokemon TCG: 30th Anniversary Celebration Elite Trainer Box *See Photo*",
+          "price": 225,
+          "shipping": 15,
+          "totalPrice": 240,
+          "currency": "AUD",
+          "url": "https://www.ebay.com.au/itm/128133053942?_skw=30th+Celebration+Elite+Trainer+Box+30th+Celebration&hash=item1dd5533df6:g:2D0AAeSwH5RqziHm",
+          "image": "https://i.ebayimg.com/images/g/2D0AAeSwH5RqziHm/s-l225.jpg",
+          "condition": "New/Factory Sealed",
+          "seller": "kjun10r",
+          "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 390,
+          "availability": null,
+          "matchConfidence": 100
+        },
+        {
           "itemId": "v1|920032961093|0",
           "title": "✨ Pokemon TCG 30th Celebration Elite Trainer Box ETB Factory Sealed English",
           "price": 244.95,
@@ -1855,6 +1976,7 @@
           "condition": "New/Factory Sealed",
           "seller": "thepokeshack-101",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 485,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1870,6 +1992,7 @@
           "condition": "New/Factory Sealed",
           "seller": "lotttradingco",
           "sellerFeedbackPercent": "99.9",
+          "sellerFeedbackScore": 1028,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1885,6 +2008,7 @@
           "condition": "New/Factory Sealed",
           "seller": "jirachishop",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 15,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1900,21 +2024,7 @@
           "condition": "New/Factory Sealed",
           "seller": "nightshadetrading",
           "sellerFeedbackPercent": "100.0",
-          "availability": null,
-          "matchConfidence": 100
-        },
-        {
-          "itemId": "v1|307228316100|0",
-          "title": "Pokemon TCG 30th Anniversary Celebration Elite Trainer Box ETB",
-          "price": 249,
-          "shipping": 0,
-          "totalPrice": 249,
-          "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/307228316100?_skw=30th+Celebration+Elite+Trainer+Box+30th+Celebration&hash=item47883c11c4:g:~hMAAeSw2rlqzYw0",
-          "image": "https://i.ebayimg.com/images/g/~hMAAeSw2rlqzYw0/s-l225.jpg",
-          "condition": "New/Factory Sealed",
-          "seller": "nightshadetrading",
-          "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 416,
           "availability": null,
           "matchConfidence": 100
         }
@@ -1940,6 +2050,7 @@
           "condition": "New/Factory Sealed",
           "seller": "jjcc1998",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 35,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1955,21 +2066,7 @@
           "condition": "New/Factory Sealed",
           "seller": "jjcc1998",
           "sellerFeedbackPercent": "100.0",
-          "availability": null,
-          "matchConfidence": 100
-        },
-        {
-          "itemId": "v1|147569788463|0",
-          "title": "✅️CONFIRMED PRESALE✅️Pokémon TCG Mega Evolution Delta Reign Booster Bundle",
-          "price": 83.99,
-          "shipping": 0,
-          "totalPrice": 83.99,
-          "currency": "AUD",
-          "url": "https://www.ebay.com.au/itm/147569788463?_skw=Delta+Reign+Booster+Bundle+Mega+Evolution%E2%80%94Delta+Reign&hash=item225bd8462f:g:PMgAAeSwKjZqpjaU",
-          "image": "https://i.ebayimg.com/images/g/PMgAAeSwKjZqpjaU/s-l225.jpg",
-          "condition": "New/Factory Sealed",
-          "seller": "zmn_supply",
-          "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 35,
           "availability": null,
           "matchConfidence": 100
         },
@@ -1985,6 +2082,7 @@
           "condition": "New/Factory Sealed",
           "seller": "meimei211",
           "sellerFeedbackPercent": "0.0",
+          "sellerFeedbackScore": 0,
           "availability": null,
           "matchConfidence": 100
         },
@@ -2000,6 +2098,23 @@
           "condition": "New/Factory Sealed",
           "seller": "smitcollects",
           "sellerFeedbackPercent": "100.0",
+          "sellerFeedbackScore": 25,
+          "availability": null,
+          "matchConfidence": 100
+        },
+        {
+          "itemId": "v1|168705023083|0",
+          "title": "Pokémon TCG Mega Evolution Delta Reign Booster Bundle SEALED ships 11/6",
+          "price": 78.85,
+          "shipping": 22.66,
+          "totalPrice": 101.51,
+          "currency": "AUD",
+          "url": "https://www.ebay.com.au/itm/168705023083?_skw=Delta+Reign+Booster+Bundle+Mega+Evolution%E2%80%94Delta+Reign&hash=item27479a5c6b:g:jxQAAeSwSyBqqqhK",
+          "image": "https://i.ebayimg.com/images/g/jxQAAeSwSyBqqqhK/s-l225.jpg",
+          "condition": "New/Factory Sealed",
+          "seller": "pfootballpete4dhx",
+          "sellerFeedbackPercent": "99.5",
+          "sellerFeedbackScore": 765631,
           "availability": null,
           "matchConfidence": 100
         }
@@ -2034,6 +2149,7 @@
           "condition": "New/Factory Sealed",
           "seller": "dollyscards",
           "sellerFeedbackPercent": "99.3",
+          "sellerFeedbackScore": 59861,
           "availability": null,
           "matchConfidence": 100
         },
@@ -2049,6 +2165,7 @@
           "condition": "New/Factory Sealed",
           "seller": "snmcollectibleschicago",
           "sellerFeedbackPercent": "92.9",
+          "sellerFeedbackScore": 12,
           "availability": null,
           "matchConfidence": 100
         }
@@ -2253,9 +2370,9 @@
         },
         {
           "key": "30th Celebration Elite Trainer Box|30th Celebration|English|ETB",
-          "lowestPrice": 244.95,
+          "lowestPrice": 240,
           "offerCount": 5,
-          "lowestSealedPrice": 244.95,
+          "lowestSealedPrice": 240,
           "sealedOfferCount": 5
         },
         {
