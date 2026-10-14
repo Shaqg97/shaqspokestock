@@ -23,7 +23,34 @@ jobs:
           package-manager-cache: false
 
       - name: Validate product catalogue JSON
-        run: node -e "const fs=require('node:fs'); const products=JSON.parse(fs.readFileSync('products.json','utf8')); if(!Array.isArray(products)) throw new Error('products.json must be an array'); if(products.length<31) throw new Error('Catalogue unexpectedly shrank below the 31-product baseline; found '+products.length); for(const [i,p] of products.entries()){ if(!p.name || !p.language || !p.type) throw new Error('Product '+i+' is missing a required name/language/type'); if(p.retailers !== undefined && !Array.isArray(p.retailers)) throw new Error('Product '+i+' retailers must be an array'); } console.log('Validated '+products.length+' products');"
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const products = JSON.parse(fs.readFileSync('products.json', 'utf8'));
+          if (!Array.isArray(products)) throw new Error('products.json must be an array');
+          if (products.length < 31) throw new Error('Catalogue unexpectedly shrank below the 31-product baseline; found ' + products.length);
+          const names = new Set();
+          const requireHttps = (value, label) => {
+            if (typeof value !== 'string' || !value.trim()) throw new Error(label + ' is missing');
+            let url;
+            try { url = new URL(value); } catch { throw new Error(label + ' is not a valid URL: ' + value); }
+            if (url.protocol !== 'https:') throw new Error(label + ' must use HTTPS: ' + value);
+          };
+          for (const [i, p] of products.entries()) {
+            if (!p.name || !p.language || !p.type) throw new Error('Product ' + i + ' is missing a required name/language/type');
+            if (names.has(p.name)) throw new Error('Duplicate product name: ' + p.name);
+            names.add(p.name);
+            requireHttps(p.url, 'Product URL for ' + p.name);
+            if (p.price !== undefined && (!Number.isFinite(Number(p.price)) || Number(p.price) < 0)) throw new Error('Invalid catalogue price for ' + p.name);
+            if (p.retailers !== undefined && !Array.isArray(p.retailers)) throw new Error('Product ' + p.name + ' retailers must be an array');
+            for (const [j, offer] of (p.retailers || []).entries()) {
+              if (!offer.name) throw new Error('Retailer offer ' + j + ' for ' + p.name + ' is missing a name');
+              requireHttps(offer.url, 'Retailer URL for ' + p.name + ' / ' + offer.name);
+              if (offer.price !== undefined && (!Number.isFinite(Number(offer.price)) || Number(offer.price) < 0)) throw new Error('Invalid retailer price for ' + p.name + ' / ' + offer.name);
+            }
+          }
+          console.log('Validated ' + products.length + ' products and HTTPS links for all primary and retailer offers');
+          NODE
 
       - name: Validate marketplace snapshot history schema
         run: node --input-type=module -e "import fs from 'node:fs'; const data=JSON.parse(fs.readFileSync('marketplace-prices.json','utf8')); if(!Array.isArray(data.products)) throw new Error('Marketplace snapshot products must be an array'); if(data.history!==undefined){ if(!Array.isArray(data.history)) throw new Error('Marketplace history must be an array'); for(const day of data.history){ if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(day.date)||!Array.isArray(day.products)) throw new Error('Invalid daily marketplace history record'); for(const item of day.products){ if(typeof item.key!=='string'||!Number.isInteger(item.offerCount)||item.offerCount<0||(item.lowestPrice!==null&&(!Number.isFinite(Number(item.lowestPrice))||Number(item.lowestPrice)<=0))) throw new Error('Invalid marketplace history product entry'); if(item.sealedOfferCount!==undefined&&(!Number.isInteger(item.sealedOfferCount)||item.sealedOfferCount<0)) throw new Error('Invalid sealed offer count'); if(item.lowestSealedPrice!==undefined&&item.lowestSealedPrice!==null&&(!Number.isFinite(Number(item.lowestSealedPrice))||Number(item.lowestSealedPrice)<=0)) throw new Error('Invalid sealed historical price'); } } if(data.history.length>90) throw new Error('Marketplace history must be capped at 90 daily records'); } console.log('Marketplace snapshot and optional history schema are valid');"
