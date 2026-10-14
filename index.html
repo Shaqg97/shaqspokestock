@@ -854,6 +854,21 @@ button,nav button,.filter-buttons button { touch-action:manipulation; }
   border: 1px solid rgba(23, 32, 51, .12);
   font-weight: 800;
 }
+
+/* Help guides: Discord notification control and mobile home-screen install */
+.help-guides{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:24px 0 30px}
+.help-guide{min-width:0;background:#fff;border:1px solid #dfe6f0;border-radius:18px;padding:22px;box-shadow:0 5px 18px rgba(15,23,42,.045)}
+.help-guide h2{font-size:clamp(20px,2.5vw,25px);line-height:1.25;margin-bottom:8px;color:#172033}
+.help-guide>p{color:#526078;margin-bottom:14px}
+.help-guide details{border-top:1px solid #e6ebf2;padding:12px 0}
+.help-guide details:last-child{padding-bottom:0}
+.help-guide summary{cursor:pointer;font-weight:800;color:#263650}
+.help-guide details p,.help-guide details li{font-size:14px;line-height:1.6;color:#475569}
+.help-guide details ol,.help-guide details ul{padding-left:21px;margin:9px 0}
+.help-guide .guide-tip{background:#f1f5f9;border-radius:10px;padding:11px 12px;margin-top:10px;font-size:13px;color:#334155}
+.help-guide a{color:#334bdc;font-weight:700}
+@media(max-width:760px){.help-guides{grid-template-columns:1fr;gap:12px}.help-guide{padding:18px}}
+
 </style>
 </head>
 
@@ -937,6 +952,72 @@ button,nav button,.filter-buttons button { touch-action:manipulation; }
   <div class="discord-alert-action">
     <a class="discord-join-button" href="https://discord.gg/bAKGNxen7" target="_blank" rel="noopener noreferrer">Join Shaqs Poke Stock Discord ↗</a>
   </div>
+</section>
+
+<section class="help-guides" aria-label="Setup guides">
+  <article class="help-guide" id="discord-notification-guide" aria-labelledby="discord-guide-title">
+    <h2 id="discord-guide-title">🔔 Set up Discord pings without spam</h2>
+    <p>Choose which Shaqs Poke Stock alerts can buzz your phone. These settings are controlled in Discord, not on this website.</p>
+    <details open>
+      <summary>Recommended setup (about 1 minute)</summary>
+      <ol>
+        <li>Join the <a href="https://discord.gg/bAKGNxen7" target="_blank" rel="noopener noreferrer">Shaqs Poke Stock Discord</a> and open the server.</li>
+        <li>Open the server name or its notification/bell menu, then choose <strong>Notification Settings</strong>.</li>
+        <li>Set server notifications to <strong>Only @mentions</strong> rather than All Messages.</li>
+        <li>Enable <strong>Suppress @everyone and @here</strong> to avoid mass pings.</li>
+        <li>For the stock-alert channel, open its notification settings and choose <strong>Only @mentions</strong>. Set chat and other busy channels to <strong>Nothing</strong> if you only want important alerts.</li>
+      </ol>
+      <div class="guide-tip"><strong>Important:</strong> If you want opted-in Stock Alerts or Price Drops role pings, do not enable “Suppress All Role @mentions” for the server. That setting can silence the role alerts you opted into.</div>
+    </details>
+    <details>
+      <summary>iPhone and Android notification checks</summary>
+      <ul>
+        <li><strong>iPhone:</strong> Settings → Notifications → Discord → allow notifications. Choose whether to show banners, sounds and lock-screen alerts.</li>
+        <li><strong>Android:</strong> Settings → Notifications → App notifications → Discord. Allow notifications and check the relevant notification categories.</li>
+        <li>In Discord mobile, open the server's notification settings and make sure mobile push notifications are enabled.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Still getting too many pings?</summary>
+      <ul>
+        <li>Set channels you don't need to <strong>Nothing</strong> or mute them.</li>
+        <li>Keep routine conversation separate from opt-in stock/price alerts.</li>
+        <li>Role pings depend on alert type and configuration. Not every product check creates a notification; alerts should only be sent for qualifying verified changes.</li>
+      </ul>
+      <p><a href="https://support.discord.com/hc/en-us/articles/215253258-Notifications-Settings-101" target="_blank" rel="noopener noreferrer">Official Discord notification settings guide ↗</a></p>
+    </details>
+  </article>
+
+  <article class="help-guide" id="add-to-home-guide" aria-labelledby="home-guide-title">
+    <h2 id="home-guide-title">📲 Add Shaqs Poke Stock to your home screen</h2>
+    <p>Add a shortcut so the catalogue opens quickly like an app. No app-store download is required.</p>
+    <details open>
+      <summary>iPhone or iPad (Safari)</summary>
+      <ol>
+        <li>Open this website in <strong>Safari</strong>.</li>
+        <li>Tap the <strong>Share</strong> button (the square with an upward arrow).</li>
+        <li>Scroll and tap <strong>Add to Home Screen</strong>. If shown, enable <strong>Open as Web App</strong>.</li>
+        <li>Tap <strong>Add</strong>. Find the Shaqs Poke Stock icon on your home screen.</li>
+      </ol>
+    </details>
+    <details>
+      <summary>Android (Chrome)</summary>
+      <ol>
+        <li>Open this website in <strong>Chrome</strong>.</li>
+        <li>Tap the three-dot menu in the top-right.</li>
+        <li>Tap <strong>Add to Home screen</strong> or <strong>Install app</strong> if offered.</li>
+        <li>Confirm by tapping <strong>Add</strong> or <strong>Install</strong>.</li>
+      </ol>
+    </details>
+    <details>
+      <summary>Windows or desktop Chrome / Edge</summary>
+      <ol>
+        <li>Open the website in Chrome or Edge.</li>
+        <li>Use the browser's install option if offered, or create a shortcut from the browser menu.</li>
+      </ol>
+    </details>
+    <div class="guide-tip">Your watchlist and price targets are saved locally in that browser/device; they don't automatically sync to another phone or computer. Price targets are checked when the page loads or refreshes, not continuously while the site is closed.</div>
+  </article>
 </section>
 
 <section id="ebay-shop" class="ebay-shop" aria-labelledby="ebay-shop-title">
