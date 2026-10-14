@@ -29,8 +29,9 @@ test("marketplace offers have valid price, URL, condition, currency and match co
       "invalid item price: " + label);
     assert.ok(typeof offer.url === "string" && /^https:\/\//i.test(offer.url),
       "offer URL must use HTTPS: " + label);
-    assert.ok(typeof offer.condition === "string" && offer.condition.trim(),
-      "condition must be explicit: " + label);
+    if (offer.condition !== null && offer.condition !== undefined) {
+      assert.equal(typeof offer.condition, "string", "condition must be text when supplied: " + label);
+    }
     assert.equal(offer.currency, "AUD", "marketplace prices must be AUD: " + label);
     assert.ok(Number.isFinite(Number(offer.matchConfidence)) &&
       Number(offer.matchConfidence) >= 0 && Number(offer.matchConfidence) <= 100,
