@@ -1525,6 +1525,57 @@ return matchesSearch && matchesFilter;
       if (bPrice === null) return -1;
       return aPrice - bPrice;
     });
+  }
+
+  // Marketplace quality is a quality-first ranking, not a claim that a listing
+  // is verified retailer stock. Prefer sealed-condition evidence, a known
+  // delivered total, strong product matching, and credible seller signals.
+  if (dealSort === "marketplace-quality") {
+    const marketplaceOffersFor = product => {
+      const record = (marketplaceSnapshot.products || []).find(item => item.key === marketplaceProductKey(product));
+      const offers = Array.isArray(record?.offers) ? record.offers : [];
+      const checkedMs = Date.parse(marketplaceSnapshot.checkedAt || "");
+      const ageHours = Number.isFinite(checkedMs) ? (Date.now() - checkedMs) / 3600000 : Infinity;
+      if (ageHours < -1 || ageHours > 36) return [];
+      return offers.filter(offer => offer && Number(offer.price) > 0 && offer.url);
+    };
+    const marketplaceQuality = product => {
+      const offers = marketplaceOffersFor(product);
+      if (!offers.length) return { score: -1, price: Infinity };
+      const ranked = offers.map(offer => {
+        const condition = String(offer.condition || "").toLowerCase();
+        const sealed = /factory sealed|new factory sealed|brand new|new sealed/.test(condition);
+        const ambiguousNew = condition.trim() === "new";
+        const hasTotal = offer.totalPrice !== null && offer.totalPrice !== undefined &&
+          Number.isFinite(Number(offer.totalPrice)) && Number(offer.totalPrice) > 0;
+        const confidence = Number(offer.matchConfidence);
+        const feedbackRaw = String(offer.sellerFeedbackPercent ?? "").replace("%", "").trim();
+        const feedback = Number(feedbackRaw);
+        const hasFeedback = feedbackRaw !== "" && Number.isFinite(feedback) && feedback >= 0 && feedback <= 100;
+        const feedbackCount = Number(offer.sellerFeedbackScore);
+        let score = 0;
+        if (sealed) score += 40;
+        else if (ambiguousNew) score += 12;
+        if (hasTotal) score += 20;
+        if (Number.isFinite(confidence) && confidence >= 90) score += 20;
+        else if (Number.isFinite(confidence) && confidence >= 75) score += 8;
+        if (hasFeedback && feedback >= 99) score += 10;
+        else if (hasFeedback && feedback >= 98) score += 6;
+        if (Number.isFinite(feedbackCount) && feedbackCount >= 1000) score += 10;
+        else if (Number.isFinite(feedbackCount) && feedbackCount >= 100) score += 5;
+        if (!hasTotal) score -= 15;
+        return { score, price: hasTotal ? Number(offer.totalPrice) : Number(offer.price) };
+      }).sort((a, b) => b.score - a.score || a.price - b.price);
+      return ranked[0] || { score: -1, price: Infinity };
+    };
+    filtered = [...filtered].sort((a, b) => {
+      const aQuality = marketplaceQuality(a);
+      const bQuality = marketplaceQuality(b);
+      if (aQuality.score < 0 && bQuality.score < 0) return a.name.localeCompare(b.name);
+      if (aQuality.score < 0) return 1;
+      if (bQuality.score < 0) return -1;
+      return bQuality.score - aQuality.score || aQuality.price - bQuality.price || a.name.localeCompare(b.name);
+    });
   } else if (dealSort === "marketplace-quality") {
     const checkedAt = Date.parse(marketplaceSnapshot.checkedAt || "");
     const ageHours = Number.isFinite(checkedAt) ? (Date.now() - checkedAt) / 3600000 : Infinity;
