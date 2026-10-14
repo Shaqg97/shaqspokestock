@@ -71,6 +71,9 @@ function extractEvidence(html, expectedName) {
   const normalize = value => String(value ?? '').toLowerCase().replace(/pokémon/g, 'pokemon').replace(/[^a-z0-9]+/g, ' ').trim().split(/\s+/).filter(Boolean);
   const generic = new Set(['pokemon', 'tcg', 'trading', 'card', 'cards', 'booster', 'box', 'pack', 'packs', 'japanese', 'english', 'sealed', 'the', 'and', 'for', 'with', 'premium', 'collection', 'figure']);
   const expectedTokens = [...new Set(normalize(expectedName).filter(token => token.length > 2 && !generic.has(token)))];
+  // If the catalogue name contains only generic words, there is no safe basis
+  // for matching a structured product object. Return unknown rather than a false positive.
+  if (!expectedTokens.length) return { title: null, price: null, availability: 'unknown', quantities: [], matchedStructuredObjects: 0 };
   const objects = jsonScripts(html).flatMap(value => collectObjects(value));
   const roots = objects.filter(object => {
     const name = String(object.name ?? object.productName ?? object.title ?? '');
