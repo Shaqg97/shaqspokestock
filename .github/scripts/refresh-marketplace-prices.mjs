@@ -4,7 +4,7 @@ const catalogueUrl = new URL('../../products.json', import.meta.url);
 const snapshotUrl = new URL('../../marketplace-prices.json', import.meta.url);
 const clientId = process.env.EBAY_CLIENT_ID;
 const clientSecret = process.env.EBAY_CLIENT_SECRET;
-const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+const webhookUrl = process.env.DISCORD_PRICE_DROP_WEBHOOK_URL || process.env.DISCORD_WEBHOOK_URL;
 
 if (!clientId || !clientSecret) {
   throw new Error('eBay marketplace tracking is not configured. Add EBAY_CLIENT_ID and EBAY_CLIENT_SECRET as repository Actions secrets; the refresh is stopping so the workflow cannot report a false success.');
@@ -174,19 +174,40 @@ for (const product of products) {
     const offers = await searchListings(product);
     const key = productKey(product);
     const previous = previousByKey.get(key);
-    const previousById = new Map((previous?.offers || []).filter(offer => offer.itemId).map(offer => [offer.itemId, offer]));
+    const previousOffers = previous?.offers || [];
+    const previousById = new Map(previousOffers.filter(offer => offer.itemId).map(offer => [offer.itemId, offer]));
+    const isUnsealedOrRisky = condition => /used|open box|opened|no shrink|without shrink|damaged|for parts|not sealed/.test(normalise(condition || ''));
+    const conditionGroup = condition => {
+      const value = normalise(condition || '');
+      if (isUnsealedOrRisky(value)) return 'excluded';
+      if (/factory sealed|brand new|new sealed|sealed new/.test(value)) return 'sealed';
+      if (value === 'new') return 'new';
+      return 'unknown';
+    };
+    const previousBaselines = new Map();
+    for (const oldOffer of previousOffers) {
+      const oldTotal = oldOffer.totalPrice ?? oldOffer.price;
+      const group = conditionGroup(oldOffer.condition);
+      if (group === 'excluded' || !Number.isFinite(oldTotal) || oldTotal <= 0) continue;
+      const baseline = previousBaselines.get(group);
+      if (baseline === undefined || oldTotal < baseline) previousBaselines.set(group, oldTotal);
+    }
     for (const offer of offers) {
       const old = previousById.get(offer.itemId);
       const oldTotal = old?.totalPrice ?? old?.price;
       const newTotal = offer.totalPrice ?? offer.price;
-      const oldCondition = normalise(old?.condition || '');
-      const newCondition = normalise(offer.condition || '');
-      const sameCondition = old && oldCondition === newCondition;
-      if (old && sameCondition && !/used|open box|opened|no shrink|without shrink|damaged|for parts/.test(newCondition) && Number.isFinite(oldTotal) && Number.isFinite(newTotal) && oldTotal - newTotal >= Math.max(2, oldTotal * 0.05)) {
+      const group = conditionGroup(offer.condition);
+      if (group === 'excluded' || !Number.isFinite(newTotal) || newTotal <= 0) continue;
+      // Compare the same listing where possible; otherwise catch a newly listed
+      // or relisted offer that undercuts the previous comparable price baseline.
+      const baseline = old ? oldTotal : previousBaselines.get(group);
+      const referencePrice = Number.isFinite(baseline) ? baseline : null;
+      if (referencePrice !== null &&
+          referencePrice - newTotal >= Math.max(2, referencePrice * 0.05)) {
         alerts.push({
           product: product.name,
           title: offer.title,
-          oldPrice: oldTotal,
+          oldPrice: referencePrice,
           newPrice: newTotal,
           url: offer.url,
         });
