@@ -38,6 +38,7 @@ jobs:
           EBAY_CLIENT_SECRET: ${{ secrets.EBAY_CLIENT_SECRET }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DISCORD_PRICE_DROP_WEBHOOK_URL: ${{ secrets.DISCORD_PRICE_DROP_WEBHOOK_URL }}
+          DISCORD_PRICE_DROP_ROLE_ID: ${{ secrets.DISCORD_PRICE_DROP_ROLE_ID }}
         run: node .github/scripts/refresh-marketplace-prices.mjs
 
       - name: Commit marketplace price snapshot safely
