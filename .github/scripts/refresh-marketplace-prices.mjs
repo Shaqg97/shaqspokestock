@@ -7,8 +7,7 @@ const clientSecret = process.env.EBAY_CLIENT_SECRET;
 const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 
 if (!clientId || !clientSecret) {
-  console.log('eBay marketplace tracking is not configured. Add EBAY_CLIENT_ID and EBAY_CLIENT_SECRET as repository Actions secrets; existing marketplace data was left unchanged.');
-  process.exit(0);
+  throw new Error('eBay marketplace tracking is not configured. Add EBAY_CLIENT_ID and EBAY_CLIENT_SECRET as repository Actions secrets; the refresh is stopping so the workflow cannot report a false success.');
 }
 
 const products = JSON.parse(await readFile(catalogueUrl, 'utf8'));
@@ -199,6 +198,24 @@ for (const product of products) {
     snapshots.push(old || { key: productKey(product), name: product.name, set: product.set, language: product.language, type: product.type, offers: [], resultCount: 0, unavailable: true });
   }
   await pause(350);
+}
+
+if (warnings.length) {
+  const details = [
+    '## eBay marketplace price refresh — NOT PUBLISHED',
+    '',
+    '- Status: failed safely; the existing marketplace-prices.json was left unchanged.',
+    '- Reason: one or more catalogue searches failed, so the snapshot timestamp must not be advanced.',
+    '- This prevents older listing data from being presented as freshly checked.',
+    '',
+    '### Search warnings',
+    ...warnings.slice(0, 30).map(warning => '- ' + warning),
+  ].join('\n');
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    const { appendFile } = await import('node:fs/promises');
+    await appendFile(process.env.GITHUB_STEP_SUMMARY, details + '\n');
+  }
+  throw new Error('eBay price refresh had ' + warnings.length + ' failed catalogue search(es); existing snapshot preserved to prevent stale prices appearing fresh.');
 }
 
 const snapshot = {
