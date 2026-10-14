@@ -1,6 +1,6 @@
 # Direct retailer source monitoring
 
-The scheduled pipeline checks product URLs already in \`products.json\` for BIG W, Kmart, Target, JB Hi-Fi and EB Games and writes \`retailer-source-data.json\` for the site's release/store tracker.
+The scheduled pipeline discovers retailer hosts from the curated offers in \`products.json\` and checks those product URLs where public access is permitted. This covers BIG W, Kmart, Target, JB Hi-Fi, EB Games and the other specialist Australian retailers already listed in the catalogue. It writes \`retailer-source-data.json\` for the site's release/store tracker. New catalogue retailer hosts are included automatically.
 
 ## Data handling
 - Public first-party product pages only; checks \`robots.txt\` before fetching product pages.
