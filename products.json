@@ -1185,5 +1185,107 @@
       }
     ],
     "restock": false
+  },
+  {
+    "name": "Abyss Eye M5 Japanese Booster Pack",
+    "set": "Abyss Eye M5",
+    "language": "Japanese",
+    "type": "Booster Pack",
+    "store": "Gameology",
+    "price": 6.45,
+    "stock": "Check Retailer",
+    "releaseDate": "2026-05-22",
+    "url": "https://www.gameology.com.au/products/pokemon-tcg-abyss-eye-single-booster-pack-m5-japanese",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Gameology",
+        "price": 6.45,
+        "stock": "Check Retailer",
+        "url": "https://www.gameology.com.au/products/pokemon-tcg-abyss-eye-single-booster-pack-m5-japanese"
+      },
+      {
+        "name": "TC Game",
+        "price": 0,
+        "stock": "Check Retailer",
+        "url": "https://tcgame.com.au/products/pokemon-abyss-eye-booster-pack-japanese"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "Ninja Spinner M4 Japanese Booster Pack",
+    "set": "Ninja Spinner M4",
+    "language": "Japanese",
+    "type": "Booster Pack",
+    "store": "One Stop Poke Shop",
+    "price": 4.5,
+    "stock": "Check Retailer",
+    "releaseDate": "2026-03-13",
+    "url": "https://onestoppokeshop.com.au/products/pokemon-tcg-mega-ninja-spinner-m4-booster-pack-japanese",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "One Stop Poke Shop",
+        "price": 4.5,
+        "stock": "Check Retailer",
+        "url": "https://onestoppokeshop.com.au/products/pokemon-tcg-mega-ninja-spinner-m4-booster-pack-japanese"
+      },
+      {
+        "name": "Light of Cards",
+        "price": 4.99,
+        "stock": "Check Retailer",
+        "url": "https://lightofcards.com.au/products/single-pack-pokemon-tcg-m4-ninja-spinner-jp"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "Ninja Spinner M4 10-Pack Bundle",
+    "set": "Ninja Spinner M4",
+    "language": "Japanese",
+    "type": "Booster Pack Bundle",
+    "store": "BIG W Marketplace",
+    "price": 49.95,
+    "stock": "Check Retailer",
+    "releaseDate": "2026-03-13",
+    "url": "https://www.bigw.com.au/product/10x-ninja-spinner-booster-pack-japanese-pokemon-tcg/p/9905436688",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "BIG W Marketplace",
+        "price": 49.95,
+        "stock": "Check Retailer",
+        "url": "https://www.bigw.com.au/product/10x-ninja-spinner-booster-pack-japanese-pokemon-tcg/p/9905436688"
+      },
+      {
+        "name": "GD Games",
+        "price": 49.95,
+        "stock": "Check Retailer",
+        "url": "https://www.gdgames.com.au/products/10x-ninja-spinner-booster-pack-japanese-pokemon-tcg"
+      }
+    ],
+    "restock": false
+  },
+  {
+    "name": "Abyss Eye M5 10-Pack Bundle",
+    "set": "Abyss Eye M5",
+    "language": "Japanese",
+    "type": "Booster Pack Bundle",
+    "store": "BIG W Marketplace",
+    "price": 49.95,
+    "stock": "Check Retailer",
+    "releaseDate": "2026-05-22",
+    "url": "https://www.bigw.com.au/product/10x-abyss-eye-booster-pack-japanese-pokemon-tcg/p/9905149737",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "BIG W Marketplace",
+        "price": 49.95,
+        "stock": "Check Retailer",
+        "url": "https://www.bigw.com.au/product/10x-abyss-eye-booster-pack-japanese-pokemon-tcg/p/9905149737"
+      }
+    ],
+    "restock": false
   }
 ]
