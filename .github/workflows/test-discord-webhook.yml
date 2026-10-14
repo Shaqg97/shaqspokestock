@@ -3,74 +3,56 @@ name: Test Discord webhook
 on:
   workflow_dispatch:
     inputs:
-      test_role:
-        description: "Optional role to ping in the test message"
+      test_channel:
+        description: "Channel route to test"
         required: true
         type: choice
         options:
-          - none
+          - default
           - stock
           - price
+          - release
 
 permissions:
   contents: read
 
 jobs:
   test-discord:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - name: Send test message to Discord
+      - name: Send test message to selected Discord channel
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_STOCK_WEBHOOK_URL: ${{ secrets.DISCORD_STOCK_WEBHOOK_URL }}
+          DISCORD_PRICE_DROP_WEBHOOK_URL: ${{ secrets.DISCORD_PRICE_DROP_WEBHOOK_URL }}
+          DISCORD_RELEASE_WEBHOOK_URL: ${{ secrets.DISCORD_RELEASE_WEBHOOK_URL }}
           DISCORD_STOCK_ALERT_ROLE_ID: ${{ secrets.DISCORD_STOCK_ALERT_ROLE_ID }}
           DISCORD_PRICE_DROP_ROLE_ID: ${{ secrets.DISCORD_PRICE_DROP_ROLE_ID }}
-          TEST_ROLE: ${{ inputs.test_role }}
+          DISCORD_RELEASE_ALERT_ROLE_ID: ${{ secrets.DISCORD_RELEASE_ALERT_ROLE_ID }}
+          TEST_CHANNEL: ${{ inputs.test_channel }}
         run: |
-          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
-            echo "DISCORD_WEBHOOK_URL is missing from repository Actions secrets."
-            exit 1
-          fi
-
+          webhook=""
           role_id=""
-          role_label="no role ping"
-          case "$TEST_ROLE" in
-            stock)
-              role_id="$DISCORD_STOCK_ALERT_ROLE_ID"
-              role_label="Stock Alerts"
-              ;;
-            price)
-              role_id="$DISCORD_PRICE_DROP_ROLE_ID"
-              role_label="Price Drops"
-              ;;
-            none)
-              ;;
-            *)
-              echo "Invalid test_role input."
-              exit 1
-              ;;
+          case "$TEST_CHANNEL" in
+            default) webhook="$DISCORD_WEBHOOK_URL" ;;
+            stock) webhook="${DISCORD_STOCK_WEBHOOK_URL:-$DISCORD_WEBHOOK_URL}"; role_id="$DISCORD_STOCK_ALERT_ROLE_ID" ;;
+            price) webhook="${DISCORD_PRICE_DROP_WEBHOOK_URL:-$DISCORD_WEBHOOK_URL}"; role_id="$DISCORD_PRICE_DROP_ROLE_ID" ;;
+            release) webhook="${DISCORD_RELEASE_WEBHOOK_URL:-$DISCORD_WEBHOOK_URL}"; role_id="$DISCORD_RELEASE_ALERT_ROLE_ID" ;;
+            *) echo "Invalid test_channel input."; exit 1 ;;
           esac
-
-          if [ "$TEST_ROLE" != "none" ] && ! printf '%s' "$role_id" | grep -Eq '^[0-9]{17,20}$'; then
-            echo "The selected role ID secret is missing or is not a valid numeric Discord role ID."
+          if [ -z "$webhook" ]; then
+            echo "No webhook is configured for this route. Add the matching repository secret or DISCORD_WEBHOOK_URL fallback."
             exit 1
           fi
-
           if [ -n "$role_id" ]; then
-            payload=$(ROLE_ID="$role_id" ROLE_LABEL="$role_label" node -e 'process.stdout.write(JSON.stringify({content:"✅ **Shaqs Poke Stock test alert** — Discord webhook and "+process.env.ROLE_LABEL+" role ping test. This is only a test; no stock data was changed.",allowed_mentions:{parse:[],roles:[process.env.ROLE_ID]}}))')
+            payload=$(ROLE_ID="$role_id" TEST_CHANNEL="$TEST_CHANNEL" node -e 'process.stdout.write(JSON.stringify({content:"✅ **Shaqs Poke Stock test** — "+process.env.TEST_CHANNEL+" channel delivery and role ping test. No stock data was changed.",allowed_mentions:{parse:[],roles:[process.env.ROLE_ID]}}))')
           else
-            payload='{"content":"✅ **Shaqs Poke Stock test alert** — Discord webhook delivery is working. No role was pinged and no stock data was changed.","allowed_mentions":{"parse":[],"roles":[]}}'
+            payload=$(TEST_CHANNEL="$TEST_CHANNEL" node -e 'process.stdout.write(JSON.stringify({content:"✅ **Shaqs Poke Stock test** — "+process.env.TEST_CHANNEL+" channel delivery is working. No role was pinged and no stock data was changed.",allowed_mentions:{parse:[],roles:[]}}))')
           fi
-
-          response=$(curl --silent --show-error --output /tmp/discord-response.txt --write-out "%{http_code}" \
-            -H "Content-Type: application/json" \
-            -X POST \
-            --data "$payload" \
-            "$DISCORD_WEBHOOK_URL")
-
+          response=$(curl --silent --show-error --output /tmp/discord-response.txt --write-out "%{http_code}" -H "Content-Type: application/json" -X POST --data "$payload" "$webhook")
           if [ "$response" -lt 200 ] || [ "$response" -ge 300 ]; then
             echo "Discord webhook returned HTTP $response."
             cat /tmp/discord-response.txt
             exit 1
           fi
-
-          echo "Discord accepted the test message (HTTP $response). Selected test: $TEST_ROLE."
+          echo "Discord accepted the test message (HTTP $response). Route tested: $TEST_CHANNEL."
