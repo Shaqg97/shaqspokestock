@@ -19,7 +19,7 @@ test("catalogue image fields are valid HTTPS URLs when supplied", () => {
 });
 
 test("missing or broken images have an accessible branded fallback", () => {
-  assert.match(html, /class="image-fallback"/);
+  assert.match(html, /class="(?:image-fallback|product-summary-fallback)"/);
   assert.match(html, /Shaqs Poke Stock/);
   assert.match(html, /Image coming soon/);
   assert.match(html, /onerror="this\.style\.display='none';this\.nextElementSibling\.style\.display='flex';"/);
