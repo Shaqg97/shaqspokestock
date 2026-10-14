@@ -1926,8 +1926,8 @@ function renderPriceAlerts() {
     const encodedName = encodeURIComponent(name);
     return '<div class="price-alert-row"><div><strong>' + escapeHtml(name) +
       '</strong><div class="price-alert-status">Target A$' + Number(item.target).toFixed(2) +
-      ' · ' + escapeHtml(state) + '</div></div><button type="button" onclick="removePriceAlert(decodeURIComponent(\\'' +
-      encodedName + '\\'))">Remove</button></div>';
+      ' · ' + escapeHtml(state) + '</div></div><button type="button" data-name="' + escapeHtml(name) +
+      '" onclick="removePriceAlert(this.getAttribute(&quot;data-name&quot;))">Remove</button></div>';
   }).join("");
 }
 
