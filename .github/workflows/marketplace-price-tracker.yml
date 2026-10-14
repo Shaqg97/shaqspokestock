@@ -2,7 +2,7 @@ name: eBay marketplace price tracker
 
 on:
   schedule:
-    - cron: '23 21 * * *'
+    - cron: '23 */6 * * *'
   workflow_dispatch:
   push:
     branches: [main]
@@ -37,6 +37,7 @@ jobs:
           EBAY_CLIENT_ID: ${{ secrets.EBAY_CLIENT_ID }}
           EBAY_CLIENT_SECRET: ${{ secrets.EBAY_CLIENT_SECRET }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_PRICE_DROP_WEBHOOK_URL: ${{ secrets.DISCORD_PRICE_DROP_WEBHOOK_URL }}
         run: node .github/scripts/refresh-marketplace-prices.mjs
 
       - name: Commit marketplace price snapshot safely
