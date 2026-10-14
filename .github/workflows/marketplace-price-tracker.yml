@@ -14,7 +14,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: generated-data-publish
+  group: marketplace-prices-publisher
   cancel-in-progress: false
 
 jobs:
