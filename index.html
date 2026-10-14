@@ -820,6 +820,19 @@ button,nav button,.filter-buttons button { touch-action:manipulation; }
 }
 
 
+/* Local price alerts: accessible, mobile-friendly controls */
+.price-alert-tools{margin:14px 0 22px;padding:16px;border:1px solid #cbd5e1;border-radius:16px;background:#f8fafc;color:#172033}
+.price-alert-tools h3{margin:0 0 6px;font-size:18px}
+.price-alert-tools p{margin:0 0 12px;font-size:13px;line-height:1.5;color:#475569}
+.price-alert-list{display:grid;gap:8px;margin-top:12px}
+.price-alert-row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px;background:#fff;border:1px solid #e2e8f0;border-radius:10px}
+.price-alert-row button,.price-alert-form button,.price-alert-notify{border:0;border-radius:9px;padding:9px 12px;background:#0f766e;color:#fff;font-weight:700;cursor:pointer}
+.price-alert-row button{background:#e2e8f0;color:#172033}
+.price-alert-form{display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap}
+.price-alert-form input{width:112px;max-width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:9px;font-size:14px}
+.price-alert-status{font-size:12px;color:#475569;margin-top:7px}
+@media(max-width:560px){.price-alert-form input{flex:1;min-width:90px}.price-alert-form button{flex:1}}
+
 /* Fix contrast for product language, type and status chips */
 .product > div[style*="display:flex"] > span {
   color: #172033 !important;
@@ -927,6 +940,16 @@ button,nav button,.filter-buttons button { touch-action:manipulation; }
   <div class="section-header">
     <h2>🔥 Best Deals</h2>
   </div>
+
+  <section class="price-alert-tools" aria-labelledby="price-alert-heading">
+    <h3 id="price-alert-heading">🎯 Your price targets</h3>
+    <p>Set a target price on any product card. Targets are saved only in this browser. Alerts can evaluate freshly verified retailer prices when you open or refresh the site; this static site cannot monitor in the background while closed. Catalogue-only and marketplace prices never trigger a verified retailer alert.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <button class="price-alert-notify" type="button" onclick="enablePriceNotifications()">🔔 Enable browser notifications</button>
+      <span id="priceAlertPermission" class="price-alert-status">In-page alerts work without notification permission.</span>
+    </div>
+    <div id="priceAlertList" class="price-alert-list" aria-live="polite"></div>
+  </section>
 
  <div class="filter-buttons">
 
@@ -1060,6 +1083,8 @@ async function loadProducts() {
     updateStats();
     renderStores();
     renderProducts();
+    checkPriceAlerts();
+    renderPriceAlerts();
     loadSourceTracker();
 
   } catch (error) {
@@ -1745,7 +1770,287 @@ ${renderMarketplaceOffers(product)}
         ${renderMarketplacePriceHistory(product)}
         ${releaseDate}
 
-        ${dealButton}
+        <div class="price-alert-form" aria-label="Set a price target for \${escapeHtml(product.name)}">
+          <label for="price-target-\${encodeURIComponent(product.name).replace(/%/g, '')}" style="font-size:12px;font-weight:700;">🎯 Alert at A$</label>
+          <input id="price-target-\${encodeURIComponent(product.name).replace(/%/g, '')}" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="Target price" value="\${getPriceAlert(product.name) ? getPriceAlert(product.name).target : ''}" aria-label="Target price in Australian dollars for \${escapeHtml(product.name)}">
+          <button type="button" onclick="savePriceAlert(\${JSON.stringify(product.name).replace(/"/g, '&quot;')}, this.parentElement.querySelector('input').value)">Save target</button>
+        </div>
+        <div class="price-alert-status">\${getPriceAlert(product.name) ? 'Saved target: A
+    `;
+  }).join("");
+
+}
+function setFilter(filter, button) {
+
+  currentFilter = filter;
+
+  document
+    .querySelectorAll(".filter-buttons button")
+    .forEach(btn => btn.classList.remove("active"));
+
+  button.classList.add("active");
+
+  renderProducts();
+
+}
+
+const FAVORITES_KEY = "shaqsPokeStockFavorites";
+
+function getFavorites() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+    return Array.isArray(saved) ? saved : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function isFavorite(productName) {
+  return getFavorites().includes(productName);
+}
+
+function toggleFavorite(productName) {
+  const favorites = getFavorites();
+  const updated = favorites.includes(productName)
+    ? favorites.filter(name => name !== productName)
+    : [...favorites, productName];
+
+  try {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(updated));
+  } catch (error) {
+    console.warn("Watchlist could not be saved in this browser.", error);
+  }
+
+  renderProducts();
+}
+
+const PRICE_ALERTS_KEY = "shaqsPokeStockPriceAlertsV1";
+
+function getPriceAlerts() {
+  try {
+    const value = JSON.parse(localStorage.getItem(PRICE_ALERTS_KEY) || "{}");
+    return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+  } catch (error) {
+    return {};
+  }
+}
+
+function getPriceAlert(productName) {
+  return getPriceAlerts()[productName] || null;
+}
+
+function savePriceAlert(productName, rawTarget) {
+  const target = Number(rawTarget);
+  if (!Number.isFinite(target) || target <= 0) {
+    alert("Enter a target price greater than A$0.");
+    return;
+  }
+  const product = products.find(item => item.name === productName);
+  if (!product) return;
+  const alerts = getPriceAlerts();
+  alerts[productName] = { target: Math.round(target * 100) / 100, createdAt: new Date().toISOString(), firedAt: null };
+  try {
+    localStorage.setItem(PRICE_ALERTS_KEY, JSON.stringify(alerts));
+  } catch (error) {
+    alert("This browser could not save your price target. Check local storage settings.");
+    return;
+  }
+  checkPriceAlerts();
+  renderPriceAlerts();
+  renderProducts();
+}
+
+function removePriceAlert(productName) {
+  const alerts = getPriceAlerts();
+  delete alerts[productName];
+  try { localStorage.setItem(PRICE_ALERTS_KEY, JSON.stringify(alerts)); } catch (error) {
+    console.warn("Price alert could not be removed from this browser.", error);
+  }
+  renderPriceAlerts();
+  renderProducts();
+}
+
+function getFreshVerifiedPrice(product) {
+  const offers = Array.isArray(product?.retailers) ? product.retailers : [];
+  const fresh = offers.filter(offer =>
+    Number(offer.price) > 0 &&
+    isFreshVerifiedStock(offer) &&
+    ["in stock", "low stock", "pre-order"].includes(String(offer.stock || "").trim().toLowerCase())
+  );
+  if (!fresh.length) return null;
+  return Math.min(...fresh.map(offer => Number(offer.price)));
+}
+
+function checkPriceAlerts() {
+  const alerts = getPriceAlerts();
+  let changed = false;
+  Object.entries(alerts).forEach(([name, alertData]) => {
+    const product = products.find(item => item.name === name);
+    const price = product ? getFreshVerifiedPrice(product) : null;
+    if (price === null || price > Number(alertData.target) || alertData.firedAt) return;
+    alertData.firedAt = new Date().toISOString();
+    alertData.triggerPrice = Math.round(price * 100) / 100;
+    changed = true;
+    if ("Notification" in window && Notification.permission === "granted") {
+      try {
+        new Notification("Shaqs Poke Stock price target reached", {
+          body: name + " is A$" + price.toFixed(2) + " (your target: A$" + Number(alertData.target).toFixed(2) + "). Check the retailer listing before buying."
+        });
+      } catch (error) {
+        console.warn("Browser notification could not be shown.", error);
+      }
+    }
+  });
+  if (changed) {
+    try { localStorage.setItem(PRICE_ALERTS_KEY, JSON.stringify(alerts)); } catch (error) {
+      console.warn("Price alert state could not be saved.", error);
+    }
+  }
+}
+
+function renderPriceAlerts() {
+  const container = document.getElementById("priceAlertList");
+  if (!container) return;
+  const alerts = Object.entries(getPriceAlerts());
+  if (!alerts.length) {
+    container.innerHTML = '<div class="price-alert-row"><span>No targets saved yet. Set one on any product card below.</span></div>';
+    return;
+  }
+  container.innerHTML = alerts.map(([name, item]) => {
+    const product = products.find(entry => entry.name === name);
+    const current = product ? getFreshVerifiedPrice(product) : null;
+    const reached = Boolean(item.firedAt);
+    const state = reached
+      ? "🎉 Target reached at A$" + Number(item.triggerPrice).toFixed(2) + " · " + new Date(item.firedAt).toLocaleString("en-AU")
+      : current === null
+        ? "Waiting for a fresh verified retailer price"
+        : current <= Number(item.target)
+          ? "Target met — check retailer details"
+          : "Fresh verified price: A$" + current.toFixed(2);
+    return '<div class="price-alert-row"><div><strong>' + escapeHtml(name) + '</strong><div class="price-alert-status">Target A
+
+  document
+    .getElementById(id)
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
+ + Number(getPriceAlert(product.name).target).toFixed(2) + (getPriceAlert(product.name).firedAt ? ' · target reached' : '') : 'Set a target to track a future verified price drop.'}</div>
+        \${dealButton}
+
+      </div>
+    `;
+  }).join("");
+
+}
+function setFilter(filter, button) {
+
+  currentFilter = filter;
+
+  document
+    .querySelectorAll(".filter-buttons button")
+    .forEach(btn => btn.classList.remove("active"));
+
+  button.classList.add("active");
+
+  renderProducts();
+
+}
+
+const FAVORITES_KEY = "shaqsPokeStockFavorites";
+
+function getFavorites() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+    return Array.isArray(saved) ? saved : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function isFavorite(productName) {
+  return getFavorites().includes(productName);
+}
+
+function toggleFavorite(productName) {
+  const favorites = getFavorites();
+  const updated = favorites.includes(productName)
+    ? favorites.filter(name => name !== productName)
+    : [...favorites, productName];
+
+  try {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(updated));
+  } catch (error) {
+    console.warn("Watchlist could not be saved in this browser.", error);
+  }
+
+  renderProducts();
+}
+
+function scrollToSection(id) {
+
+  document
+    .getElementById(id)
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
+ + Number(item.target).toFixed(2) + ' · ' + escapeHtml(state) + '</div></div><button type="button" onclick="removePriceAlert(' + JSON.stringify(name).replace(/"/g, '&quot;') + ')">Remove</button></div>';
+  }).join("");
+}
+
+async function enablePriceNotifications() {
+  const label = document.getElementById("priceAlertPermission");
+  if (!("Notification" in window)) {
+    if (label) label.textContent = "This browser does not support notifications; in-page targets still work.";
+    return;
+  }
+  try {
+    const permission = await Notification.requestPermission();
+    if (label) label.textContent = permission === "granted"
+      ? "Browser notifications enabled for this site while it is open."
+      : "Notifications not enabled. You can still see target status here.";
+    checkPriceAlerts();
+    renderPriceAlerts();
+  } catch (error) {
+    if (label) label.textContent = "Could not request permission; in-page targets still work.";
+  }
+}
+
+function scrollToSection(id) {
+
+  document
+    .getElementById(id)
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
+ + Number(getPriceAlert(product.name).target).toFixed(2) + (getPriceAlert(product.name).firedAt ? ' · target reached' : '') : 'Set a target to track a future verified price drop.'}</div>
+        \${dealButton}
 
       </div>
     `;
