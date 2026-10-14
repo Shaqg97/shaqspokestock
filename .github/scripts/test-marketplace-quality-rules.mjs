@@ -61,3 +61,18 @@ test("marketplace sort explains when the card price is still a retailer price", 
 test("marketplace offer display does not treat zero or missing totals as delivered prices", () => {
   assert.match(html, /const hasTotal = offer\.totalPrice !== null && offer\.totalPrice !== undefined &&\s*Number\.isFinite\(Number\(offer\.totalPrice\)\) && Number\(offer\.totalPrice\) > 0/);
 });
+
+test("marketplace price targets require a recent snapshot, explicit factory-sealed condition and known delivered total", () => {
+  assert.match(html, /function getFreshMarketplaceSealedPrice\(product\)/);
+  assert.match(html, /if \(ageHours < -1 \|\| ageHours > 36\) return null;/);
+  assert.match(html, /Number\(offer\.matchConfidence\) >= 90 && conditionRankForSort\(offer\.condition\) === 0/);
+  assert.match(html, /Number\.isFinite\(Number\(offer\.totalPrice\)\) && Number\(offer\.totalPrice\) > 0/);
+});
+
+test("legacy price targets remain verified-retailer alerts unless marketplace source is selected", () => {
+  assert.match(html, /return item && item\.source === "marketplace" \? "marketplace" : "retailer";/);
+  assert.match(html, /value="retailer"/);
+  assert.match(html, /value="marketplace"/);
+  assert.match(html, /Sealed eBay AU delivered-total reference/);
+  assert.match(html, /marketplace prices are marketplace references, not stock verification/);
+});
