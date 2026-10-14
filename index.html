@@ -1578,8 +1578,12 @@ return matchesSearch && matchesFilter;
       const aRank = conditionRankForSort(aOffer.condition);
       const bRank = conditionRankForSort(bOffer.condition);
       if (aRank !== bRank) return aRank - bRank;
-      const aHasTotal = aOffer.totalPrice !== null && Number.isFinite(Number(aOffer.totalPrice));
-      const bHasTotal = bOffer.totalPrice !== null && Number.isFinite(Number(bOffer.totalPrice));
+      // Rank exact product matches ahead of seller metrics so unrelated but
+      // popular listings cannot outrank a better-matched product offer.
+      const matchDiff = Number(bOffer.matchConfidence || 0) - Number(aOffer.matchConfidence || 0);
+      if (matchDiff) return matchDiff;
+      const aHasTotal = aOffer.totalPrice !== null && aOffer.totalPrice !== undefined && Number.isFinite(Number(aOffer.totalPrice)) && Number(aOffer.totalPrice) > 0;
+      const bHasTotal = bOffer.totalPrice !== null && bOffer.totalPrice !== undefined && Number.isFinite(Number(bOffer.totalPrice)) && Number(bOffer.totalPrice) > 0;
       if (aHasTotal !== bHasTotal) return aHasTotal ? -1 : 1;
       const aFeedback = Number(aOffer.sellerFeedbackPercent);
       const bFeedback = Number(bOffer.sellerFeedbackPercent);
