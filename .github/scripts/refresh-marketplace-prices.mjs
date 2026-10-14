@@ -5,10 +5,11 @@ const snapshotUrl = new URL('../../marketplace-prices.json', import.meta.url);
 const clientId = process.env.EBAY_CLIENT_ID;
 const clientSecret = process.env.EBAY_CLIENT_SECRET;
 const webhookUrl = process.env.DISCORD_PRICE_DROP_WEBHOOK_URL || process.env.DISCORD_WEBHOOK_URL;
-const priceDropRoleId = process.env.DISCORD_PRICE_DROP_ROLE_ID;
+let priceDropRoleId = process.env.DISCORD_PRICE_DROP_ROLE_ID?.trim() || '';
 
 if (priceDropRoleId && !/^\\d{17,20}$/.test(priceDropRoleId)) {
-  throw new Error('DISCORD_PRICE_DROP_ROLE_ID must be a Discord role ID made of 17–20 digits.');
+  console.warn('DISCORD_PRICE_DROP_ROLE_ID is not a valid Discord role ID; continuing without role mentions.');
+  priceDropRoleId = '';
 }
 
 if (!clientId || !clientSecret) {
