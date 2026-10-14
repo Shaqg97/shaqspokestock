@@ -1,0 +1,46 @@
+name: Direct retailer source monitor
+
+on:
+  schedule:
+    - cron: '23 */6 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/scripts/monitor-retailer-source-data.mjs'
+      - '.github/workflows/retailer-source-monitor.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: retailer-source-monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - name: Collect public first-party retailer data
+        run: node .github/scripts/monitor-retailer-source-data.mjs
+      - name: Publish observations
+        run: |
+          if git diff --quiet -- retailer-source-data.json; then
+            echo "No source-data changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add retailer-source-data.json
+          git commit -m "Refresh direct retailer source observations"
+          git pull --rebase origin main
+          git push
