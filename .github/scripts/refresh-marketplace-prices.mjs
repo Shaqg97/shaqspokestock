@@ -140,7 +140,7 @@ async function searchListings(product) {
       condition: item.condition || null,
       seller: item.seller?.username || null,
       sellerFeedbackPercent: item.seller?.feedbackPercentage || null,
-      sellerFeedbackScore: Number.isFinite(Number(item.seller?.feedbackScore)) ? Number(item.seller.feedbackScore) : null,
+      sellerFeedbackScore: item.seller?.feedbackScore !== null && item.seller?.feedbackScore !== undefined && Number.isFinite(Number(item.seller.feedbackScore)) ? Number(item.seller.feedbackScore) : null,
       availability: item.estimatedAvailabilityStatus || null,
       matchConfidence: score,
     };
