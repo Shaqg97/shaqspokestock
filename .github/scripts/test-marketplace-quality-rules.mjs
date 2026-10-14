@@ -74,5 +74,5 @@ test("legacy price targets remain verified-retailer alerts unless marketplace so
   assert.match(html, /value="retailer"/);
   assert.match(html, /value="marketplace"/);
   assert.match(html, /Sealed eBay AU delivered-total reference/);
-  assert.match(html, /marketplace prices are marketplace references, not stock verification/);
+  assert.match(html, /marketplace references, not stock verification/);
 });
