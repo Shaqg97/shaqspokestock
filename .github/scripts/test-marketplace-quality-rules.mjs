@@ -5,8 +5,8 @@ import fs from "node:fs";
 const html = fs.readFileSync("index.html", "utf8");
 
 test("HTML document closes once and has no appended duplicate content", () => {
-  assert.equal((html.match(/<\\/html>/g) || []).length, 1, "index.html must contain one closing html tag");
-  assert.match(html.trimEnd(), /<\\/html>$/, "index.html must end at its closing html tag");
+  assert.equal(html.split("</html>").length - 1, 1, "index.html must contain one closing html tag");
+  assert.ok(html.trimEnd().endsWith("</html>"), "index.html must end at its closing html tag");
 });
 
 test("marketplace fallback only uses a recent snapshot", () => {
