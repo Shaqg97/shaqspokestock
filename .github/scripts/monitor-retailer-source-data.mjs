@@ -68,11 +68,15 @@ function jsonScripts(html) {
   return values;
 }
 function extractEvidence(html, expectedName) {
-  const expected = expectedName.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  const normalize = value => String(value ?? '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().split(/\\s+/).filter(Boolean);
+  const generic = new Set(['pokemon', 'tcg', 'trading', 'card', 'cards', 'booster', 'box', 'pack', 'packs', 'japanese', 'english', 'sealed', 'the', 'and', 'for', 'with', 'premium', 'collection', 'figure']);
+  const expectedTokens = [...new Set(normalize(expectedName).filter(token => token.length > 2 && !generic.has(token)))];
   const objects = jsonScripts(html).flatMap(value => collectObjects(value));
   const roots = objects.filter(object => {
-    const name = String(object.name ?? object.productName ?? object.title ?? '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
-    return name && (name.includes(expected) || expected.includes(name));
+    const name = String(object.name ?? object.productName ?? object.title ?? '');
+    const tokens = new Set(normalize(name).filter(token => token.length > 2 && !generic.has(token)));
+    const overlap = expectedTokens.filter(token => tokens.has(token)).length;
+    return name && overlap >= Math.min(2, expectedTokens.length) && overlap / Math.max(1, expectedTokens.length) >= 0.6;
   });
   const matched = roots.flatMap(root => collectObjects(root)).slice(0, 200);
   let price = null, availability = 'unknown', title = null;
