@@ -617,6 +617,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     <nav>
       <button onclick="scrollToSection('deals')">Deals</button>
       <button onclick="scrollToSection('stores')">Stores</button>
+      <button onclick="scrollToSection('source-tracker')">Allocations</button>
       <button onclick="scrollToSection('alerts')">Real-Time Alerts</button>
       <button onclick="scrollToSection('ebay-shop')">Shop on eBay</button>
     </nav>
@@ -775,6 +776,17 @@ html, body { max-width: 100%; overflow-x: hidden; }
   <div class="loading">Loading Pokémon products...</div>
 </div>
 
+
+<section id="source-tracker" aria-labelledby="source-tracker-title" style="margin:28px 0;padding:clamp(18px,3vw,28px);background:#fff;border:1px solid #e0e6ef;border-radius:20px;box-shadow:0 5px 18px #10182c0b;">
+  <div class="section-header" style="margin-top:0;">
+    <h2 id="source-tracker-title">📍 Direct-source release & store tracker</h2>
+  </div>
+  <p style="color:#64748b;font-size:14px;line-height:1.6;margin-bottom:16px;">Shaqs Poke Stock checks publicly accessible retailer product pages directly. Exact allocations and branch quantities appear only when the retailer explicitly exposes them. Unknown or blocked data is never treated as zero or sold out.</p>
+  <div id="sourceTrackerSummary" class="loading" style="padding:18px;">Loading direct retailer observations…</div>
+  <div id="sourceTrackerRows" style="display:grid;gap:10px;margin-top:12px;"></div>
+  <p style="color:#64748b;font-size:12px;line-height:1.5;margin-top:14px;">Sources: first-party retailer pages · BIG W, Kmart, Target, JB Hi-Fi and EB Games where accessible. Availability can change and is not a guarantee of shelf stock.</p>
+</section>
+
 <section id="stores">
 
   <div class="section-header">
@@ -823,6 +835,7 @@ async function loadProducts() {
     updateStats();
     renderStores();
     renderProducts();
+    loadSourceTracker();
 
   } catch (error) {
 
@@ -833,6 +846,62 @@ async function loadProducts() {
 
   }
 
+}
+
+
+async function loadSourceTracker() {
+  const summary = document.getElementById("sourceTrackerSummary");
+  const rows = document.getElementById("sourceTrackerRows");
+  if (!summary || !rows) return;
+  try {
+    const response = await fetch("retailer-source-data.json", { cache: "no-store" });
+    if (!response.ok) throw new Error("Source observations are not published yet");
+    const data = await response.json();
+    const observations = Array.isArray(data.observations) ? data.observations : [];
+    const explicitQuantities = observations.flatMap(item =>
+      (Array.isArray(item.quantities) ? item.quantities : []).map(quantity => ({ ...quantity, observation: item }))
+    );
+    const checked = data.checkedAt
+      ? new Date(data.checkedAt).toLocaleString("en-AU", { day:"numeric", month:"short", hour:"numeric", minute:"2-digit" })
+      : "Not run yet";
+    summary.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:10px;text-align:left;">
+        <div style="padding:13px;background:#f8fafc;border-radius:11px;"><small style="color:#64748b;font-weight:700;">Retailers</small><strong style="display:block;font-size:23px;">${Number(data.retailerCount || 0)}</strong></div>
+        <div style="padding:13px;background:#f8fafc;border-radius:11px;"><small style="color:#64748b;font-weight:700;">Pages checked</small><strong style="display:block;font-size:23px;">${Number(data.successfulFetches || 0)}/${Number(data.observationCount || 0)}</strong></div>
+        <div style="padding:13px;background:#f8fafc;border-radius:11px;"><small style="color:#64748b;font-weight:700;">Explicit quantity fields</small><strong style="display:block;font-size:23px;">${explicitQuantities.length}</strong></div>
+      </div>
+      <p style="margin-top:10px;color:#64748b;font-size:12px;">Last source scan: ${escapeHtml(checked)} · Refresh runs every six hours.</p>`;
+    const shown = observations.filter(item => item.fetchStatus === "ok" || item.fetchStatus === "blocked" || item.fetchStatus === "skipped");
+    const quantityKeys = new Set(explicitQuantities.map(item => item.observation.key));
+    const selected = shown.filter(item => quantityKeys.has(item.key) || item.availability === "in stock" || item.availability === "pre-order" || item.availability === "out of stock").slice(0, 24);
+    if (!selected.length) {
+      rows.innerHTML = `<div class="empty" style="text-align:left;padding:18px;"><strong>No exact allocation or branch quantities have been exposed in the latest source scan.</strong><p style="margin-top:6px;">The monitor is in place, but the current publicly accessible page data may only show a general availability status. We will display a quantity only when a retailer explicitly supplies one.</p><p style="margin-top:6px;color:#64748b;font-size:12px;">${Number(data.blockedOrSkipped || 0)} pages were blocked or skipped and remain unknown.</p></div>`;
+      return;
+    }
+    rows.innerHTML = selected.map(item => {
+      const quantities = Array.isArray(item.quantities) ? item.quantities : [];
+      const quantityText = quantities.length
+        ? quantities.map(q => `<span style="display:inline-block;margin:3px 5px 3px 0;padding:5px 8px;background:#fef3c7;border-radius:8px;font-size:12px;font-weight:800;">${escapeHtml(q.kind)}: ${Number(q.quantity)}${q.store ? " · " + escapeHtml(q.store) : ""}</span>`).join("")
+        : "";
+      const status = item.fetchStatus === "blocked" || item.fetchStatus === "skipped"
+        ? "Source unavailable — quantity unknown"
+        : item.availability === "unknown" ? "No explicit stock status exposed" : item.availability;
+      return `<article style="padding:14px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap;">
+          <div style="min-width:0;flex:1;"><strong>${escapeHtml(item.product)}</strong><div style="font-size:12px;color:#64748b;margin-top:3px;">${escapeHtml(item.retailer)} · ${escapeHtml(item.host)}</div></div>
+          <span style="font-size:12px;font-weight:800;color:${quantities.length ? "#166534" : "#64748b"};">${escapeHtml(status)}</span>
+        </div>
+        ${item.price !== null && Number.isFinite(Number(item.price)) ? `<p style="margin-top:8px;font-weight:800;">A${Number(item.price).toFixed(2)} <span style="font-size:11px;color:#64748b;font-weight:500;">from retailer page data</span></p>` : ""}
+        ${quantityText}
+        ${item.url ? `<p style="margin-top:8px;"><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" style="color:#1d4ed8;font-weight:700;text-decoration:none;">View retailer source ↗</a></p>` : ""}
+        <p style="margin-top:6px;color:#64748b;font-size:11px;">Checked ${escapeHtml(new Date(item.checkedAt).toLocaleString("en-AU", { day:"numeric", month:"short", hour:"numeric", minute:"2-digit" }))}</p>
+      </article>`;
+    }).join("");
+  } catch (error) {
+    summary.innerHTML = '<div style="text-align:left;">The direct-source monitor has been added; its first scheduled run has not published results yet. Existing catalogue listings remain available.</div>';
+    rows.innerHTML = "";
+    console.warn("Direct retailer source data unavailable.", error);
+  }
 }
 
 function isFreshVerifiedStock(offer) {
