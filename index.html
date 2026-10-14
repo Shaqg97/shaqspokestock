@@ -1775,7 +1775,10 @@ ${renderMarketplaceOffers(product)}
           <input id="price-target-${encodeURIComponent(product.name).replace(/%/g, '')}" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="Target price" value="${getPriceAlert(product.name) ? getPriceAlert(product.name).target : ''}" aria-label="Target price in Australian dollars for ${escapeHtml(product.name)}">
           <button type="button" onclick="savePriceAlert(${JSON.stringify(product.name).replace(/"/g, '&quot;')}, this.parentElement.querySelector('input').value)">Save target</button>
         </div>
-        <div class="price-alert-status">${getPriceAlert(product.name) ? 'Saved target: A
+        <div class="price-alert-status">${getPriceAlertStatusMarkup(product.name)}</div>
+        ${dealButton}
+
+      </div>
     `;
   }).join("");
 
@@ -1835,6 +1838,12 @@ function getPriceAlerts() {
 
 function getPriceAlert(productName) {
   return getPriceAlerts()[productName] || null;
+}
+
+function getPriceAlertStatusMarkup(productName) {
+  const item = getPriceAlert(productName);
+  if (!item) return "Set a target to track a future verified price drop.";
+  return "Saved target: A$" + Number(item.target).toFixed(2) + (item.firedAt ? " · target reached" : "");
 }
 
 function savePriceAlert(productName, rawTarget) {
