@@ -1830,9 +1830,7 @@ function getPriceAlerts() {
   try {
     const value = JSON.parse(localStorage.getItem(PRICE_ALERTS_KEY) || "{}");
     return value && typeof value === "object" && !Array.isArray(value) ? value : {};
-  } catch (error) {
-    return {};
-  }
+  } catch (error) { return {}; }
 }
 
 function getPriceAlert(productName) {
@@ -1845,16 +1843,11 @@ function savePriceAlert(productName, rawTarget) {
     alert("Enter a target price greater than A$0.");
     return;
   }
-  const product = products.find(item => item.name === productName);
-  if (!product) return;
+  if (!products.some(item => item.name === productName)) return;
   const alerts = getPriceAlerts();
   alerts[productName] = { target: Math.round(target * 100) / 100, createdAt: new Date().toISOString(), firedAt: null };
-  try {
-    localStorage.setItem(PRICE_ALERTS_KEY, JSON.stringify(alerts));
-  } catch (error) {
-    alert("This browser could not save your price target. Check local storage settings.");
-    return;
-  }
+  try { localStorage.setItem(PRICE_ALERTS_KEY, JSON.stringify(alerts)); }
+  catch (error) { alert("This browser could not save your price target. Check local storage settings."); return; }
   checkPriceAlerts();
   renderPriceAlerts();
   renderProducts();
@@ -1863,22 +1856,20 @@ function savePriceAlert(productName, rawTarget) {
 function removePriceAlert(productName) {
   const alerts = getPriceAlerts();
   delete alerts[productName];
-  try { localStorage.setItem(PRICE_ALERTS_KEY, JSON.stringify(alerts)); } catch (error) {
-    console.warn("Price alert could not be removed from this browser.", error);
-  }
+  try { localStorage.setItem(PRICE_ALERTS_KEY, JSON.stringify(alerts)); }
+  catch (error) { console.warn("Price alert could not be removed from this browser.", error); }
   renderPriceAlerts();
   renderProducts();
 }
 
 function getFreshVerifiedPrice(product) {
-  const offers = Array.isArray(product?.retailers) ? product.retailers : [];
+  const offers = Array.isArray(product && product.retailers) ? product.retailers : [];
   const fresh = offers.filter(offer =>
     Number(offer.price) > 0 &&
     isFreshVerifiedStock(offer) &&
     ["in stock", "low stock", "pre-order"].includes(String(offer.stock || "").trim().toLowerCase())
   );
-  if (!fresh.length) return null;
-  return Math.min(...fresh.map(offer => Number(offer.price)));
+  return fresh.length ? Math.min(...fresh.map(offer => Number(offer.price))) : null;
 }
 
 function checkPriceAlerts() {
@@ -1896,15 +1887,12 @@ function checkPriceAlerts() {
         new Notification("Shaqs Poke Stock price target reached", {
           body: name + " is A$" + price.toFixed(2) + " (your target: A$" + Number(alertData.target).toFixed(2) + "). Check the retailer listing before buying."
         });
-      } catch (error) {
-        console.warn("Browser notification could not be shown.", error);
-      }
+      } catch (error) { console.warn("Browser notification could not be shown.", error); }
     }
   });
   if (changed) {
-    try { localStorage.setItem(PRICE_ALERTS_KEY, JSON.stringify(alerts)); } catch (error) {
-      console.warn("Price alert state could not be saved.", error);
-    }
+    try { localStorage.setItem(PRICE_ALERTS_KEY, JSON.stringify(alerts)); }
+    catch (error) { console.warn("Price alert state could not be saved.", error); }
   }
 }
 
@@ -1919,80 +1907,37 @@ function renderPriceAlerts() {
   container.innerHTML = alerts.map(([name, item]) => {
     const product = products.find(entry => entry.name === name);
     const current = product ? getFreshVerifiedPrice(product) : null;
-    const reached = Boolean(item.firedAt);
-    const state = reached
-      ? "🎉 Target reached at A$" + Number(item.triggerPrice).toFixed(2) + " · " + new Date(item.firedAt).toLocaleString("en-AU")
+    const state = item.firedAt
+      ? "Target reached at A$" + Number(item.triggerPrice).toFixed(2) + " · " + new Date(item.firedAt).toLocaleString("en-AU")
       : current === null
         ? "Waiting for a fresh verified retailer price"
         : current <= Number(item.target)
           ? "Target met — check retailer details"
           : "Fresh verified price: A$" + current.toFixed(2);
-    return '<div class="price-alert-row"><div><strong>' + escapeHtml(name) + '</strong><div class="price-alert-status">Target A
-
-  document
-    .getElementById(id)
-    .scrollIntoView({
-      behavior: "smooth"
-    });
-
-}
-
-loadProducts();
-
-</script>
-
-</body>
-</html>
- + Number(getPriceAlert(product.name).target).toFixed(2) + (getPriceAlert(product.name).firedAt ? ' · target reached' : '') : 'Set a target to track a future verified price drop.'}</div>
-        ${dealButton}
-
-      </div>
-    `;
+    const encodedName = encodeURIComponent(name);
+    return '<div class="price-alert-row"><div><strong>' + escapeHtml(name) +
+      '</strong><div class="price-alert-status">Target A$' + Number(item.target).toFixed(2) +
+      ' · ' + escapeHtml(state) + '</div></div><button type="button" onclick="removePriceAlert(decodeURIComponent(\\'' +
+      encodedName + '\\'))">Remove</button></div>';
   }).join("");
-
-}
-function setFilter(filter, button) {
-
-  currentFilter = filter;
-
-  document
-    .querySelectorAll(".filter-buttons button")
-    .forEach(btn => btn.classList.remove("active"));
-
-  button.classList.add("active");
-
-  renderProducts();
-
 }
 
-const FAVORITES_KEY = "shaqsPokeStockFavorites";
-
-function getFavorites() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
-    return Array.isArray(saved) ? saved : [];
-  } catch (error) {
-    return [];
+async function enablePriceNotifications() {
+  const label = document.getElementById("priceAlertPermission");
+  if (!("Notification" in window)) {
+    if (label) label.textContent = "This browser does not support notifications; in-page targets still work.";
+    return;
   }
-}
-
-function isFavorite(productName) {
-  return getFavorites().includes(productName);
-}
-
-function toggleFavorite(productName) {
-  const favorites = getFavorites();
-  const updated = favorites.includes(productName)
-    ? favorites.filter(name => name !== productName)
-    : [...favorites, productName];
-
   try {
-    localStorage.setItem(FAVORITES_KEY, JSON.stringify(updated));
+    const permission = await Notification.requestPermission();
+    if (label) label.textContent = permission === "granted"
+      ? "Browser notifications enabled for this site while it is open."
+      : "Notifications not enabled. You can still see target status here.";
+    checkPriceAlerts();
+    renderPriceAlerts();
   } catch (error) {
-    console.warn("Watchlist could not be saved in this browser.", error);
+    if (label) label.textContent = "Could not request permission; in-page targets still work.";
   }
-
-  renderProducts();
 }
 
 function scrollToSection(id) {
