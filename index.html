@@ -1106,7 +1106,10 @@ function renderStores() {
       Number(offer.price) > 0 &&
       ["in stock", "pre-order", "low stock"].includes(String(offer.stock || "").toLowerCase())
     );
-    const cheapest = available.sort((a, b) => Number(a.price) - Number(b.price))[0];
+    const verifiedAvailable = available.filter(isFreshVerifiedStock);
+    const comparisonPool = verifiedAvailable.length ? verifiedAvailable : available;
+    const cheapest = [...comparisonPool].sort((a, b) => Number(a.price) - Number(b.price))[0];
+    const cheapestIsVerified = !!cheapest && isFreshVerifiedStock(cheapest);
     const listingCount = store.offers.length;
     const latestCheck = store.offers.map(offer => offer.checkedAt).filter(Boolean).sort().at(-1);
     const statusLine = latestCheck
@@ -1121,10 +1124,10 @@ function renderStores() {
         <h3>${escapeHtml(store.name)}</h3>
         <p class="set">${listingCount} catalogue listing${listingCount === 1 ? "" : "s"}</p>
         <div class="price-row" style="margin:8px 0;">
-          <span class="price">${cheapest ? "$" + Number(cheapest.price).toFixed(2) : "—"}</span>
-          <span class="stock ${cheapest && String(cheapest.stock).toLowerCase() === "in stock" ? "" : "low"}">${cheapest ? "Lowest listed" : "No verified price"}</span>
+          <span class="price">${cheapest ? "A$" + Number(cheapest.price).toFixed(2) : "—"}</span>
+          <span class="stock ${cheapestIsVerified && String(cheapest.stock).toLowerCase() === "in stock" ? "" : "unverified"}">${cheapest ? (cheapestIsVerified ? "Verified listing" : "Lowest listed · unverified") : "No current price"}</span>
         </div>
-        <p class="store">${escapeHtml(statusLine)}</p>
+        <p class="store">${escapeHtml(statusLine)} · listed price; delivery costs may apply</p>
         ${retailerLink}
       </article>
     `;
