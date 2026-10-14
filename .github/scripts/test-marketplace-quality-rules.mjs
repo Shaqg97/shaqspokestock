@@ -43,8 +43,8 @@ test("zero or missing delivered totals are not treated as known shipping-inclusi
 });
 
 test("marketplace offers are explicitly not verified retailer stock", () => {
-  assert.match(html, /it is not retailer stock verification/);
-  assert.match(html, /Catalogue-only and marketplace prices never trigger a verified retailer alert/);
+  assert.match(html, /marketplace references, not stock verification/);
+  assert.match(html, /eBay alerts use recent factory-sealed listings with a known delivered total/);
 });
 
 test("missing or broken product images show branded coming-soon fallback", () => {
