@@ -1,6 +1,9 @@
 name: Discord notification test
 
 on:
+  push:
+    paths:
+      - .github/workflows/discord-notification-test.yml
   workflow_dispatch:
 
 permissions:
