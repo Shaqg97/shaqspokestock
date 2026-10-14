@@ -76,7 +76,7 @@ function extractEvidence(html, expectedName) {
     const name = String(object.name ?? object.productName ?? object.title ?? '');
     const tokens = new Set(normalize(name).filter(token => token.length > 2 && !generic.has(token)));
     const overlap = expectedTokens.filter(token => tokens.has(token)).length;
-    return name && overlap >= Math.min(2, expectedTokens.length) && overlap / Math.max(1, expectedTokens.length) >= 0.6;
+    return name && overlap >= Math.min(2, expectedTokens.length) && overlap / Math.max(1, expectedTokens.length) >= 0.8;
   });
   const matched = roots.flatMap(root => collectObjects(root)).slice(0, 200);
   let price = null, availability = 'unknown', title = null;
