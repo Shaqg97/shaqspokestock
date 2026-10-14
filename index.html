@@ -851,6 +851,10 @@ function renderMarketplaceOffers(product) {
   const record = (marketplaceSnapshot.products || []).find(item => item.key === marketplaceProductKey(product));
   const offers = Array.isArray(record?.offers) ? record.offers : [];
   const query = encodeURIComponent([product.name, product.set].filter(Boolean).join(" "));
+  const marketplaceCheckedMs = Date.parse(marketplaceSnapshot.checkedAt || "");
+  const marketplaceAgeHours = Number.isFinite(marketplaceCheckedMs) ? (Date.now() - marketplaceCheckedMs) / 3600000 : null;
+  const marketplaceIsFresh = marketplaceAgeHours !== null && marketplaceAgeHours >= -1 && marketplaceAgeHours <= 36;
+  const marketplaceFreshnessLabel = marketplaceIsFresh ? "Recent snapshot" : "Snapshot may be stale";
   const searchLinks = `
     <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:9px;">
       <a href="https://www.ebay.com.au/sch/i.html?_nkw=${query}" target="_blank" rel="noopener noreferrer" style="color:#1d4ed8;text-decoration:none;font-weight:700;">Search eBay AU ↗</a>
@@ -883,7 +887,7 @@ function renderMarketplaceOffers(product) {
   return `
     <details style="margin-top:10px;font-size:12px;">
       <summary style="cursor:pointer;font-weight:700;color:#334155;">🛒 Marketplace deals (${offers.length})</summary>
-      <p style="margin-top:8px;color:#64748b;">eBay AU candidates · ${marketplaceSnapshot.checkedAt ? "checked " + new Date(marketplaceSnapshot.checkedAt).toLocaleDateString("en-AU", {day:"numeric",month:"short"}) : "not checked yet"}. Only stronger title matches are shown, but matching is automated. “+ ship” means shipping is not confirmed, so compare the final checkout total before buying.</p>
+      <p style="margin-top:8px;color:#64748b;"><strong style="color:${marketplaceIsFresh ? "#15803d" : "#b45309"};">${marketplaceFreshnessLabel}</strong> · eBay AU candidates · ${marketplaceSnapshot.checkedAt ? "checked " + new Date(marketplaceSnapshot.checkedAt).toLocaleString("en-AU", {day:"numeric",month:"short",hour:"numeric",minute:"2-digit"}) : "check time unavailable"}. Only stronger title matches are shown, but matching is automated. ${marketplaceIsFresh ? "" : "Treat these as older reference prices until refreshed. "}“+ ship” means shipping is not confirmed, so compare the final checkout total before buying.</p>
       <div style="display:grid;gap:7px;margin-top:8px;">${rows}</div>
       ${searchLinks}
     </details>`;
