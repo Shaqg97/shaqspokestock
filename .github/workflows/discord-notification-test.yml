@@ -1,0 +1,54 @@
+name: Discord notification test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-notifications:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send clearly labelled test messages to all notification channels
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_STOCK_WEBHOOK_URL: ${{ secrets.DISCORD_STOCK_WEBHOOK_URL }}
+          DISCORD_PRICE_DROP_WEBHOOK_URL: ${{ secrets.DISCORD_PRICE_DROP_WEBHOOK_URL }}
+          DISCORD_RELEASE_WEBHOOK_URL: ${{ secrets.DISCORD_RELEASE_WEBHOOK_URL }}
+        run: |
+          node --input-type=module <<'NODE'
+          const main = process.env.DISCORD_WEBHOOK_URL;
+          if (!main) throw new Error('Missing DISCORD_WEBHOOK_URL repository secret.');
+
+          const channels = [
+            ['GENERAL', main],
+            ['STOCK / RESTOCK', process.env.DISCORD_STOCK_WEBHOOK_URL || main],
+            ['PRICE-DROP / DEALS', process.env.DISCORD_PRICE_DROP_WEBHOOK_URL || main],
+            ['NEW RELEASES', process.env.DISCORD_RELEASE_WEBHOOK_URL || main],
+          ];
+          const sent = new Set();
+          for (const [label, url] of channels) {
+            if (sent.has(url)) {
+              console.log(label + ': uses a webhook already tested above; no duplicate message sent.');
+              continue;
+            }
+            const parsed = new URL(url);
+            if (parsed.protocol !== 'https:' || !['discord.com', 'discordapp.com'].includes(parsed.hostname) || !parsed.pathname.startsWith('/api/webhooks/')) {
+              throw new Error(label + ': configured URL is not a valid Discord webhook URL.');
+            }
+            const response = await fetch(url, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                username: 'Shaqs Poke Stock',
+                content: '🧪 **TEST ONLY — ' + label + '**\nThis is a delivery test, not a real stock or price alert. If you can read this, this notification channel is receiving messages.',
+                allowed_mentions: { parse: [] },
+              }),
+            });
+            if (!response.ok) throw new Error(label + ' webhook rejected test message (HTTP ' + response.status + ').');
+            sent.add(url);
+            console.log(label + ': test message delivered.');
+          }
+          console.log('All distinct configured Discord notification webhooks passed.');
+          NODE
