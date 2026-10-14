@@ -1939,6 +1939,10 @@ return matchesSearch && matchesFilter;
       <div class="product">
 
         <div class="product-summary">
+          <div class="product-summary-image" aria-label="${escapeHtml(product.name)} image">
+            ${product.image ? `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)} product image" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">` : ""}
+            <span class="product-summary-fallback" style="${product.image ? "display:none;" : ""}" aria-hidden="true">📦</span>
+          </div>
           <div class="product-summary-text">
             <h3>${escapeHtml(product.name)}</h3>
             <div class="set">${escapeHtml(product.set)}</div>
@@ -1948,10 +1952,6 @@ return matchesSearch && matchesFilter;
         <details class="product-details">
           <summary>Product details, prices & alerts</summary>
           <div class="product-details-content">
-            <div class="product-image">
-              ${product.image ? `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)} product image" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">` : ""}
-              <span class="image-fallback" style="${product.image ? "display:none;" : ""}" aria-label="Product image unavailable"><span aria-hidden="true">📦</span><small>Shaqs Poke Stock</small><small>Image coming soon</small></span>
-            </div>
 
         <button class="favorite ${isFavorite(product.name) ? "saved" : ""}" onclick="toggleFavorite('${JSON.stringify(product.name).replace(/"/g, "&quot;")}')" aria-label="${isFavorite(product.name) ? "Remove from watchlist" : "Add to watchlist"}" title="${isFavorite(product.name) ? "Remove from watchlist" : "Add to watchlist"}">
           ${isFavorite(product.name) ? "★" : "☆"}
@@ -2339,6 +2339,18 @@ loadProducts();
 
 <!-- Compact product rows: show only name, set and best listed price until expanded. -->
 <style>
+.product-summary { justify-content: flex-start; }
+.product-summary-image {
+  flex: 0 0 58px; width: 58px; height: 58px;
+  border: 1px solid #e4eaf3; border-radius: 10px;
+  background: #f8fafc; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.product-summary-image img { width: 100%; height: 100%; object-fit: contain; padding: 3px; }
+.product-summary-fallback { color: #94a3b8; font-size: 25px; }
+.product-summary-text { flex: 1 1 auto; }
+.product-summary-price { margin-left: auto; }
+
 .products { grid-template-columns: 1fr !important; gap: 10px !important; }
 .product {
   display: block !important;
@@ -2371,6 +2383,7 @@ loadProducts();
   .container { padding: 18px 12px 36px; }
   .product { padding: 12px !important; }
   .product-summary { gap: 8px; padding-right: 38px; }
+  .product-summary-image { flex-basis: 48px; width: 48px; height: 48px; border-radius: 8px; }
   .product-summary h3 { font-size: 14px !important; }
   .product-summary-price { font-size: 17px; }
   .product .favorite { top: 13px; right: 10px; }
