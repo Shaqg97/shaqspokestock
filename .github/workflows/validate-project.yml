@@ -11,15 +11,16 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Check out project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
+          package-manager-cache: false
 
       - name: Validate product catalogue JSON
         run: node -e "const fs=require('node:fs'); const products=JSON.parse(fs.readFileSync('products.json','utf8')); if(!Array.isArray(products)) throw new Error('products.json must be an array'); if(products.length!==31) throw new Error('Catalogue is intentionally frozen at 31 products; found '+products.length); for(const [i,p] of products.entries()){ if(!p.name || !p.language || !p.type) throw new Error('Product '+i+' is missing a required name/language/type'); if(p.retailers !== undefined && !Array.isArray(p.retailers)) throw new Error('Product '+i+' retailers must be an array'); } console.log('Validated '+products.length+' products');"
