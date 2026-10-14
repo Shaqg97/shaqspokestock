@@ -972,7 +972,7 @@ button,nav button,.filter-buttons button { touch-action:manipulation; }
       <option value="verified-price">Lowest fresh verified retailer price</option>
       <option value="marketplace-quality">Marketplace quality: sealed + delivery + seller</option>
     </select>
-    <small style="color:#64748b;">Verified-price uses fresh retailer checks only. Marketplace quality uses recent eBay AU snapshots and prioritises condition, delivered-total clarity, seller signals and product match; it is not retailer stock verification.</small>
+    <small style="color:#64748b;">Verified-price uses fresh retailer checks only. Marketplace quality ranks recent eBay AU listings by condition, product match, delivery-total clarity and seller signals; it is not retailer stock verification. The card can still show a verified retailer price when one is available.</small>
   </div>
 
  <div class="filter-buttons">
@@ -1275,7 +1275,8 @@ function renderMarketplaceOffers(product) {
   }
   const rows = offers.map(offer => {
     const itemPrice = Number(offer.price);
-    const hasTotal = offer.totalPrice !== null && Number.isFinite(Number(offer.totalPrice));
+    const hasTotal = offer.totalPrice !== null && offer.totalPrice !== undefined &&
+    Number.isFinite(Number(offer.totalPrice)) && Number(offer.totalPrice) > 0;
     const shownPrice = hasTotal ? Number(offer.totalPrice) : itemPrice;
     const displayPrice = hasTotal ? "A$" + shownPrice.toFixed(2) : "A$" + itemPrice.toFixed(2) + " + ship";
     const matchScore = Number(offer.matchConfidence);
