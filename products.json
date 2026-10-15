@@ -109,7 +109,7 @@
       },
       {
         "name": "Pocket Games",
-        "price": 134,
+        "price": 133,
         "stock": "In Stock",
         "url": "https://pocketgames.com.au/products/pokemon-tcg-mega-brave-m1l-booster-box-booster-pack",
         "stockCheckStatus": "verified",
@@ -623,7 +623,7 @@
       },
       {
         "name": "Gameology",
-        "price": 70,
+        "price": 69,
         "stock": "Sold Out",
         "url": "https://www.gameology.com.au/products/pokemon-tcg-30th-celebration-booster-bundle",
         "stockCheckStatus": "verified",
@@ -685,7 +685,7 @@
       },
       {
         "name": "The Card Spot",
-        "price": 143,
+        "price": 142,
         "stock": "In Stock",
         "url": "https://thecardspot.com.au/products/storm-emeralda-booster-box-pokemon-tcg",
         "stockCheckStatus": "verified",
@@ -867,7 +867,7 @@
     "retailers": [
       {
         "name": "Gameology",
-        "price": 113,
+        "price": 112,
         "stock": "In Stock",
         "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-symphonia-booster-box-m1s-japanese",
         "stockCheckStatus": "verified",
