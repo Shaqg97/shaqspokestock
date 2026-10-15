@@ -2392,3 +2392,40 @@ loadProducts();
 
 </body>
 </html>
+
+/* Accessibility fix: make catalogue prices unmistakable and product metadata tags readable. */
+.product-summary-price {
+  color: #5eead4 !important;
+  background: #073b3a;
+  border: 1px solid #2dd4bf;
+  border-radius: 10px;
+  padding: 5px 9px;
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  line-height: 1.2;
+  letter-spacing: -.35px;
+  box-shadow: 0 0 0 1px rgba(45,212,191,.08);
+}
+.product-summary-price:focus-visible { outline: 3px solid #facc15; outline-offset: 3px; }
+.product-details-content .product > span,
+.product-details-content span[style*="border-radius:999px"],
+.product-details-content span[style*="padding:5px 9px"] {
+  color: #f1f5f9 !important;
+}
+/* Keep generated language, region, and product-type pills legible on the dark theme. */
+.product-details-content span[style*="border-radius:999px"],
+.product-details-content span[style*="border-radius: 999px"] {
+  color: #f8fafc !important;
+  background-color: #26364d;
+  border: 1px solid #52647c;
+  font-weight: 750;
+}
+/* More specific fallback for any metadata badge whose inline style sets white text. */
+.product-details-content .product-meta,
+.product-details-content .tag,
+.product-details-content .badge {
+  color: #f8fafc !important;
+}
+@media (max-width: 520px) {
+  .product-summary-price { font-size: 17px !important; padding: 5px 7px; }
+}
