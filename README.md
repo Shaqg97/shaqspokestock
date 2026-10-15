@@ -19,6 +19,20 @@ A mobile-first Pokémon TCG catalogue and deal-finding site for Australian colle
 - **Sealed eBay AU price target:** requires a recent marketplace snapshot (no older than 36 hours), explicit factory-sealed condition, at least 90% match confidence, a valid listing URL and a positive delivered total.
 - **Unknown stock:** blocked or unavailable sources must not be displayed as sold out.
 
+## Retailer link audit policy
+
+A link checker reports whether an automated request succeeded; it does **not** prove that an offer is in stock, that the displayed price is current, or that checkout will work. Retailers and anti-bot/CDN services may reject `HEAD` requests, rate-limit automated traffic, or require browser sessions. Treat `403`, `429`, timeouts and a `HEAD`-only `404` as **inconclusive** until a cautious `GET` fallback (with a short timeout and limited response body) confirms the result. Do not repeatedly retry blocked endpoints, and do not mark a product sold out because a page could not be checked. A confirmed broken link should be separated from a blocked/unverifiable source in reports.
+
+Before calling a price a current Australian deal, require a recent source observation and preserve the retailer URL, checked timestamp, currency, stock evidence and any caveats. Marketplace offers are separate from direct-retailer offers. If the source cannot be verified, show the last known observation with its age or label it unverified rather than implying a live deal.
+
+## Mobile and accessibility QA
+
+- Check the catalogue at narrow widths (320–390 px) as well as tablet and desktop widths.
+- Ensure prices and metadata pills have strong contrast in both collapsed product rows and expanded details.
+- Keep product links and buttons comfortably tappable, avoid horizontal overflow, and retain visible keyboard focus.
+- Check missing-image fallbacks and empty/error states; do not let a failed image hide product identity or price context.
+- Respect reduced-motion preferences and use descriptive labels for interactive controls.
+
 ## Local watchlist and price targets
 
 The browser stores watchlist and price-target data in local storage on that device/browser. It does not sync between devices or browsers.
@@ -42,6 +56,8 @@ Without them, the refresh deliberately fails rather than reporting a false succe
 
 Discord delivery is managed separately from local browser targets. The alert workflow requires `DISCORD_WEBHOOK_URL`; optional channel-specific webhook secrets and role IDs are supported by `.github/scripts/send-discord-alerts.mjs`. Add secrets only through GitHub repository Actions settings. Never commit webhook URLs or tokens. Test role IDs and each alert category before announcing a public launch.
 
+For low-noise delivery, only send alerts when a qualifying observation changes meaningfully; deduplicate repeated observations, cap messages per run, and never ping a role when its configured ID is missing or malformed. A successful workflow means the job completed, not that every retailer was verifiable or that every Discord channel received a message. Review the run summary and alert counts before treating a run as healthy.
+
 ## Validation
 
 The repository uses Node.js 24 in GitHub Actions. Run these checks from the repository root:
@@ -57,8 +73,8 @@ The CI workflow also validates catalogue and marketplace JSON, retailer-source o
 
 ## Launch QA checklist
 
-- [ ] Latest GitHub Actions validation is green.
-- [ ] Site loads on desktop and mobile.
+- [ ] Latest GitHub Actions validation is green for the latest commit.
+- [ ] Site loads on desktop and mobile without horizontal overflow.
 - [ ] Missing or broken product images show a compact package icon with an accessible “Image coming soon” hint.
 - [ ] Best Deals sorts catalogue, fresh verified retailer prices and marketplace quality as labelled.
 - [ ] Retailer target alerts and sealed eBay AU target alerts remain clearly distinct.
