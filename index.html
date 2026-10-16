@@ -2440,6 +2440,25 @@ loadProducts();
 }
 @media (max-width: 520px) {
   .product-summary-price { font-size: 17px !important; padding: 5px 7px; }
+  .price-alert-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: stretch;
+    gap: 8px;
+  }
+  .price-alert-form label { grid-column: 1 / -1; }
+  .price-alert-form input,
+  .price-alert-form select {
+    width: 100%;
+    min-width: 0;
+    flex: initial;
+    font-size: 14px;
+  }
+  .price-alert-form button {
+    grid-column: 1 / -1;
+    min-height: 42px;
+    flex: initial;
+  }
 }
 
 </style>
