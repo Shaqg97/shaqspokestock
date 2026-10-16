@@ -880,6 +880,29 @@ button,nav button,.filter-buttons button { touch-action:manipulation; }
 .help-guide a{color:#334bdc;font-weight:700}
 @media(max-width:760px){.help-guides{grid-template-columns:1fr;gap:12px}.help-guide{padding:18px}}
 
+
+/* Global dark-theme fix: product metadata pills must override light inline styles. */
+.product-details-content .product span,
+.product-details-content .product [style*="border-radius:999px"],
+.product-details-content .product [style*="border-radius: 999px"],
+.product-details-content .product [style*="padding:5px 9px"],
+.product-details-content .product [style*="padding: 5px 9px"],
+.product-details-content .product .tag,
+.product-details-content .product .badge {
+  background: #26364d !important;
+  background-color: #26364d !important;
+  color: #f8fafc !important;
+  border: 1px solid #52647c !important;
+  font-weight: 750 !important;
+  text-shadow: none !important;
+}
+.product-details-content .product span[style*="background"],
+.product-details-content .product [style*="background-color"] {
+  background: #26364d !important;
+  background-color: #26364d !important;
+  color: #f8fafc !important;
+}
+
 </style>
 </head>
 
