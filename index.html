@@ -1621,8 +1621,17 @@ if (currentFilter === "japanese") {
 }
 
 if (currentFilter === "upcoming") {
-  matchesFilter =
-    matchesFilter && product.status === "Upcoming";
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const release = product.releaseDate
+    ? new Date(product.releaseDate + "T00:00:00")
+    : null;
+  const releaseIsUpcoming = release && !Number.isNaN(release.getTime()) && release >= today;
+  const statusIsUpcoming = ["upcoming", "pre-order"].includes(
+    String(product.status || "").trim().toLowerCase()
+  );
+  // Include every dated future drop and pre-order, even if its status label differs.
+  matchesFilter = matchesFilter && (releaseIsUpcoming || statusIsUpcoming);
 }
 
 if (currentFilter === "preorder") {
