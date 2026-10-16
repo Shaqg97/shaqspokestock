@@ -45,7 +45,7 @@ async function worker() {
         signal: AbortSignal.timeout(12000),
       });
       let status = response.status;
-      if ([403, 405, 429, 500, 501].includes(status)) {
+      if ([403, 404, 405, 429, 500, 501].includes(status)) {
         // Some shops reject HEAD; a small GET can confirm link reachability, not stock.
         const fallback = await fetch(item.url, {
           method: 'GET',
