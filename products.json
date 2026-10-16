@@ -1399,5 +1399,89 @@
     ],
     "restock": false,
     "image": "https://tcgplayer-cdn.tcgplayer.com/product/704151_in_1000x1000.jpg"
+  },
+  {
+    "name": "Ascended Heroes Focused Fighters Premium Collection",
+    "set": "Mega Evolution—Ascended Heroes",
+    "language": "English",
+    "type": "Premium Collection",
+    "store": "Australian Pokémon TCG Retailers",
+    "price": 0,
+    "stock": "Coming Soon",
+    "releaseDate": "2026-10-30",
+    "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game",
+    "status": "Upcoming",
+    "retailers": [
+      {
+        "name": "EB Games",
+        "price": 0,
+        "stock": "Sold Out",
+        "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game"
+      },
+      {
+        "name": "JB Hi-Fi",
+        "price": 0,
+        "stock": "Sold Out",
+        "url": "https://www.jbhifi.com.au/collections/games-consoles/pokemon"
+      },
+      {
+        "name": "Kmart",
+        "price": 0,
+        "stock": "Sold Out",
+        "url": "https://www.kmart.com.au/category/toys/pokemon/"
+      }
+    ],
+    "restock": false,
+    "image": "https://assets.celadoninfo.com/product-images/ascended-heroes-focused-fighters-premium-collection.webp"
+  },
+  {
+    "name": "Ascended Heroes Booster Bundle",
+    "set": "Mega Evolution—Ascended Heroes",
+    "language": "English",
+    "type": "Booster Bundle",
+    "store": "Australian Pokémon TCG Retailers",
+    "price": 0,
+    "stock": "Check Retailers",
+    "releaseDate": "2026-04-24",
+    "url": "https://www.pokemon.com/us/pokemon-tcg/product-gallery/mega-evolution-ascended-heroes-booster-bundle",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "Pokémon TCG Retailers",
+        "price": 0,
+        "stock": "Check Retailers",
+        "url": "https://www.pokemon.com/us/pokemon-tcg/product-gallery/mega-evolution-ascended-heroes-booster-bundle"
+      }
+    ],
+    "restock": false,
+    "image": ""
+  },
+  {
+    "name": "Ascended Heroes Tins (Assorted)",
+    "set": "Mega Evolution—Ascended Heroes",
+    "language": "English",
+    "type": "Tin",
+    "store": "Australian Pokémon TCG Retailers",
+    "price": 0,
+    "stock": "Check Retailers",
+    "releaseDate": "2026-08-28",
+    "url": "https://www.cardwatch.com.au/stock/drops/ascended-heroes-tins-mega-forces-tins",
+    "status": "Released",
+    "retailers": [
+      {
+        "name": "JB Hi-Fi",
+        "price": 0,
+        "stock": "Check Retailers",
+        "url": "https://www.jbhifi.com.au/collections/games-consoles/pokemon"
+      },
+      {
+        "name": "EB Games",
+        "price": 0,
+        "stock": "Check Retailers",
+        "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game"
+      }
+    ],
+    "restock": false,
+    "image": ""
   }
 ]
