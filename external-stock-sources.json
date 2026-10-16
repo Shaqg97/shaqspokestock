@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAtLabel": "Reviewed 14 October 2026",
+  "checkedAtLabel": "Reviewed 16 October 2026",
   "policy": "External services are linked for manual cross-checking unless an authorised API/feed or written permission is confirmed. Do not scrape, mirror, or redistribute third-party tracker data against its terms.",
   "sources": [
     {
@@ -47,6 +47,51 @@
       "integrationMode": "external-link",
       "description": "Broad Australian price comparison and price-drop tracking. Coverage for specific Pokémon TCG products and stock status may vary.",
       "nextStep": "Use for occasional price-history cross-checks; do not treat it as confirmed Pokémon stock."
+    },
+    {
+      "id": "drop-store-au",
+      "name": "Drop Store Collectables",
+      "url": "https://dropstore.com.au/",
+      "statusLabel": "Retailer cross-check · manual only",
+      "integrationMode": "external-link",
+      "description": "Australian Pokémon TCG retailer with current sealed-product listings and release coverage. Product pages can be checked manually; no authorised stock feed or API has been confirmed.",
+      "nextStep": "Use product-specific pages for manual price and stock confirmation. Ask the retailer about a permitted feed before automated checks."
+    },
+    {
+      "id": "good-games-au",
+      "name": "Good Games TCG",
+      "url": "https://tcg.goodgames.com.au/",
+      "statusLabel": "Retailer cross-check · manual only",
+      "integrationMode": "external-link",
+      "description": "Australian trading-card retailer with a Pokémon TCG range and nationwide store presence. No authorised data feed or API has been confirmed.",
+      "nextStep": "Check exact product pages manually and verify shipping, stock and language before recording an offer. Request an approved feed before integration."
+    },
+    {
+      "id": "cherry-collectables-au",
+      "name": "Cherry Collectables",
+      "url": "https://cherrycollectables.com.au/",
+      "statusLabel": "Retailer cross-check · manual only",
+      "integrationMode": "external-link",
+      "description": "Australian collectibles retailer with Pokémon products and sealed items. No authorised data feed or API has been confirmed.",
+      "nextStep": "Use the retailer site for manual product-specific checks; do not infer availability from category pages."
+    },
+    {
+      "id": "treasure-vault-au",
+      "name": "Treasure Vault AU",
+      "url": "https://treasurevaultau.com/",
+      "statusLabel": "Retailer cross-check · manual only",
+      "integrationMode": "external-link",
+      "description": "Australian specialist retailer focused on sealed Pokémon TCG products. No authorised data feed or API has been confirmed.",
+      "nextStep": "Confirm exact product, language, sealed condition, stock and shipping on the retailer's product page. Ask about an approved feed before automation."
+    },
+    {
+      "id": "aus-sealed-au",
+      "name": "Aus Sealed Collectables",
+      "url": "https://aussealed.com/",
+      "statusLabel": "Retailer cross-check · manual only",
+      "integrationMode": "external-link",
+      "description": "Australian online store specialising in factory-sealed Pokémon TCG, including English and Japanese products. No authorised data feed or API has been confirmed.",
+      "nextStep": "Use individual product pages for manual confirmation and ask about a permitted feed before automated monitoring."
     }
   ]
 }
