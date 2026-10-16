@@ -950,26 +950,23 @@ button,nav button,.filter-buttons button { touch-action:manipulation; }
 </section>
 
 <section id="alerts" class="discord-alerts" aria-labelledby="discord-alerts-title">
-  <div>
-    <h2 id="discord-alerts-title">Get Pokémon stock alerts in real time 🔔</h2>
-    <p>Join the Shaqs Poke Stock Discord community for stock updates, price drops and new pre-order listings as supported retailer checks verify changes.</p>
-    <ul>
-      <li>Restock and availability updates</li>
-      <li>Price-drop notifications</li>
-      <li>New pre-order listings</li>
-    </ul>
+  <div class="community-compact-row">
+    <h2 id="discord-alerts-title">🔔 Shaqs Poke Stock Discord</h2>
+    <a class="discord-join-button" href="https://discord.gg/bAKGNxen7" target="_blank" rel="noopener noreferrer">Join Discord ↗</a>
+  </div>
+  <details class="community-more">
+    <summary>What alerts do I get? Setup and notification options</summary>
+    <p>Join for stock updates, price drops and new pre-order listings as supported retailer checks verify changes.</p>
+    <ul><li>Restock and availability updates</li><li>Price-drop notifications</li><li>New pre-order listings</li></ul>
     <small class="discord-alert-note">Alert coverage depends on retailer data and successful checks. Not every store is monitored live yet.</small>
-  </div>
-  <div class="discord-alert-action">
-    <a class="discord-join-button" href="https://discord.gg/bAKGNxen7" target="_blank" rel="noopener noreferrer">Join Shaqs Poke Stock Discord ↗</a>
-  </div>
+  </details>
 </section>
 
 <section class="help-guides" aria-label="Setup guides">
   <article class="help-guide" id="discord-notification-guide" aria-labelledby="discord-guide-title">
     <h2 id="discord-guide-title">🔔 Set up Discord pings without spam</h2>
     <p>Choose which Shaqs Poke Stock alerts can buzz your phone. These settings are controlled in Discord, not on this website.</p>
-    <details open>
+    <details>
       <summary>Recommended setup (about 1 minute)</summary>
       <ol>
         <li>Join the <a href="https://discord.gg/bAKGNxen7" target="_blank" rel="noopener noreferrer">Shaqs Poke Stock Discord</a> and open the server.</li>
@@ -1002,7 +999,7 @@ button,nav button,.filter-buttons button { touch-action:manipulation; }
   <article class="help-guide" id="add-to-home-guide" aria-labelledby="home-guide-title">
     <h2 id="home-guide-title">📲 Add Shaqs Poke Stock to your home screen</h2>
     <p>Add a shortcut so the catalogue opens quickly like an app. No app-store download is required.</p>
-    <details open>
+    <details>
       <summary>iPhone or iPad (Safari)</summary>
       <ol>
         <li>Open this website in <strong>Safari</strong>.</li>
@@ -1032,14 +1029,15 @@ button,nav button,.filter-buttons button { touch-action:manipulation; }
 </section>
 
 <section id="ebay-shop" class="ebay-shop" aria-labelledby="ebay-shop-title">
-  <div>
+  <div class="community-compact-row">
     <h2 id="ebay-shop-title">🛍️ Shop Shaqs on eBay</h2>
+    <a class="ebay-shop-button" href="https://www.ebay.com.au/usr/shaqspokestock" target="_blank" rel="noopener noreferrer" aria-label="Browse Shaqs Poke Stock seller listings on eBay">View listings ↗</a>
+  </div>
+  <details class="community-more">
+    <summary>About the eBay shop</summary>
     <p>Check out Shaqs Poke Stock on eBay for Pokémon cards, collectibles and available seller listings.</p>
     <p class="ebay-shop-note">Listings, prices and auction availability are managed on eBay and may change. Visit the seller page for current details.</p>
-  </div>
-  <div class="ebay-shop-action">
-    <a class="ebay-shop-button" href="https://www.ebay.com.au/usr/shaqspokestock" target="_blank" rel="noopener noreferrer" aria-label="Browse Shaqs Poke Stock seller listings on eBay">Browse My eBay Listings ↗</a>
-  </div>
+  </details>
 </section>
 
 <section id="deals">
@@ -2387,6 +2385,24 @@ loadProducts();
   .product-summary h3 { font-size: 14px !important; }
   .product-summary-price { font-size: 17px; }
   .product .favorite { top: 13px; right: 10px; }
+}
+
+/* Compact community links; keep detailed instructions collapsed until requested. */
+.community-compact-row { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.community-compact-row h2 { margin:0 !important; font-size:clamp(17px,4.2vw,22px) !important; line-height:1.3; }
+.community-compact-row .discord-join-button,
+.community-compact-row .ebay-shop-button { display:inline-flex; align-items:center; justify-content:center; width:auto; max-width:100%; margin:0; padding:10px 14px; font-size:14px; white-space:nowrap; }
+.community-more { margin-top:12px; padding-top:10px; border-top:1px solid rgba(148,163,184,.28); }
+.community-more > summary { cursor:pointer; font-size:13px; font-weight:700; line-height:1.5; }
+.community-more[open] > summary { margin-bottom:10px; }
+.help-guide > details:not([open]) { margin-bottom:0; }
+.help-guide > details { padding-top:10px; padding-bottom:10px; }
+@media (max-width:520px) {
+  .discord-alerts, .ebay-shop { padding:16px !important; }
+  .community-compact-row { align-items:flex-start; }
+  .community-compact-row h2 { flex:1 1 100%; }
+  .community-compact-row .discord-join-button,
+  .community-compact-row .ebay-shop-button { width:auto; }
 }
 </style>
 
