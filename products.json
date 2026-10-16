@@ -94,7 +94,7 @@
       {
         "name": "PokéBox",
         "price": 109.99,
-        "stock": "In Stock",
+        "stock": "Sold Out",
         "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-box-japanese-pokemon-tcg",
         "stockCheckStatus": "verified",
         "checkedAt": "2026-10-16"
@@ -109,7 +109,7 @@
       },
       {
         "name": "Pocket Games",
-        "price": 132,
+        "price": 133,
         "stock": "In Stock",
         "url": "https://pocketgames.com.au/products/pokemon-tcg-mega-brave-m1l-booster-box-booster-pack",
         "stockCheckStatus": "verified",
