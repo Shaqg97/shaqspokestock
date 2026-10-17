@@ -1259,13 +1259,15 @@ async function loadSourceTracker() {
     summary.innerHTML = `
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:10px;text-align:left;">
         <div style="padding:13px;background:#f8fafc;border-radius:11px;"><small style="color:#64748b;font-weight:700;">Retailers</small><strong style="display:block;font-size:23px;">${Number(data.retailerCount || 0)}</strong></div>
-        <div style="padding:13px;background:#f8fafc;border-radius:11px;"><small style="color:#64748b;font-weight:700;">Pages checked</small><strong style="display:block;font-size:23px;">${Number(data.successfulFetches || 0)}/${Number(data.observationCount || 0)}</strong></div>
+        <div style="padding:13px;background:#f8fafc;border-radius:11px;"><small style="color:#64748b;font-weight:700;">Pages fetched</small><strong style="display:block;font-size:23px;">${Number(data.successfulFetches || 0)}/${Number(data.observationCount || 0)}</strong></div>
         <div style="padding:13px;background:#f8fafc;border-radius:11px;"><small style="color:#64748b;font-weight:700;">Explicit quantity fields</small><strong style="display:block;font-size:23px;">${explicitQuantities.length}</strong></div>
+        <div style="padding:13px;background:#f8fafc;border-radius:11px;"><small style="color:#64748b;font-weight:700;">Price/stock evidence</small><strong style="display:block;font-size:23px;">${Number(data.evidenceObservations || 0)}</strong></div>
+        <div style="padding:13px;background:#f8fafc;border-radius:11px;"><small style="color:#64748b;font-weight:700;">Blocked / skipped</small><strong style="display:block;font-size:23px;">${Number(data.blockedOrSkipped || 0)}</strong></div>
       </div>
       <p style="margin-top:10px;color:#64748b;font-size:12px;">Last source scan: ${escapeHtml(checked)} · Refresh runs every six hours.</p>`;
     const shown = observations.filter(item => item.fetchStatus === "ok" || item.fetchStatus === "blocked" || item.fetchStatus === "skipped");
     const quantityKeys = new Set(explicitQuantities.map(item => item.observation.key));
-    const selected = shown.filter(item => quantityKeys.has(item.key) || item.availability === "in stock" || item.availability === "pre-order" || item.availability === "out of stock").slice(0, 24);
+    const selected = shown.filter(item => quantityKeys.has(item.key) || item.availability === "in stock" || item.availability === "pre-order" || item.availability === "out of stock" || item.fetchStatus === "blocked" || item.fetchStatus === "skipped").sort((a, b) => { const priority = item => /BIG W|Kmart|Target|JB Hi-Fi/i.test(item.retailer) ? 0 : 1; const evidence = item => item.price !== null && item.price !== undefined || item.availability !== "unknown" || (item.quantities || []).length ? 0 : 1; return priority(a) - priority(b) || evidence(a) - evidence(b); }).slice(0, 24);
     if (!selected.length) {
       rows.innerHTML = `<div class="empty" style="text-align:left;padding:18px;"><strong>No exact allocation or branch quantities have been exposed in the latest source scan.</strong><p style="margin-top:6px;">The monitor is in place, but the current publicly accessible page data may only show a general availability status. We will display a quantity only when a retailer explicitly supplies one.</p><p style="margin-top:6px;color:#64748b;font-size:12px;">${Number(data.blockedOrSkipped || 0)} pages were blocked or skipped and remain unknown.</p></div>`;
       return;
@@ -1286,7 +1288,9 @@ async function loadSourceTracker() {
         ${item.price !== null && Number.isFinite(Number(item.price)) ? `<p style="margin-top:8px;font-weight:800;">A${Number(item.price).toFixed(2)} <span style="font-size:11px;color:#64748b;font-weight:500;">from retailer page data</span></p>` : ""}
         ${quantityText}
         ${item.url ? `<p style="margin-top:8px;"><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" style="color:#1d4ed8;font-weight:700;text-decoration:none;">View retailer source ↗</a></p>` : ""}
-        <p style="margin-top:6px;color:#64748b;font-size:11px;">Checked ${escapeHtml(new Date(item.checkedAt).toLocaleString("en-AU", { day:"numeric", month:"short", hour:"numeric", minute:"2-digit" }))}</p>
+        <p style="margin-top:6px;color:#64748b;font-size:11px;">Attempted ${escapeHtml(new Date(item.attemptedAt || item.checkedAt).toLocaleString("en-AU", { day:"numeric", month:"short", hour:"numeric", minute:"2-digit" }))}</p>
+        ${item.lastSuccessfulAt ? `<p style="margin-top:3px;color:#64748b;font-size:11px;">Last successful fetch ${escapeHtml(new Date(item.lastSuccessfulAt).toLocaleString("en-AU", { day:"numeric", month:"short", hour:"numeric", minute:"2-digit" }))}</p>` : `<p style="margin-top:3px;color:#92400e;font-size:11px;">No successful fetch recorded yet</p>`}
+        ${item.lastEvidenceAt ? `<p style="margin-top:3px;color:#166534;font-size:11px;">Last explicit price/stock/quantity evidence ${escapeHtml(new Date(item.lastEvidenceAt).toLocaleString("en-AU", { day:"numeric", month:"short", hour:"numeric", minute:"2-digit" }))}</p>` : `<p style="margin-top:3px;color:#92400e;font-size:11px;">No matching explicit price/stock/quantity evidence recorded</p>`}
       </article>`;
     }).join("");
   } catch (error) {

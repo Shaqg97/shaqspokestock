@@ -2,6 +2,10 @@ import { readFile } from 'node:fs/promises';
 
 const fileUrl = new URL('../../products.json', import.meta.url);
 const products = JSON.parse(await readFile(fileUrl, 'utf8'));
+const sourceData = JSON.parse(await readFile(new URL('../../retailer-source-data.json', import.meta.url), 'utf8'));
+const sourceEvidenceCount = Number.isFinite(Number(sourceData.evidenceObservations))
+  ? Number(sourceData.evidenceObservations)
+  : (sourceData.observations || []).filter(item => (Number.isFinite(Number(item.price)) && Number(item.price) > 0) || item.availability !== 'unknown' || (item.quantities || []).length > 0).length;
 const issues = [];
 let offers = 0;
 let withIds = 0;
@@ -13,9 +17,12 @@ let productsMissingUrls = 0;
 let productsWithoutOffers = 0;
 let productsWithoutCheckDates = 0;
 let staleChecks = 0;
+let verifiedOffers = 0;
+let freshVerifiedOffers = 0;
+let staleVerifiedOffers = 0;
 let invalidImageUrls = 0;
-const todayUtc = new Date();
-todayUtc.setUTCHours(0, 0, 0, 0);
+const todaySydney = new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+const todaySydneyMs = Date.parse(`${todaySydney}T00:00:00Z`);
 
 for (const [index, product] of products.entries()) {
   if (!product.name || !product.language || !product.type) {
@@ -38,8 +45,13 @@ for (const [index, product] of products.entries()) {
     if (offer.checkedAt) {
       withChecks += 1;
       const checkedDate = new Date(`${offer.checkedAt}T00:00:00Z`);
-      const ageDays = (todayUtc - checkedDate) / 86400000;
+      const ageDays = (todaySydneyMs - checkedDate.getTime()) / 86400000;
       if (!Number.isFinite(checkedDate.getTime()) || ageDays < 0 || ageDays > 3) staleChecks += 1;
+      if (offer.stockCheckStatus === 'verified') {
+        verifiedOffers += 1;
+        if (Number.isFinite(ageDays) && ageDays >= 0 && ageDays <= 1) freshVerifiedOffers += 1;
+        else staleVerifiedOffers += 1;
+      }
     }
     if (!(Number(offer.price) > 0)) zeroPrices += 1;
     if (!offer.url) missingOfferUrls += 1;
@@ -63,6 +75,13 @@ const lines = [
   `- Offers with retailer item IDs: **${withIds}/${offers} (${pct(withIds, offers)}%)**`,
   `- Offers with a recorded check date: **${withChecks}/${offers} (${pct(withChecks, offers)}%)**`,
   `- Offers with stale or future check dates (older than 3 days): **${staleChecks}**`,
+  `- Offers explicitly verified by the priority monitor: **${verifiedOffers}/${offers}**`,
+  `- Verified offers with a Sydney-date check today or yesterday: **${freshVerifiedOffers}**`,
+  `- Verified offers with stale/future dates: **${staleVerifiedOffers}**`,
+  `- Offers without a verification marker: **${offers - verifiedOffers}**`,
+  `- Direct-source pages fetched: **${Number(sourceData.successfulFetches || 0)}/${Number(sourceData.observationCount || 0)}**`,
+  `- Direct-source pages with explicit price/stock/quantity evidence: **${sourceEvidenceCount}**`,
+  `- Direct-source pages blocked/skipped: **${Number(sourceData.blockedOrSkipped || 0)}**`,
   `- Products with invalid image URLs: **${invalidImageUrls}**`,
   `- Products missing an image URL: **${missingImages}/${products.length}**`,
   `- Products missing a primary product URL: **${productsMissingUrls}/${products.length}**`,
@@ -74,7 +93,7 @@ const lines = [
   issues.length ? '### Data errors' : '### Data errors',
   ...(issues.length ? issues.map(issue => `- ❌ ${issue}`) : ['- None found.']),
   '',
-  '> A recorded check date means a check was recorded, not that the retailer currently confirms stock. Dates older than 3 days or in the future are flagged for review; this report does not verify live stock.',
+  '> A recorded attempt is not the same as a verified stock result. The priority monitor’s explicit verification marker is counted separately. Direct-source HTTP success also does not guarantee that matching product price/stock evidence was found.',
 ];
 console.log(lines.join('\n'));
 if (process.env.GITHUB_STEP_SUMMARY) {

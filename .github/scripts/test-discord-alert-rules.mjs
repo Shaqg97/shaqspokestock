@@ -36,3 +36,10 @@ test('price-drop pings are optional and isolated from stock-alert pings', () => 
   assert.match(source, /alert\.pingPriceDrops/);
   assert.match(source, /roles: shouldPingRole \? \[group\.roleId\] : \[\]/);
 });
+
+
+test('freshness checks compare Sydney calendar dates rather than UTC dates', () => {
+  assert.ok(source.includes("timeZone: 'Australia/Sydney'"));
+  assert.ok(source.includes('todaySydneyMs - checkedDate'));
+  assert.ok(!source.includes('todayUtc'));
+});

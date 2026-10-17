@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main]
+    branches: ['**']
 
 permissions:
   contents: read
@@ -57,7 +57,7 @@ jobs:
 
       - name: Validate direct retailer source snapshot
         run: |
-          node --input-type=module -e "import fs from 'node:fs'; const data=JSON.parse(fs.readFileSync('retailer-source-data.json','utf8')); if(!Array.isArray(data.catalogueHostCoverage)||data.catalogueHostCoverage.length!==data.retailerCount) throw new Error('Retailer host coverage count mismatch'); if(!Array.isArray(data.observations)||data.observations.length!==data.observationCount) throw new Error('Retailer observation count mismatch'); const statuses=new Set(['ok','blocked','skipped','http-error','error']); const availability=new Set(['in stock','pre-order','out of stock','unknown']); for(const item of data.observations){ if(!item.key||!item.host||!item.url||!statuses.has(item.fetchStatus)||!availability.has(item.availability)) throw new Error('Invalid retailer observation for '+(item.key||'unknown key')); if(['blocked','skipped','http-error','error'].includes(item.fetchStatus)&&item.availability!=='unknown') throw new Error('Unavailable source must remain unknown: '+item.key); for(const q of item.quantities||[]) if(!Number.isInteger(q.quantity)||q.quantity<0) throw new Error('Invalid explicit quantity: '+item.key); } console.log('Validated '+data.observations.length+' retailer observations across '+data.retailerCount+' catalogue domains');"
+          node --input-type=module -e "import fs from 'node:fs'; const data=JSON.parse(fs.readFileSync('retailer-source-data.json','utf8')); if(!Array.isArray(data.catalogueHostCoverage)||data.catalogueHostCoverage.length!==data.retailerCount) throw new Error('Retailer host coverage count mismatch'); if(!Array.isArray(data.observations)||data.observations.length!==data.observationCount) throw new Error('Retailer observation count mismatch'); const statuses=new Set(['ok','blocked','skipped','http-error','error']); const availability=new Set(['in stock','pre-order','out of stock','unknown']); for(const item of data.observations){ if(!item.key||!item.host||!item.url||!statuses.has(item.fetchStatus)||!availability.has(item.availability)) throw new Error('Invalid retailer observation for '+(item.key||'unknown key')); if(['blocked','skipped','http-error','error'].includes(item.fetchStatus)&&item.availability!=='unknown') throw new Error('Unavailable source must remain unknown: '+item.key); for(const q of item.quantities||[]) if(!Number.isInteger(q.quantity)||q.quantity<0) throw new Error('Invalid explicit quantity: '+item.key); } const evidence=data.observations.filter(item=>(Number.isFinite(Number(item.price))&&Number(item.price)>0)||item.availability!=='unknown'||(item.quantities||[]).length>0).length; if(data.evidenceObservations!==undefined&&data.evidenceObservations!==evidence) throw new Error('Direct-source evidence count mismatch: expected '+evidence+', found '+data.evidenceObservations); console.log('Validated '+data.observations.length+' retailer observations across '+data.retailerCount+' catalogue domains; '+evidence+' with explicit evidence');"
 
       - name: Validate external stock-source registry
         run: |
