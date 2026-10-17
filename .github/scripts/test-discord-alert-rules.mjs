@@ -39,7 +39,7 @@ test('price-drop pings are optional and isolated from stock-alert pings', () => 
 
 
 test('freshness checks compare Sydney calendar dates rather than UTC dates', () => {
-  assert.match(source, /timeZone: 'Australia\\/Sydney'/);
-  assert.match(source, /todaySydneyMs - checkedDate/);
-  assert.doesNotMatch(source, /todayUtc/);
+  assert.ok(source.includes("timeZone: 'Australia/Sydney'"));
+  assert.ok(source.includes('todaySydneyMs - checkedDate'));
+  assert.ok(!source.includes('todayUtc'));
 });
