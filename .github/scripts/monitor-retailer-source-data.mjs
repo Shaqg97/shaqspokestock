@@ -147,7 +147,7 @@ const summary = {
   catalogueHostCoverage: [...supported].sort(),
   observationCount: observations.length,
   successfulFetches: observations.filter(item => item.fetchStatus === 'ok').length,
-  evidenceObservations: observations.filter(item => item.price !== null || item.availability !== 'unknown' || (item.quantities || []).length > 0).length,
+  evidenceObservations: observations.filter(item => (Number.isFinite(Number(item.price)) && Number(item.price) > 0) || item.availability !== 'unknown' || (item.quantities || []).length > 0).length,
   blockedOrSkipped: observations.filter(item => ['blocked', 'skipped'].includes(item.fetchStatus)).length,
   observations,
 };
