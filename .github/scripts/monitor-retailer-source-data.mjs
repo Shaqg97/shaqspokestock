@@ -17,6 +17,7 @@ const supported = new Set(products.flatMap(product => (product.retailers || []).
 }).filter(Boolean)));
 const robotsCache = new Map();
 const observations = [];
+const previousByKey = new Map((previous.observations || []).map(item => [item.key, item]));
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 function hostOf(value) { try { return new URL(value).hostname.toLowerCase().replace(/^www\./, ''); } catch { return ''; } }
 function pathAllowed(url, text) {
@@ -112,7 +113,10 @@ for (const product of products) for (const offer of product.retailers || []) {
 }
 for (const { product, offer, host } of offers) {
   const key = [product.name, offer.name, offer.url].join('|');
-  const base = { key, product: product.name, set: product.set, language: product.language, retailer: offer.name, host, url: offer.url, checkedAt, source: 'retailer first-party product page' };
+  const prior = previousByKey.get(key);
+  const priorSuccessfulAt = prior?.lastSuccessfulAt || (prior?.fetchStatus === 'ok' ? prior.checkedAt : null);
+  const priorEvidenceAt = prior?.lastEvidenceAt || (prior?.fetchStatus === 'ok' && (prior.price !== null && prior.price !== undefined || prior.availability && prior.availability !== 'unknown' || (prior.quantities || []).length) ? prior.checkedAt : null);
+  const base = { key, product: product.name, set: product.set, language: product.language, retailer: offer.name, host, url: offer.url, checkedAt, attemptedAt: checkedAt, lastSuccessfulAt: priorSuccessfulAt, lastEvidenceAt: priorEvidenceAt, source: 'retailer first-party product page' };
   const policy = await canFetch(offer.url);
   if (!policy.allowed) {
     observations.push({ ...base, fetchStatus: 'skipped', reason: policy.reason, availability: 'unknown', quantities: [] });
@@ -127,7 +131,8 @@ for (const { product, offer, host } of offers) {
       observations.push({ ...base, fetchStatus: response.status === 403 || response.status === 429 ? 'blocked' : 'http-error', httpStatus: response.status, reason: 'HTTP ' + response.status + '; prior catalogue data preserved', availability: 'unknown', quantities: [] });
     } else {
       const evidence = extractEvidence(await response.text(), product.name);
-      observations.push({ ...base, fetchStatus: 'ok', httpStatus: response.status, title: evidence.title, price: evidence.price, availability: evidence.availability, quantities: evidence.quantities, matchedStructuredObjects: evidence.matchedStructuredObjects, reason: evidence.title || evidence.price !== null || evidence.quantities.length ? null : 'No matching structured product evidence; no stock conclusion made' });
+      const hasEvidence = evidence.price !== null || evidence.availability !== 'unknown' || evidence.quantities.length > 0;
+      observations.push({ ...base, fetchStatus: 'ok', httpStatus: response.status, lastSuccessfulAt: checkedAt, lastEvidenceAt: hasEvidence ? checkedAt : priorEvidenceAt, title: evidence.title, price: evidence.price, availability: evidence.availability, quantities: evidence.quantities, matchedStructuredObjects: evidence.matchedStructuredObjects, reason: hasEvidence ? null : 'Page fetched, but no matching structured price/stock/quantity evidence; no stock conclusion made' });
     }
   } catch (error) {
     observations.push({ ...base, fetchStatus: 'error', reason: error instanceof Error ? error.message : 'Request failed', availability: 'unknown', quantities: [] });
@@ -142,6 +147,7 @@ const summary = {
   catalogueHostCoverage: [...supported].sort(),
   observationCount: observations.length,
   successfulFetches: observations.filter(item => item.fetchStatus === 'ok').length,
+  evidenceObservations: observations.filter(item => item.price !== null || item.availability !== 'unknown' || (item.quantities || []).length > 0).length,
   blockedOrSkipped: observations.filter(item => ['blocked', 'skipped'].includes(item.fetchStatus)).length,
   observations,
 };
