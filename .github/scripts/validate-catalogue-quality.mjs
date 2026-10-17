@@ -3,6 +3,9 @@ import { readFile } from 'node:fs/promises';
 const fileUrl = new URL('../../products.json', import.meta.url);
 const products = JSON.parse(await readFile(fileUrl, 'utf8'));
 const sourceData = JSON.parse(await readFile(new URL('../../retailer-source-data.json', import.meta.url), 'utf8'));
+const sourceEvidenceCount = Number.isFinite(Number(sourceData.evidenceObservations))
+  ? Number(sourceData.evidenceObservations)
+  : (sourceData.observations || []).filter(item => (Number.isFinite(Number(item.price)) && Number(item.price) > 0) || item.availability !== 'unknown' || (item.quantities || []).length > 0).length;
 const issues = [];
 let offers = 0;
 let withIds = 0;
@@ -77,7 +80,7 @@ const lines = [
   `- Verified offers with stale/future dates: **${staleVerifiedOffers}**`,
   `- Offers without a verification marker: **${offers - verifiedOffers}**`,
   `- Direct-source pages fetched: **${Number(sourceData.successfulFetches || 0)}/${Number(sourceData.observationCount || 0)}**`,
-  `- Direct-source pages with explicit price/stock/quantity evidence: **${Number(sourceData.evidenceObservations || 0)}**`,
+  `- Direct-source pages with explicit price/stock/quantity evidence: **${sourceEvidenceCount}**`,
   `- Direct-source pages blocked/skipped: **${Number(sourceData.blockedOrSkipped || 0)}**`,
   `- Products with invalid image URLs: **${invalidImageUrls}**`,
   `- Products missing an image URL: **${missingImages}/${products.length}**`,
