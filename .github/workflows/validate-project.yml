@@ -88,6 +88,7 @@ jobs:
           node --check .github/scripts/check-kmart-listings.mjs
           node --check .github/scripts/send-discord-alerts.mjs
           node --check .github/scripts/test-discord-alert-rules.mjs
+          node --check .github/scripts/test-retailer-source-freshness.mjs
           node --check .github/scripts/validate-catalogue-quality.mjs
           node --check .github/scripts/monitor-gameology.mjs
           node --check .github/scripts/monitor-shopify-retailers.mjs
@@ -98,6 +99,9 @@ jobs:
           node --check .github/scripts/test-marketplace-snapshot-quality.mjs
           node --check .github/scripts/test-product-image-quality.mjs
           node --check .github/scripts/test-marketplace-price-drop-rules.mjs
+
+      - name: Test retailer source freshness guards
+        run: node --test .github/scripts/test-retailer-source-freshness.mjs
 
       - name: Test marketplace price-drop alert rules
         run: node --test .github/scripts/test-marketplace-price-drop-rules.mjs
