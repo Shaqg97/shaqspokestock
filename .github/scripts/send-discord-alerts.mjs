@@ -56,14 +56,17 @@ const [previousProducts, currentProducts] = await Promise.all([
 const productKey = (product) => [product.name, product.set, product.language, product.type].join('|');
 const previousByKey = new Map(previousProducts.map((product) => [productKey(product), product]));
 const alerts = [];
-const todayUtc = new Date();
-todayUtc.setUTCHours(0, 0, 0, 0);
+// Catalogue check dates are written in Australia/Sydney local time. Compare
+// them to the Sydney calendar date, not the UTC date, to avoid suppressing
+// valid alerts around the local/UTC midnight boundary.
+const todaySydney = new Intl.DateTimeFormat('en-CA', { timeZone: 'Australia/Sydney', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+const todaySydneyMs = Date.parse(`${todaySydney}T00:00:00Z`);
 const hasFreshCheck = (offer) => {
   // A recent date alone is not proof of stock. Only the monitor's explicit
   // verification marker can qualify an offer for stock/price alerts.
   if (offer?.stockCheckStatus !== 'verified' || !offer?.checkedAt) return false;
   const checkedDate = new Date(`${offer.checkedAt}T00:00:00Z`);
-  const ageDays = (todayUtc - checkedDate) / 86400000;
+  const ageDays = (todaySydneyMs - checkedDate.getTime()) / 86400000;
   return Number.isFinite(checkedDate.getTime()) && ageDays >= 0 && ageDays <= 1;
 };
 const knownStockStates = new Set(['in stock', 'sold out', 'pre-order']);
