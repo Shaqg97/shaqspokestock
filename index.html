@@ -2592,5 +2592,136 @@ loadProducts();
 
 </style>
 
+
+<style id="mobile-dark-theme-polish">
+/* Consistent dark collector theme for product detail panels and alert controls. */
+:root {
+  --collector-bg: #0b1220;
+  --collector-panel: #152238;
+  --collector-panel-raised: #1b2a42;
+  --collector-input: #0e1729;
+  --collector-line: #34445d;
+  --collector-text: #edf4ff;
+  --collector-muted: #a9b8cc;
+  --collector-teal: #5eead4;
+}
+body {
+  background: var(--collector-bg) !important;
+  color: var(--collector-text);
+  background-image: radial-gradient(ellipse at 10% 0%, rgba(45,212,191,.08), transparent 32rem) !important;
+}
+.product {
+  background: var(--collector-panel) !important;
+  border-color: #34546a !important;
+  color: var(--collector-text);
+}
+.product h3, .product-details-content, .product-details-content p,
+.product-details-content label, .product-details-content strong {
+  color: var(--collector-text);
+}
+.product-summary .set, .product .set { color: var(--collector-muted) !important; }
+.product-details, .product details, .product-details-content hr {
+  border-color: var(--collector-line) !important;
+}
+.product-details > summary,
+.product details summary {
+  color: #cbd7e7 !important;
+}
+.product-details[open] > summary { color: var(--collector-teal) !important; }
+.product-summary-image { background: #f5f8fc; border-color: #46566f; }
+.product-summary-price {
+  color: var(--collector-teal) !important;
+  background: #073b3a !important;
+  border-color: #2dd4bf !important;
+}
+/* Replace the mixed black/white input styles with one accessible treatment. */
+.price-alert-form {
+  background: #101a2e !important;
+  border: 1px solid #293a54;
+  border-radius: 12px;
+  padding: 13px !important;
+  gap: 9px;
+}
+.price-alert-form label { color: #dce7f6 !important; }
+.price-alert-form input,
+.price-alert-form select,
+.price-alert-form textarea,
+#typeFilter,
+select {
+  color: #f1f5f9;
+  background-color: var(--collector-input);
+  border: 1px solid #52647c;
+  border-radius: 10px;
+}
+.price-alert-form input,
+.price-alert-form select {
+  min-height: 44px;
+  padding: 10px 12px;
+  color: #f1f5f9 !important;
+  background: var(--collector-input) !important;
+  border: 1px solid #52647c !important;
+}
+.price-alert-form input::placeholder { color: #9aaac0; opacity: 1; }
+.price-alert-form select option,
+#typeFilter option,
+select option { color: #f1f5f9; background: #101a2e; }
+.price-alert-form input:focus,
+.price-alert-form select:focus,
+#typeFilter:focus,
+select:focus {
+  outline: 3px solid rgba(94,234,212,.3);
+  border-color: var(--collector-teal) !important;
+}
+.price-alert-form button {
+  color: #042f2e !important;
+  background: #2dd4bf !important;
+  border: 1px solid #5eead4 !important;
+  border-radius: 10px !important;
+  font-weight: 850;
+}
+.price-alert-form button:hover { background: #5eead4 !important; }
+/* Distinguish source confidence without implying a marketplace listing is verified. */
+.stock.unverified,
+.product-details-content .stock.unverified {
+  color: #dce7f6 !important;
+  background: #29384e !important;
+  border: 1px solid #64748b !important;
+}
+.product-details-content span[style*="border-radius:999px"],
+.product-details-content span[style*="border-radius: 999px"],
+.product-details-content span[style*="padding:5px 9px"],
+.product-details-content .product-meta,
+.product-details-content .tag,
+.product-details-content .badge {
+  color: #f8fafc !important;
+  background: #26364d !important;
+  border: 1px solid #52647c !important;
+}
+.product-details-content a { color: #7dd3fc; }
+.product-details-content a[style*="display:block"] {
+  color: #ecfeff !important;
+  background: #0f766e !important;
+}
+.product-details-content a[style*="display:block"]:hover { background: #115e59 !important; }
+/* Subtle, consistent surfaces for marketplace snapshots and status rows. */
+.product-details-content [style*="background:#f8fafc"],
+.product-details-content [style*="background: #f8fafc"],
+.product-details-content [style*="background:#fff"],
+.product-details-content [style*="background: white"] {
+  background: #101a2e !important;
+  border-color: #34445d !important;
+}
+.product-details-content [style*="color:#64748b"],
+.product-details-content [style*="color: #64748b"],
+.product-details-content [style*="color:#475569"],
+.product-details-content [style*="color: #475569"] {
+  color: #b6c4d8 !important;
+}
+@media (max-width: 520px) {
+  .price-alert-form { padding: 11px !important; }
+  .price-alert-form input, .price-alert-form select { min-height: 46px; }
+}
+</style>
+
 </body>
 </html>
