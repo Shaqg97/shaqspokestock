@@ -1072,6 +1072,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:520px){.hub-grid{grid-template-columns:1fr}.hub-card{min-height:unset}.hub-footer{align-items:flex-start;flex-direction:column}.hub-heading{margin-bottom:18px}.home-hub{border-radius:18px;padding:17px}.primary-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.primary-nav a{justify-content:center;text-align:center;padding:9px 5px;font-size:11px}}
 @media(prefers-reduced-motion:reduce){.hub-card{transition:none}.hub-card:hover{transform:none}}
 </style>
+<style id="home-only-content">
+/* The landing page is a navigation hub. Detailed tools live on their own pages. */
+.container>section:not(.hero):not(.stats):not(.home-hub){display:none!important}
+.container>.data-freshness-note,.container>.community-compact-row,.container>.help-guides,.container>.price-alert-tools,.container>#products,.container>#storeList,.container>#sourceTrackerSummary,.container>#sourceTrackerRows,.container>#externalStockSourcesStatus,.container>#externalStockSourcesRows{display:none!important}
+</style>
 </head>
 
 <body>
