@@ -7,7 +7,7 @@ A mobile-first Pokémon TCG catalogue and deal-finding site for Australian colle
 - `index.html` — site UI, product cards, Best Deals sorting, price history, local watchlist and price targets.
 - `collection.html` — dedicated responsive collection dashboard for raw singles, graded slabs, sealed products, portfolio totals, filters, and CSV/JSON import/export. It supports local browser storage and optional Supabase cloud sync once configured.
 - `account.html` — email sign-up, login, password reset and sign-out UI, backed by Supabase Auth when configured.
-- `scan.html` — mobile camera/photo capture, optional browser OCR, TCGdex catalogue candidate matching, and add-to-collection workflow. Matching is a candidate suggestion, not guaranteed identification or appraisal.
+- `scan.html` — mobile camera/photo capture, optional browser OCR, TCGdex catalogue candidate matching, and add-to-collection workflow. Selected card artwork and catalogue IDs carry through into the collection. Matching is a candidate suggestion, not guaranteed identification or appraisal.
 - `supabase-config.js` — public Supabase project URL/anon-key configuration template. Never put a service-role key in browser code.
 - `supabase/collection_items.sql` — private per-user collection schema with row-level security and grading metadata.
 - `products.json` — curated catalogue (45 products as of 14 October 2026; 44 have product images). Additions are reviewed, duplicate product names are blocked by validation, and existing entries should be preserved.
