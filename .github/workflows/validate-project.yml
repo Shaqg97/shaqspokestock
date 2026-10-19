@@ -77,10 +77,13 @@ jobs:
           console.log('Validated ' + data.sources.length + ' external source entries');
           NODE
 
-      - name: Check inline website JavaScript syntax
+      - name: Check inline JavaScript syntax for all site pages
         run: |
-          node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); const scripts=[...html.matchAll(/<script\\b[^>]*>([\\s\\S]*?)<\\/script>/gi)].map(match=>match[1]).filter(source=>source.trim()); if(!scripts.length) throw new Error('No inline page JavaScript found'); fs.writeFileSync('/tmp/shaqspokestock-page.js',scripts.join('\\n')); console.log('Extracted '+scripts.length+' inline script block(s)');"
-          node --check /tmp/shaqspokestock-page.js
+          for page in index.html collection.html account.html scan.html; do
+            node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync(process.argv[1],'utf8'); const scripts=[...html.matchAll(/<script\\b[^>]*>([\\s\\S]*?)<\\/script>/gi)].map(match=>match[1]).filter(source=>source.trim()); if(!scripts.length) throw new Error('No inline page JavaScript found in '+process.argv[1]); fs.writeFileSync('/tmp/shaqspokestock-page.js',scripts.join('\\n')); console.log(process.argv[1]+': extracted '+scripts.length+' inline script block(s)');" "$page"
+            node --check /tmp/shaqspokestock-page.js
+          done
+          node --check supabase-config.js
 
       - name: Check JavaScript syntax
         run: |
