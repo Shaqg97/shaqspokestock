@@ -27,3 +27,10 @@ drop policy if exists "Users can delete their own collection" on public.collecti
 create policy "Users can delete their own collection" on public.collection_items
   for delete to authenticated using (auth.uid() = user_id);
 create index if not exists collection_items_user_created_idx on public.collection_items(user_id, created_at desc);
+
+-- Collector metadata fields used by the collection dashboard.
+alter table public.collection_items
+  add column if not exists grader text not null default '',
+  add column if not exists grade text not null default '',
+  add column if not exists certificate text not null default '',
+  add column if not exists subgrades text not null default '';
