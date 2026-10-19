@@ -1,4 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
+import { retailerPriceSourcesAgree } from './monitoring-safety.mjs';
 
 const fileUrl = new URL('../../products.json', import.meta.url);
 const products = JSON.parse(await readFile(fileUrl, 'utf8'));
@@ -32,7 +33,59 @@ const normalize = (value) => String(value ?? '')
   .split(/\s+/)
   .filter(Boolean);
 const generic = new Set(['pokemon', 'pokémon', 'tcg', 'trading', 'card', 'cards', 'booster', 'box', 'pack', 'packs', 'japanese', 'english', 'sealed', 'the', 'and', 'for', 'with', 'evolution']);
+
 const meaningful = (value) => normalize(value).filter((word) => word.length > 2 && !generic.has(word));
+
+function collectProducts(value, found = []) {
+  if (!value || typeof value !== 'object') return found;
+  if (Array.isArray(value)) {
+    for (const item of value) collectProducts(item, found);
+    return found;
+  }
+  const types = Array.isArray(value['@type']) ? value['@type'] : [value['@type']];
+  if (types.some(type => String(type).toLowerCase() === 'product')) found.push(value);
+  for (const child of Object.values(value)) {
+    if (child && typeof child === 'object') collectProducts(child, found);
+  }
+  return found;
+}
+
+function getPageStock(availability) {
+  const value = String(availability ?? '').toLowerCase();
+  if (/preorder|presale/.test(value)) return 'Pre-Order';
+  if (/outofstock|soldout|discontinued|backorder/.test(value)) return 'Sold Out';
+  if (/instock|limitedavailability|onlineonly/.test(value)) return 'In Stock';
+  return null;
+}
+
+function getPageProductData(html, product) {
+  const blocks = [...html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
+  const expected = [...new Set(meaningful(product.name))];
+  const observations = [];
+  for (const block of blocks) {
+    try {
+      for (const candidate of collectProducts(JSON.parse(block[1].trim()))) {
+        if (typeof candidate.name !== 'string') continue;
+        const actual = new Set(meaningful(candidate.name));
+        const overlap = expected.filter(word => actual.has(word));
+        if (expected.length < 2 || overlap.length < 2 || overlap.length / expected.length < 0.5) continue;
+        const offers = Array.isArray(candidate.offers) ? candidate.offers : [candidate.offers];
+        for (const offer of offers) {
+          if (!offer || typeof offer !== 'object') continue;
+          const stock = getPageStock(offer.availability);
+          const price = Number(offer.price ?? offer.lowPrice);
+          const currency = String(offer.priceCurrency ?? offer.priceSpecification?.priceCurrency ?? 'AUD').toUpperCase();
+          if (!stock || !Number.isFinite(price) || price <= 0 || currency !== 'AUD') continue;
+          observations.push({ title: candidate.name, price: Math.round(price * 100) / 100, stock });
+        }
+      }
+    } catch {
+      // Malformed JSON-LD is not verification evidence.
+    }
+  }
+  const unique = new Map(observations.map(item => [item.price + '|' + item.stock, item]));
+  return unique.size === 1 ? [...unique.values()][0] : null;
+}
 
 async function checkOffer(product, offer) {
   if (!offer.url) return;
@@ -109,6 +162,33 @@ async function checkOffer(product, offer) {
     if (!(nextPrice > 0)) {
       skipped.push(`${product.name} / ${offer.name} — invalid price; left unchanged`);
       return;
+    }
+    // The Card Spot's Shopify JSON endpoint recently disagreed with its visible
+    // product page. Cross-check the first-party page before marking that data verified.
+    if (host === 'thecardspot.com.au') {
+      let pageData = null;
+      try {
+        const pageResponse = await fetch(url, {
+          headers: {
+            accept: 'text/html,application/xhtml+xml',
+            'user-agent': 'Mozilla/5.0 (compatible; ShaqsPokeStock/1.0; +https://github.com/Shaqg97/shaqspokestock)',
+          },
+          signal: AbortSignal.timeout(12000),
+        });
+        if (pageResponse.ok) pageData = getPageProductData(await pageResponse.text(), product);
+      } catch {
+        // A failed cross-check is not evidence of availability or price.
+      }
+      const knownMismatchProduct = url.pathname === '/products/storm-emeralda-booster-box-pokemon-tcg';
+      if ((pageData && !retailerPriceSourcesAgree({ price: nextPrice, stock: nextStock }, pageData)) ||
+          (knownMismatchProduct && !pageData)) {
+        if (offer.stockCheckStatus !== 'needs-review') {
+          offer.stockCheckStatus = 'needs-review';
+          changed = true;
+        }
+        skipped.push(`${product.name} / ${offer.name} — Shopify endpoint and page evidence disagree or are ambiguous; marked needs-review`);
+        return;
+      }
     }
     // Guard against variant or page mismatches that produce implausible price jumps.
     const oldPrice = Number(offer.price);

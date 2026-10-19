@@ -76,3 +76,13 @@ test("legacy price targets remain verified-retailer alerts unless marketplace so
   assert.match(html, /Sealed eBay AU delivered-total reference/);
   assert.match(html, /marketplace references, not stock verification/);
 });
+
+test("Cheapest in-stock badge requires fresh verified offers", () => {
+  const start = html.indexOf("const verifiedInStockPrices = availableRetailers");
+  const end = html.indexOf("const retailerStockLabel", start);
+  assert.ok(start >= 0, "verified in-stock comparison pool exists");
+  assert.ok(end > start, "badge logic ends before stock label");
+  const block = html.slice(start, end);
+  assert.ok(block.includes("isFreshVerifiedStock(r)"));
+  assert.ok(block.includes("const cheapestInStock = inStock && retailerVerified"));
+});
