@@ -685,10 +685,10 @@
       },
       {
         "name": "The Card Spot",
-        "price": 143,
+        "price": 200,
         "stock": "In Stock",
         "url": "https://thecardspot.com.au/products/storm-emeralda-booster-box-pokemon-tcg",
-        "stockCheckStatus": "verified",
+        "stockCheckStatus": "needs-review",
         "checkedAt": "2026-10-19"
       },
       {

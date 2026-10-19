@@ -2258,12 +2258,16 @@ ${[...availableRetailers]
   })
   .map(retailer => {
     const inStock = typeof retailer.stock === "string" && retailer.stock.toLowerCase() === "in stock";
-    const cheapestInStock = inStock && retailer.price === Math.min(
-      ...availableRetailers
-        .filter(r => typeof r.stock === "string" && r.stock.toLowerCase() === "in stock")
-        .map(r => r.price)
-    );
     const retailerVerified = isFreshVerifiedStock(retailer);
+    // Only fresh verified in-stock offers can win the deal badge. Stale/manual
+    // listings remain visible for comparison but must not be presented as a deal.
+    const verifiedInStockPrices = availableRetailers
+      .filter(r => typeof r.stock === "string" && r.stock.toLowerCase() === "in stock" && isFreshVerifiedStock(r))
+      .map(r => Number(r.price))
+      .filter(price => Number.isFinite(price) && price > 0);
+    const cheapestInStock = inStock && retailerVerified &&
+      Number.isFinite(Number(retailer.price)) && Number(retailer.price) > 0 &&
+      Number(retailer.price) === Math.min(...verifiedInStockPrices);
     const retailerStockLabel = retailerVerified
       ? retailer.stock
       : "Listed: " + (retailer.stock || "Stock unverified");

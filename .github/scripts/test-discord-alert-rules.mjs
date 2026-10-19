@@ -1,8 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { isMeaningfulPriceDrop, retailerPriceSourcesAgree } from './monitoring-safety.mjs';
 
 const source = await readFile(new URL('./send-discord-alerts.mjs', import.meta.url), 'utf8');
+const shopifyMonitor = await readFile(new URL('./monitor-shopify-retailers.mjs', import.meta.url), 'utf8');
 
 test('restock alerts require a previously sold-out offer', () => {
   assert.match(source, /if \(oldStock === 'sold out' && newStock === 'in stock'\)/);
@@ -42,4 +44,28 @@ test('freshness checks compare Sydney calendar dates rather than UTC dates', () 
   assert.ok(source.includes("timeZone: 'Australia/Sydney'"));
   assert.ok(source.includes('todaySydneyMs - checkedDate'));
   assert.ok(!source.includes('todayUtc'));
+});
+
+test('price-drop alerts require at least A$2 and 5% savings', () => {
+  assert.equal(isMeaningfulPriceDrop(100, 97), false);
+  assert.equal(isMeaningfulPriceDrop(100, 95), true);
+  assert.equal(isMeaningfulPriceDrop(50, 48), false);
+  assert.equal(isMeaningfulPriceDrop(50, 47.5), true);
+  assert.equal(isMeaningfulPriceDrop(20, 18), true);
+  assert.equal(isMeaningfulPriceDrop(20, 19), false);
+  assert.equal(isMeaningfulPriceDrop(100, 101), false);
+  assert.equal(isMeaningfulPriceDrop(100, 0), false);
+});
+
+test('Shopify endpoint and first-party page data must agree before verification', () => {
+  assert.equal(retailerPriceSourcesAgree({ price: 143, stock: 'In Stock' }, { price: 200, stock: 'In Stock' }), false);
+  assert.equal(retailerPriceSourcesAgree({ price: 200, stock: 'In Stock' }, { price: 200, stock: 'In Stock' }), true);
+  assert.equal(retailerPriceSourcesAgree({ price: 200, stock: 'In Stock' }, { price: 200, stock: 'Sold Out' }), false);
+  assert.equal(retailerPriceSourcesAgree({ price: 200, stock: 'In Stock' }, null), false);
+});
+
+test('The Card Spot price conflicts are marked for review rather than auto-overwritten', () => {
+  assert.ok(shopifyMonitor.includes('getPageProductData(html, product)'));
+  assert.ok(shopifyMonitor.includes('retailerPriceSourcesAgree'));
+  assert.ok(shopifyMonitor.includes("stockCheckStatus = 'needs-review'"));
 });

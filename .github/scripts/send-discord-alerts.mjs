@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
+import { isMeaningfulPriceDrop } from './monitoring-safety.mjs';
 
 const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 const stockWebhookUrl = process.env.DISCORD_STOCK_WEBHOOK_URL || webhookUrl;
@@ -127,7 +128,7 @@ for (const product of currentProducts) {
       (newStock === 'in stock' || newStock === 'pre-order') &&
       Number.isFinite(Number(oldOffer.price)) && Number(oldOffer.price) > 0 &&
       Number.isFinite(Number(offer.price)) && Number(offer.price) > 0 &&
-      Number(oldOffer.price) > Number(offer.price)
+      isMeaningfulPriceDrop(oldOffer.price, offer.price)
     ) {
       alerts.push({
         title: `Price drop: ${product.name}`,
