@@ -5,6 +5,8 @@ A mobile-first Pokémon TCG catalogue and deal-finding site for Australian colle
 ## Project files
 
 - `index.html` — site UI, product cards, Best Deals sorting, price history, local watchlist and price targets.
+- Personal collection tracker — local-first inventory for singles, graded cards and sealed products, with quantity, cost basis, estimated value, gain/loss, filters, editing and CSV/JSON import/export. Data currently stays in the browser; account login and cloud sync are not yet enabled.
+- `supabase/collection_items.sql` — row-level-secured database schema prepared for a future multi-user cloud collection.
 - `products.json` — curated catalogue (45 products as of 14 October 2026; 44 have product images). Additions are reviewed, duplicate product names are blocked by validation, and existing entries should be preserved.
 - `marketplace-prices.json` — eBay AU marketplace snapshot and daily history. Do not hand-edit prices or invent historical observations.
 - `retailer-source-data.json` — latest direct-source retailer scan; blocked or skipped sources must remain unknown rather than being treated as sold out.
