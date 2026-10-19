@@ -1065,6 +1065,18 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:800px){header .header-inner{gap:12px}.logo{font-size:18px}.container{padding-top:20px}.hero{padding:26px 20px}.collection-section{padding-top:20px}}
 
 </style>
+<style id="clean-home-hub">
+.primary-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.primary-nav a{display:inline-flex;align-items:center;padding:9px 12px;border:1px solid #26364e;border-radius:10px;color:#e2e8f0;text-decoration:none;font-size:13px;font-weight:750;background:#111d30}.primary-nav a:hover{border-color:#ffd43b;color:#ffd43b}
+.home-hub{margin:28px 0 38px;padding:clamp(18px,3.4vw,34px);border:1px solid #26364e;border-radius:24px;background:linear-gradient(145deg,#111d30,#0b1423 75%);color:#f8fafc;box-shadow:0 20px 50px #02061730}.hub-heading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:24px}.hub-eyebrow{font-size:11px;letter-spacing:1.7px;font-weight:900;color:#ffd43b}.hub-heading h2{font-size:clamp(24px,3.4vw,36px);line-height:1.1;letter-spacing:-.8px;margin:9px 0 10px;max-width:760px;color:#fff}.hub-heading p{margin:0;max-width:690px;color:#aab8cc;font-size:14px;line-height:1.65}.hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.hub-card{display:flex;flex-direction:column;align-items:flex-start;gap:9px;min-height:190px;padding:20px;border:1px solid #293b54;border-radius:17px;background:#121f33;color:#f8fafc;text-decoration:none;transition:transform .16s ease,border-color .16s ease,background .16s ease}.hub-card:hover{transform:translateY(-2px);border-color:#667995;background:#17263c}.hub-card strong{font-size:18px;line-height:1.25}.hub-card>span:not(.hub-icon):not(.hub-label):not(.hub-link){font-size:13px;line-height:1.55;color:#aab8cc}.hub-card .hub-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:#26364d;color:#ffd43b;font-size:23px}.hub-card .hub-label{font-size:10px;font-weight:900;letter-spacing:1.5px;color:#ffd43b}.hub-card .hub-link{margin-top:auto;padding-top:6px;color:#ffd43b;font-size:13px;font-weight:850}.hub-featured{background:linear-gradient(145deg,#26364d,#152238);border-color:#52627b}.hub-footer{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px;padding:16px 18px;border-radius:13px;background:#0b1525;border:1px solid #25364d}.hub-footer div{display:grid;gap:4px}.hub-footer strong{font-size:13px;color:#f8fafc}.hub-footer span{font-size:12px;line-height:1.5;color:#9caec4}.hub-footer>a{white-space:nowrap;color:#ffd43b;font-size:13px;font-weight:800;text-decoration:none}
+@media(max-width:800px){.hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hub-card{min-height:175px;padding:16px}.primary-nav{gap:6px}.primary-nav a{padding:8px 9px;font-size:12px}}
+@media(max-width:520px){.hub-grid{grid-template-columns:1fr}.hub-card{min-height:unset}.hub-footer{align-items:flex-start;flex-direction:column}.hub-heading{margin-bottom:18px}.home-hub{border-radius:18px;padding:17px}.primary-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.primary-nav a{justify-content:center;text-align:center;padding:9px 5px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.hub-card{transition:none}.hub-card:hover{transform:none}}
+</style>
+<style id="home-only-content">
+/* The landing page is a navigation hub. Detailed tools live on their own pages. */
+.container>section:not(.hero):not(.stats):not(.home-hub){display:none!important}
+.container>.data-freshness-note,.container>.community-compact-row,.container>.help-guides,.container>.price-alert-tools,.container>#products,.container>#storeList,.container>#sourceTrackerSummary,.container>#sourceTrackerRows,.container>#externalStockSourcesStatus,.container>#externalStockSourcesRows{display:none!important}
+</style>
 </head>
 
 <body>
@@ -1073,15 +1085,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   <div class="header-inner">
     <div class="logo">⚡ Shaqs <span>Poke Stock</span></div>
 
-    <nav>
-      <button onclick="window.location.href='collection.html'">My Collection</button>
-      <button onclick="window.location.href='scan.html'">Card Scanner</button>
-      <button onclick="window.location.href='account.html'">Log In</button>
-      <button onclick="scrollToSection('deals')">Deals</button>
-      <button onclick="scrollToSection('stores')">Stores</button>
-      <button onclick="scrollToSection('source-tracker')">Allocations</button>
-      <button onclick="scrollToSection('alerts')">Real-Time Alerts</button>
-      <button onclick="scrollToSection('ebay-shop')">Shop on eBay</button>
+    <nav class="primary-nav" aria-label="Main navigation">
+      <a href="deals.html">Best Deals</a><a href="releases.html">Releases</a><a href="alerts.html">Alerts</a><a href="stores.html">Retailers</a><a href="marketplace.html">eBay Market</a><a href="collection.html">My Collection</a>
     </nav>
   </div>
 </header>
@@ -1102,7 +1107,21 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   <a class="discord-hero-link" href="https://discord.gg/bAKGNxen7" target="_blank" rel="noopener noreferrer">🔔 Get real-time alerts on Discord ↗</a>
 </section>
 
-<section class="stats">
+<section class="home-hub" aria-labelledby="home-hub-title">
+      <div class="hub-heading"><div><span class="hub-eyebrow">YOUR POKÉMON TCG HUB</span><h2 id="home-hub-title">Everything you collect. Nothing you don't need.</h2><p>Jump straight to the tool you need. Each area has its own page, so finding deals, checking releases and managing your collection stays simple.</p></div></div>
+      <div class="hub-grid">
+        <a class="hub-card hub-featured" href="deals.html"><span class="hub-icon">↘</span><span class="hub-label">SHOP SMART</span><strong>Best Deals</strong><span>Compare Australian retailer prices and find the best available offers.</span><span class="hub-link">Explore deals →</span></a>
+        <a class="hub-card" href="releases.html"><span class="hub-icon">◷</span><strong>Release Calendar</strong><span>See upcoming sets and pre-order listings in one place.</span><span class="hub-link">View releases →</span></a>
+        <a class="hub-card" href="alerts.html"><span class="hub-icon">♧</span><strong>Restock & Price Alerts</strong><span>Explore alert options and configure your notification setup.</span><span class="hub-link">Manage alerts →</span></a>
+        <a class="hub-card" href="stores.html"><span class="hub-icon">⌂</span><strong>Retailer Tracker</strong><span>Check source freshness, retailers and stock-monitoring coverage.</span><span class="hub-link">View retailers →</span></a>
+        <a class="hub-card" href="marketplace.html"><span class="hub-icon">◎</span><strong>eBay Market</strong><span>Research active Australian listings and compare sealed product offers.</span><span class="hub-link">Explore market →</span></a>
+        <a class="hub-card" href="collection.html"><span class="hub-icon">▦</span><strong>My Collection</strong><span>Track singles, CGA/ARK/PSA slabs, sealed items and portfolio estimates.</span><span class="hub-link">Open collection →</span></a>
+        <a class="hub-card" href="scan.html"><span class="hub-icon">▣</span><strong>Card Scanner</strong><span>Capture a card and search catalogue matches before adding it.</span><span class="hub-link">Scan a card →</span></a>
+      </div>
+      <div class="hub-footer"><div><strong>Built for Australian collectors</strong><span>Prices and stock are shown with freshness and verification limits. Always confirm at the retailer before checkout.</span></div><a href="account.html">Collector account →</a></div>
+    </section>
+
+    <section class="stats">
 
   <div class="stat">
     <small>Products tracked</small>
