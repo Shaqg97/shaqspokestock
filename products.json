@@ -109,7 +109,7 @@
       },
       {
         "name": "Pocket Games",
-        "price": 133,
+        "price": 134,
         "stock": "In Stock",
         "url": "https://pocketgames.com.au/products/pokemon-tcg-mega-brave-m1l-booster-box-booster-pack",
         "stockCheckStatus": "verified",
@@ -174,7 +174,7 @@
     "retailers": [
       {
         "name": "PokéBox",
-        "price": 6.99,
+        "price": 4.99,
         "stock": "In Stock",
         "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-pack-japanese-pokemon-tcg",
         "stockCheckStatus": "verified",
@@ -298,7 +298,7 @@
       },
       {
         "name": "GD Games",
-        "price": 54.95,
+        "price": 59.95,
         "stock": "In Stock",
         "url": "https://www.gdgames.com.au/products/pokemon-30th-celebration-mini-tin-pokemon-tcg",
         "stockCheckStatus": "verified",
