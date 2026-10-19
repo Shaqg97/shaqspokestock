@@ -4,7 +4,12 @@ A mobile-first Pokémon TCG catalogue and deal-finding site for Australian colle
 
 ## Project files
 
-- `index.html` — site UI, product cards, Best Deals sorting, price history, local watchlist and price targets.
+- `index.html` — clean landing page summary hub with dedicated navigation to the site's tools.
+- `deals.html` — focused product catalogue, retailer offer comparison, search and sorting.
+- `releases.html` — dedicated release/pre-order catalogue view.
+- `alerts.html` — alert options and clear monitoring/configuration status.
+- `stores.html` — retailer source coverage and freshness observations.
+- `marketplace.html` — Australian eBay research links for catalogue products.
 - `collection.html` — dedicated responsive collection dashboard for raw singles, graded slabs, sealed products, portfolio totals, filters, and CSV/JSON import/export. It supports local browser storage and optional Supabase cloud sync once configured.
 - `account.html` — email sign-up, login, password reset and sign-out UI, backed by Supabase Auth when configured.
 - `scan.html` — mobile camera/photo capture, optional browser OCR, TCGdex catalogue candidate matching, and add-to-collection workflow. Selected card artwork and catalogue IDs carry through into the collection. Matching is a candidate suggestion, not guaranteed identification or appraisal.
@@ -16,6 +21,10 @@ A mobile-first Pokémon TCG catalogue and deal-finding site for Australian colle
 - `.github/scripts/` — scheduled data refresh, source monitoring, catalogue quality checks and Discord alert logic.
 - `.github/workflows/validate-project.yml` — pull-request and main-branch validation.
 
+
+## Site navigation and page separation
+
+The landing page is intentionally a summary and navigation hub. Product browsing, releases, alert information, retailer source tracking and marketplace research live on separate pages to keep the homepage from becoming crowded. The personal collection and card scanner remain separate pages too.
 
 ## Account and cloud-sync setup
 
