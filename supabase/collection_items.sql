@@ -34,3 +34,8 @@ alter table public.collection_items
   add column if not exists grade text not null default '',
   add column if not exists certificate text not null default '',
   add column if not exists subgrades text not null default '';
+
+-- Catalogue image and identifier for scanner-matched cards.
+alter table public.collection_items
+  add column if not exists image_url text not null default '',
+  add column if not exists catalogue_id text not null default '';
