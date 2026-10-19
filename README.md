@@ -5,13 +5,32 @@ A mobile-first Pokémon TCG catalogue and deal-finding site for Australian colle
 ## Project files
 
 - `index.html` — site UI, product cards, Best Deals sorting, price history, local watchlist and price targets.
-- Personal collection tracker — local-first inventory for singles, graded cards and sealed products, with quantity, cost basis, estimated value, gain/loss, filters, editing and CSV/JSON import/export. Data currently stays in the browser; account login and cloud sync are not yet enabled.
-- `supabase/collection_items.sql` — row-level-secured database schema prepared for a future multi-user cloud collection.
+- `collection.html` — dedicated responsive collection dashboard for raw singles, graded slabs, sealed products, portfolio totals, filters, and CSV/JSON import/export. It supports local browser storage and optional Supabase cloud sync once configured.
+- `account.html` — email sign-up, login, password reset and sign-out UI, backed by Supabase Auth when configured.
+- `scan.html` — mobile camera/photo capture, optional browser OCR, TCGdex catalogue candidate matching, and add-to-collection workflow. Matching is a candidate suggestion, not guaranteed identification or appraisal.
+- `supabase-config.js` — public Supabase project URL/anon-key configuration template. Never put a service-role key in browser code.
+- `supabase/collection_items.sql` — private per-user collection schema with row-level security and grading metadata.
 - `products.json` — curated catalogue (45 products as of 14 October 2026; 44 have product images). Additions are reviewed, duplicate product names are blocked by validation, and existing entries should be preserved.
 - `marketplace-prices.json` — eBay AU marketplace snapshot and daily history. Do not hand-edit prices or invent historical observations.
 - `retailer-source-data.json` — latest direct-source retailer scan; blocked or skipped sources must remain unknown rather than being treated as sold out.
 - `.github/scripts/` — scheduled data refresh, source monitoring, catalogue quality checks and Discord alert logic.
 - `.github/workflows/validate-project.yml` — pull-request and main-branch validation.
+
+
+## Account and cloud-sync setup
+
+The public website is static GitHub Pages, so account authentication and private cloud storage need a Supabase project. The UI and client integration are prepared, but sign-in/cloud sync remain inactive until this one-time setup is completed.
+
+1. Create a Supabase project on its free tier and enable Email authentication.
+2. Open the Supabase SQL Editor and run the full contents of `supabase/collection_items.sql`.
+3. In Supabase Auth URL configuration, add the deployed GitHub Pages site as the Site URL and add its `/account.html` and `/collection.html` URLs to allowed redirects as appropriate.
+4. Edit `supabase-config.js` and replace `YOUR_SUPABASE_PROJECT_URL` and `YOUR_SUPABASE_ANON_KEY` with the project's URL and **public anon/publishable key**.
+5. Commit the config. The public anon key is designed for browser use only when row-level security is enabled. **Never use the Supabase service_role/secret key in this repository.**
+6. Test account creation, email confirmation, login, password reset, two-user isolation, and syncing from a second device before announcing cloud collections as production-ready.
+
+The scanner uses camera permission in a secure context (HTTPS), browser OCR loaded on demand, and the public TCGdex API for candidate lookup. It does not upload the captured photo in this prototype. Catalogue results must be confirmed by the user. Live market valuation is not yet connected.
+
+The Supabase free tier is intended to keep initial costs at $0, but usage limits and inactivity pausing may apply. Do not enable paid services without reviewing the cost first.
 
 ## Price and stock labels
 
