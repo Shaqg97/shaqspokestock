@@ -94,7 +94,7 @@
       {
         "name": "PokéBox",
         "price": 109.99,
-        "stock": "Sold Out",
+        "stock": "In Stock",
         "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-box-japanese-pokemon-tcg",
         "stockCheckStatus": "verified",
         "checkedAt": "2026-10-19"
@@ -685,7 +685,7 @@
       },
       {
         "name": "The Card Spot",
-        "price": 142,
+        "price": 143,
         "stock": "In Stock",
         "url": "https://thecardspot.com.au/products/storm-emeralda-booster-box-pokemon-tcg",
         "stockCheckStatus": "verified",
