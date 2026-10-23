@@ -299,7 +299,7 @@
       {
         "name": "GD Games",
         "price": 54.95,
-        "stock": "Sold Out",
+        "stock": "In Stock",
         "url": "https://www.gdgames.com.au/products/pokemon-30th-celebration-mini-tin-pokemon-tcg",
         "stockCheckStatus": "verified",
         "checkedAt": "2026-10-23"
@@ -623,7 +623,7 @@
       },
       {
         "name": "Gameology",
-        "price": 79,
+        "price": 68,
         "stock": "Sold Out",
         "url": "https://www.gameology.com.au/products/pokemon-tcg-30th-celebration-booster-bundle",
         "stockCheckStatus": "verified",
@@ -867,7 +867,7 @@
     "retailers": [
       {
         "name": "Gameology",
-        "price": 109,
+        "price": 94,
         "stock": "In Stock",
         "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-symphonia-booster-box-m1s-japanese",
         "stockCheckStatus": "verified",
