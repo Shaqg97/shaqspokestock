@@ -81,8 +81,12 @@ async function checkOffer(product, offer) {
   }
   if (!supportedHosts.has(host)) return;
 
-  // Preserve location-dependent, unknown, pre-order, and upcoming states.
-  if (!['In Stock', 'Sold Out'].includes(offer.stock) || ['Upcoming', 'Pre-Order'].includes(product.status)) {
+  // Upcoming and pre-order catalogue entries must still be checked: a retailer
+  // may publish a valid Product/Offer JSON-LD pre-order before its launch date.
+  // Preserve unknown/location-dependent states for other products rather than
+  // guessing availability from an inaccessible or incomplete source.
+  const upcomingProduct = ['Upcoming', 'Pre-Order'].includes(product.status);
+  if (!['In Stock', 'Sold Out'].includes(offer.stock) && !upcomingProduct) {
     skipped.push(`${product.name} / ${offer.name} — existing state "${offer.stock}" is protected`);
     return;
   }
