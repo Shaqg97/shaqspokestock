@@ -1,5 +1,29 @@
 [
   {
+    "name": "Costco Australia — 30th Anniversary ETB + 2-Pack Bundle (Unverified Lead)",
+    "set": "30th Celebration",
+    "language": "English",
+    "type": "ETB + 2-Pack Bundle",
+    "store": "Costco Australia (unverified)",
+    "price": 99.99,
+    "stock": "Unverified rumour — do not treat as confirmed stock",
+    "releaseDate": "2026-11-24",
+    "url": "https://www.costco.com.au/POKEMON/c/POK%C3%89MON",
+    "status": "Unverified — community Discord claim only",
+    "retailers": [
+      {
+        "name": "Costco Australia",
+        "price": 99.99,
+        "stock": "Unverified rumour",
+        "url": "https://www.costco.com.au/POKEMON/c/POK%C3%89MON",
+        "checkedAt": "2026-10-25",
+        "notes": "Discord post claims expected arrival 24 Nov 2026, estimated 480–1,200 units per warehouse, online and in-store. No official Costco listing or confirmation found. Price/date/stock are unverified."
+      }
+    ],
+    "restock": false,
+    "image": ""
+  },
+  {
     "name": "Delta Reign Booster Box",
     "set": "Mega Evolution—Delta Reign",
     "language": "English",
