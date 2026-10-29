@@ -96,6 +96,8 @@ jobs:
           node --check .github/scripts/monitor-gameology.mjs
           node --check .github/scripts/monitor-shopify-retailers.mjs
           node --check .github/scripts/monitor-priority-retailers.mjs
+          node --check .github/scripts/retailer-product-match.mjs
+          node --test .github/scripts/test-retailer-product-match.mjs
           node --check .github/scripts/monitor-retailer-source-data.mjs
           node --check .github/scripts/refresh-marketplace-prices.mjs
           node --check .github/scripts/test-marketplace-quality-rules.mjs

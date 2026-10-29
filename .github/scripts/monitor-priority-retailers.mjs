@@ -1,4 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
+import { matchesProductTitle } from './retailer-product-match.mjs';
 
 const fileUrl = new URL('../../products.json', import.meta.url);
 const products = JSON.parse(await readFile(fileUrl, 'utf8'));
@@ -7,17 +8,6 @@ const monitored = [];
 const skipped = [];
 let changed = false;
 const supportedHosts = new Set(['jbhifi.com.au', 'target.com.au']);
-
-const normalize = (value) => String(value ?? '')
-  .toLowerCase()
-  .replace(/&amp;/g, '&')
-  .replace(/[^a-z0-9]+/g, ' ')
-  .trim()
-  .split(/\s+/)
-  .filter(Boolean);
-
-const generic = new Set(['pokemon', 'pokémon', 'tcg', 'trading', 'card', 'cards', 'booster', 'box', 'pack', 'packs', 'japanese', 'english', 'sealed', 'the', 'and', 'for', 'with', 'mega', 'evolution']);
-const meaningful = (value) => normalize(value).filter((word) => word.length > 2 && !generic.has(word));
 
 function collectProducts(value, found = []) {
   if (!value || typeof value !== 'object') return found;
@@ -107,11 +97,9 @@ async function checkOffer(product, offer) {
       return;
     }
 
-    const expected = meaningful(product.name);
-    const actual = new Set(meaningful(live.title));
-    const overlap = expected.filter((word) => actual.has(word));
-    if (expected.length < 2 || overlap.length < 2 || overlap.length / expected.length < 0.5) {
-      skipped.push(`${product.name} / ${offer.name} — title mismatch ("${live.title}"); left unchanged`);
+    const match = matchesProductTitle(product.name, live.title, product.type);
+    if (!match.matches) {
+      skipped.push(`${product.name} / ${offer.name} — ${match.reason} ("${live.title}"); left unchanged`);
       return;
     }
 
