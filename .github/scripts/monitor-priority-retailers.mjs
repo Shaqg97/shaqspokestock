@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { matchesProductTitle } from './retailer-product-match.mjs';
+import { matchesProductTitle, shouldCheckOffer } from './retailer-product-match.mjs';
 
 const fileUrl = new URL('../../products.json', import.meta.url);
 const products = JSON.parse(await readFile(fileUrl, 'utf8'));
@@ -71,8 +71,9 @@ async function checkOffer(product, offer) {
   }
   if (!supportedHosts.has(host)) return;
 
-  // Preserve location-dependent, unknown, pre-order, and upcoming states.
-  if (!['In Stock', 'Sold Out'].includes(offer.stock) || ['Upcoming', 'Pre-Order'].includes(product.status)) {
+  // Check confirmed stock states and explicit pre-order states only.
+  // Unknown, location-dependent, and generic "Check Retailer" states remain protected.
+  if (!shouldCheckOffer(product.status, offer.stock)) {
     skipped.push(`${product.name} / ${offer.name} — existing state "${offer.stock}" is protected`);
     return;
   }
