@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { matchesProductTitle, inferProductForm } from "./retailer-product-match.mjs";
+import { matchesProductTitle, inferProductForm, shouldCheckOffer } from "./retailer-product-match.mjs";
 
 test("booster box cannot match a single booster pack", () => {
   const result = matchesProductTitle(
@@ -47,4 +47,20 @@ test("missing retailer product form fails closed", () => {
   );
   assert.equal(result.matches, false);
   assert.equal(inferProductForm("Booster Box"), "booster-box");
+});
+
+test("upcoming product with explicit pre-order state can be checked", () => {
+  assert.equal(shouldCheckOffer("Upcoming", "Pre-Order"), true);
+  assert.equal(shouldCheckOffer("Pre-Order", "Coming Soon"), true);
+});
+
+test("unknown and location-dependent states remain protected", () => {
+  assert.equal(shouldCheckOffer("Upcoming", "Check Retailer"), false);
+  assert.equal(shouldCheckOffer("Upcoming", "In Store Only"), false);
+  assert.equal(shouldCheckOffer("Pre-Order", "Unknown"), false);
+});
+
+test("confirmed stock states can be checked regardless of product status", () => {
+  assert.equal(shouldCheckOffer("Released", "In Stock"), true);
+  assert.equal(shouldCheckOffer("Available", "Sold Out"), true);
 });
