@@ -65,3 +65,13 @@ export function matchesProductTitle(expectedName, actualTitle, expectedType = ""
   }
   return { matches: true, reason: "title and product form matched" };
 }
+
+export function shouldCheckOffer(productStatus, offerStock) {
+  const status = String(productStatus ?? "").trim().toLowerCase();
+  const stock = String(offerStock ?? "").trim().toLowerCase();
+  if (["in stock", "sold out"].includes(stock)) return true;
+  // Only explicit pre-order states are eligible for upcoming products.
+  // Unknown, location-dependent, and generic "check retailer" states stay protected.
+  return ["upcoming", "pre-order"].includes(status)
+    && ["pre-order", "coming soon", "upcoming"].includes(stock);
+}
