@@ -24,10 +24,6 @@ for (const [label, value, clear] of [
   }
 }
 
-if (!webhookUrl) {
-  throw new Error('Add the DISCORD_WEBHOOK_URL repository secret before enabling Discord alerts.');
-}
-
 const validateWebhook = (value, label) => {
   if (!value) return;
   const parsed = new URL(value);
@@ -39,10 +35,6 @@ const validateWebhook = (value, label) => {
     throw new Error(`${label} must be a Discord webhook HTTPS URL.`);
   }
 };
-validateWebhook(webhookUrl, 'DISCORD_WEBHOOK_URL');
-validateWebhook(stockWebhookUrl, 'DISCORD_STOCK_WEBHOOK_URL');
-validateWebhook(priceDropWebhookUrl, 'DISCORD_PRICE_DROP_WEBHOOK_URL');
-validateWebhook(releaseWebhookUrl, 'DISCORD_RELEASE_WEBHOOK_URL');
 
 if (!beforeSha) {
   throw new Error('The previous commit could not be identified; no alert was sent.');
@@ -145,6 +137,15 @@ if (alerts.length === 0) {
   console.log('No new products, restocks, pre-orders, or price drops to report.');
   process.exit(0);
 }
+
+if (!webhookUrl) {
+  throw new Error('Add the DISCORD_WEBHOOK_URL repository secret before enabling Discord alerts.');
+}
+validateWebhook(webhookUrl, 'DISCORD_WEBHOOK_URL');
+validateWebhook(stockWebhookUrl, 'DISCORD_STOCK_WEBHOOK_URL');
+validateWebhook(priceDropWebhookUrl, 'DISCORD_PRICE_DROP_WEBHOOK_URL');
+validateWebhook(releaseWebhookUrl, 'DISCORD_RELEASE_WEBHOOK_URL');
+
 
 // Keep stock pings, price-drop pings, and informational updates in separate
 // messages so one category can never accidentally ping another category's role.
