@@ -47,12 +47,12 @@
       {
         "name": "Mind Games",
         "price": 349,
-        "stock": "Pre-Order",
+        "stock": "Check Retailer",
         "url": "https://www.m-g.com.au/product/pokemon-delta-reign-booster-box/",
         "checkedAt": "2026-11-01",
         "stockCheckStatus": "needs-review",
         "purchaseLimit": 3,
-        "notes": "Pre-Order Now; limit 3 per person. Release 6 Nov 2026. Transfers for multi-item shipping or pickup may take up to 3 business days."
+        "notes": "Search-index listing indicated Pre-Order Now and limit 3, but the direct product page returned HTTP 503 on 1 Nov 2026; do not treat as confirmed until the retailer page or checkout is accessible."
       },
       {
         "name": "PokéBox",
