@@ -21,6 +21,12 @@ test('stock and price alerts require a fresh explicit verification marker', () =
   assert.match(source, /if \(!freshCheck \|\| !knownStockStates\.has\(newStock\)\) continue/);
 });
 
+test('no-alert runs exit before requiring the Discord webhook secret', () => {
+  const noAlertExit = source.indexOf('if (alerts.length === 0)');
+  const webhookRequirement = source.indexOf('if (!webhookUrl)');
+  assert.ok(noAlertExit >= 0 && webhookRequirement > noAlertExit);
+});
+
 test('Discord messages suppress all mentions', () => {
   assert.match(source, /allowed_mentions: \{\s*parse: \[\],\s*roles: shouldPingRole \? \[group\.roleId\] : \[\],\s*\}/);
 });

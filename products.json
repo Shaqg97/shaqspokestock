@@ -28,49 +28,66 @@
     "set": "Mega Evolution—Delta Reign",
     "language": "English",
     "type": "Booster Box",
-    "store": "EB Games",
-    "price": 389.95,
+    "store": "Low Pop Trading Co",
+    "price": 335,
     "stock": "Pre-Order",
     "releaseDate": "2026-11-06",
-    "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game",
+    "url": "https://www.lowpop.com.au/products/pokemon-tcg-mega-evolution-delta-reign-booster-box",
     "status": "Pre-Order",
     "retailers": [
       {
-        "name": "EB Games",
-        "price": 389.95,
+        "name": "Low Pop Trading Co",
+        "price": 335,
         "stock": "Pre-Order",
-        "url": "https://www.ebgames.com.au/featured/pokemon-trading-card-game"
+        "url": "https://www.lowpop.com.au/products/pokemon-tcg-mega-evolution-delta-reign-booster-box",
+        "checkedAt": "2026-11-01",
+        "stockCheckStatus": "needs-review",
+        "notes": "Only 2 left when checked 1 Nov 2026. The product page displays deferred/subscription/recurring-purchase consent wording; review the checkout terms carefully before paying."
       },
       {
-        "name": "PokeBox",
+        "name": "Mind Games",
+        "price": 349,
+        "stock": "Pre-Order",
+        "url": "https://www.m-g.com.au/product/pokemon-delta-reign-booster-box/",
+        "checkedAt": "2026-11-01",
+        "stockCheckStatus": "needs-review",
+        "purchaseLimit": 3,
+        "notes": "Pre-Order Now; limit 3 per person. Release 6 Nov 2026. Transfers for multi-item shipping or pickup may take up to 3 business days."
+      },
+      {
+        "name": "PokéBox",
         "price": 349.99,
-        "stock": "Coming Soon",
-        "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me06-delta-reign-booster-box"
-      },
-      {
-        "name": "Gameology",
-        "price": 319.95,
-        "stock": "Pre-Order",
-        "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-delta-reign-booster-box"
+        "stock": "Sold Out",
+        "url": "https://www.pokebox.com.au/products/pokemon-tcg-mega-evolution-me06-delta-reign-booster-box",
+        "checkedAt": "2026-11-01",
+        "stockCheckStatus": "needs-review",
+        "notes": "Product page reported out of stock on 1 Nov 2026."
       },
       {
         "name": "R&R Hobbies",
-        "price": 324,
+        "price": 360,
         "stock": "Sold Out",
-        "url": "https://www.rnrhobbies.com.au/products/pokemon-delta-reign-booster-box"
+        "url": "https://www.rnrhobbies.com.au/products/pokemon-delta-reign-booster-box",
+        "checkedAt": "2026-11-01",
+        "stockCheckStatus": "needs-review",
+        "notes": "Product page reported out of stock on 1 Nov 2026."
       },
       {
-        "name": "Kmart",
-        "price": 299,
-        "stock": "Pre-Order",
-        "url": "https://www.kmart.com.au/product/pokemon-tcg%3A-mega-evolution-delta-reign-36-booster-display-43848669/",
-        "retailerItemId": "P_43848669",
-        "retailerItemIdType": "SKU",
-        "checkedAt": "2026-10-10"
+        "name": "Gameology",
+        "price": 379.95,
+        "stock": "Sold Out",
+        "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-evolution-delta-reign-booster-box",
+        "checkedAt": "2026-11-01",
+        "stockCheckStatus": "needs-review",
+        "purchaseLimit": 1,
+        "notes": "Notify-only page; no Add to cart. Limit 1 per customer. Shipping and Click & Collect show pre-order-only, but orders are not currently open."
       }
     ],
     "restock": false,
-    "image": "https://godpackgames.ca/cdn/shop/files/Pok_mon_TCG_Delta_Reign_Booster_Box.png?v=1781826537&width=600"
+    "image": "https://godpackgames.ca/cdn/shop/files/Pok_mon_TCG_Delta_Reign_Booster_Box.png?v=1781826537&width=600",
+    "checkedAt": "2026-11-01",
+    "stockCheckStatus": "needs-review",
+    "checkoutNote": "Only 2 left when checked 1 Nov 2026. The product page displays deferred/subscription/recurring-purchase consent wording; review the checkout terms carefully before paying."
   },
   {
     "name": "Delta Reign ETB",

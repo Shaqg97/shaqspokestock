@@ -1,5 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { matchesProductTitle, shouldCheckOffer } from './retailer-product-match.mjs';
+import { toRetailerStock } from './retailer-availability.mjs';
 
 const fileUrl = new URL('../../products.json', import.meta.url);
 const products = JSON.parse(await readFile(fileUrl, 'utf8'));
@@ -24,11 +25,7 @@ function collectProducts(value, found = []) {
 }
 
 function getStock(availability) {
-  const value = String(availability ?? '').toLowerCase();
-  if (/preorder|presale/.test(value)) return 'Pre-Order';
-  if (/outofstock|soldout|discontinued|backorder/.test(value)) return 'Sold Out';
-  if (/instock|limitedavailability|onlineonly/.test(value)) return 'In Stock';
-  return null;
+  return toRetailerStock(availability);
 }
 
 function getProductData(html) {
