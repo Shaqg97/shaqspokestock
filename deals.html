@@ -7,8 +7,8 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 function offers(p){return (p.retailers||[]).filter(o=>Number(o.price)>0)}
 function checkedTime(o){const value=o.checkedAt||o.checked_at||o.lastEvidenceAt||o.lastSuccessfulAt||"";if(!value)return null;const d=new Date(value);return Number.isNaN(d.getTime())?null:d.getTime()}
 function isFreshVerified(o){const t=checkedTime(o);return o.stockCheckStatus==="verified"&&t!==null&&Date.now()>=t&&Date.now()-t<=48*36e5}
-function isMarketplace(o){return /marketplace|\([^)]*\)/i.test(String(o.name||""))}
-function isCheckoutState(o){return /^(in stock|pre-order)$/i.test(String(o.stock||"").trim())}
+function isMarketplace(o){return /marketplace/i.test(String(o.name||""))}
+function isCheckoutState(o){return /^(in stock|pre-order|in store only)$/i.test(String(o.stock||"").trim())}
 function isRecent(o){const t=checkedTime(o);return t!==null&&Date.now()>=t&&Date.now()-t<=48*36e5}
 function bestOffer(p){
  const all=offers(p),eligible=all.filter(isCheckoutState);
