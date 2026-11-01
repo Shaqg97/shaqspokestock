@@ -1,4 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
+import { classifyAvailability, hasNotifyOnlyMessage } from './retailer-availability.mjs';
 
 const root = new URL('../../', import.meta.url);
 const products = JSON.parse(await readFile(new URL('products.json', root), 'utf8'));
@@ -92,10 +93,6 @@ function extractEvidence(html, expectedName) {
     const amount = Number(object.price ?? object.lowPrice ?? object.priceSpecification?.price);
     // Reject implausibly large Pokémon TCG prices instead of displaying values that may be minor-unit amounts or unrelated page data.
     if (currency === 'AUD' && Number.isFinite(amount) && amount > 0 && amount < 5000) price ??= Math.round(amount * 100) / 100;
-    const raw = String(object.availability ?? object.stockStatus ?? object.inventoryStatus ?? '').toLowerCase();
-    if (/pre.?order|presale/.test(raw)) availability = 'pre-order';
-    else if (/outofstock|out of stock|sold.?out|discontinued/.test(raw)) { if (availability !== 'pre-order') availability = 'out of stock'; }
-    else if (/instock|in stock|limitedavailability|low.?stock/.test(raw) && availability === 'unknown') availability = 'in stock';
     for (const [field, value] of Object.entries(object)) {
       if (!/^(inventoryquantity|quantityavailable|availablequantity|stockquantity|availabletosell|allocationquantity|allocatedquantity|allocation|allocated)$/i.test(field)) continue;
       const quantity = Number(value && typeof value === 'object' ? value.value : value);
@@ -104,7 +101,12 @@ function extractEvidence(html, expectedName) {
       quantities.push({ kind: /allocat/i.test(field) ? 'allocation' : context ? 'store quantity' : 'inventory quantity', quantity, field, store: context || null });
     }
   }
-  return { title, price, availability, quantities: [...new Map(quantities.map(item => [JSON.stringify(item), item])).values()], matchedStructuredObjects: matched.length };
+  const structuredAvailability = matched.map(object => object.availability ?? object.stockStatus ?? object.inventoryStatus ?? '').filter(Boolean).join(' ');
+  availability = classifyAvailability(structuredAvailability, html);
+  const availabilityNote = hasNotifyOnlyMessage(html)
+    ? 'Product page is notify-only; any conflicting structured availability was overridden.'
+    : null;
+  return { title, price, availability, availabilityNote, quantities: [...new Map(quantities.map(item => [JSON.stringify(item), item])).values()], matchedStructuredObjects: matched.length };
 }
 const offers = [];
 for (const product of products) for (const offer of product.retailers || []) {
@@ -132,7 +134,7 @@ for (const { product, offer, host } of offers) {
     } else {
       const evidence = extractEvidence(await response.text(), product.name);
       const hasEvidence = evidence.price !== null || evidence.availability !== 'unknown' || evidence.quantities.length > 0;
-      observations.push({ ...base, fetchStatus: 'ok', httpStatus: response.status, lastSuccessfulAt: checkedAt, lastEvidenceAt: hasEvidence ? checkedAt : priorEvidenceAt, title: evidence.title, price: evidence.price, availability: evidence.availability, quantities: evidence.quantities, matchedStructuredObjects: evidence.matchedStructuredObjects, reason: hasEvidence ? null : 'Page fetched, but no matching structured price/stock/quantity evidence; no stock conclusion made' });
+      observations.push({ ...base, fetchStatus: 'ok', httpStatus: response.status, lastSuccessfulAt: checkedAt, lastEvidenceAt: hasEvidence ? checkedAt : priorEvidenceAt, title: evidence.title, price: evidence.price, availability: evidence.availability, quantities: evidence.quantities, matchedStructuredObjects: evidence.matchedStructuredObjects, reason: evidence.availabilityNote || (hasEvidence ? null : 'Page fetched, but no matching structured price/stock/quantity evidence; no stock conclusion made') });
     }
   } catch (error) {
     observations.push({ ...base, fetchStatus: 'error', reason: error instanceof Error ? error.message : 'Request failed', availability: 'unknown', quantities: [] });
