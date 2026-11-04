@@ -216,7 +216,7 @@
       {
         "name": "PokéBox",
         "price": 4.99,
-        "stock": "Sold Out",
+        "stock": "In Stock",
         "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-pack-japanese-pokemon-tcg",
         "stockCheckStatus": "verified",
         "checkedAt": "2026-11-04"
