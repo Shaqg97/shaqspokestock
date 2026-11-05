@@ -340,7 +340,7 @@
       {
         "name": "GD Games",
         "price": 54.95,
-        "stock": "In Stock",
+        "stock": "Sold Out",
         "url": "https://www.gdgames.com.au/products/pokemon-30th-celebration-mini-tin-pokemon-tcg",
         "stockCheckStatus": "verified",
         "checkedAt": "2026-11-05"
@@ -664,7 +664,7 @@
       },
       {
         "name": "Gameology",
-        "price": 75,
+        "price": 83,
         "stock": "Sold Out",
         "url": "https://www.gameology.com.au/products/pokemon-tcg-30th-celebration-booster-bundle",
         "stockCheckStatus": "verified",
