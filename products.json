@@ -150,7 +150,7 @@
       },
       {
         "name": "Pocket Games",
-        "price": 131,
+        "price": 132,
         "stock": "In Stock",
         "url": "https://pocketgames.com.au/products/pokemon-tcg-mega-brave-m1l-booster-box-booster-pack",
         "stockCheckStatus": "verified",
@@ -866,7 +866,7 @@
     "retailers": [
       {
         "name": "PokéSourceAU",
-        "price": 179,
+        "price": 199,
         "stock": "In Stock",
         "url": "https://pokesource.com.au/products/pokemon-mega-dream-m2a-booster-box-japanese",
         "stockCheckStatus": "verified",
