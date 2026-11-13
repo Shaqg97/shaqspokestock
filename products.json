@@ -134,7 +134,7 @@
     "retailers": [
       {
         "name": "PokéBox",
-        "price": 124.99,
+        "price": 109.99,
         "stock": "In Stock",
         "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-box-japanese-pokemon-tcg",
         "stockCheckStatus": "verified",
@@ -665,7 +665,7 @@
       {
         "name": "Gameology",
         "price": 88,
-        "stock": "Sold Out",
+        "stock": "In Stock",
         "url": "https://www.gameology.com.au/products/pokemon-tcg-30th-celebration-booster-bundle",
         "stockCheckStatus": "verified",
         "checkedAt": "2026-11-13"
