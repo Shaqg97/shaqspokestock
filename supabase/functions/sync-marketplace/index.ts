@@ -8,16 +8,25 @@ Deno.serve(async req => {
  if(req.method==="OPTIONS") return new Response("ok",{headers:cors});
  if(req.method!=="POST") return json({error:"POST required"},405);
  const url=Deno.env.get("SUPABASE_URL")!, anon=Deno.env.get("SUPABASE_ANON_KEY")!, service=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
- const auth=req.headers.get("Authorization"); if(!auth) return json({error:"Sign-in required"},401);
- const userClient=createClient(url,anon,{global:{headers:{Authorization:auth}}});
- const {data:{user},error:userErr}=await userClient.auth.getUser(); if(userErr||!user) return json({error:"Invalid session"},401);
  const admin=createClient(url,service);
+ const cronSecret=Deno.env.get("TRACKER_CRON_SECRET");
+ const cronMode=!!cronSecret && req.headers.get("x-tracker-cron-secret")===cronSecret;
+ let userId:string;
+ if(cronMode){
+  userId=Deno.env.get("TRACKER_USER_ID")||"";
+  if(!userId) return json({error:"TRACKER_USER_ID secret is required for scheduled sync"},500);
+ }else{
+  const auth=req.headers.get("Authorization"); if(!auth) return json({error:"Sign-in required"},401);
+  const userClient=createClient(url,anon,{global:{headers:{Authorization:auth}}});
+  const {data:{user},error:userErr}=await userClient.auth.getUser(); if(userErr||!user) return json({error:"Invalid session"},401);
+  userId=user.id;
+ }
  const {platform}=await req.json(); if(!["ebay","whatnot"].includes(platform)) return json({error:"Unknown platform"},400);
- const {data:run}=await admin.from("business_sync_runs").insert({user_id:user.id,platform,status:"running"}).select("id").single();
+ const {data:run}=await admin.from("business_sync_runs").insert({user_id:userId,platform,status:"running"}).select("id").single();
  try {
   let imported=0;
-  if(platform==="ebay") imported=await syncEbay(admin,user.id);
-  else imported=await syncWhatnot(admin,user.id);
+  if(platform==="ebay") imported=await syncEbay(admin,userId);
+  else imported=await syncWhatnot(admin,userId);
   await admin.from("business_sync_runs").update({status:"success",imported_count:imported,finished_at:new Date().toISOString()}).eq("id",run.id);
   return json({ok:true,platform,imported});
  } catch(e) {
