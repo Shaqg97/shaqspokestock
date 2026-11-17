@@ -1,0 +1,55 @@
+name: Whatnot read access check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  read-access-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check read-only product and order access
+        env:
+          WHATNOT_API_TOKEN: ${{ secrets.WHATNOT_API_TOKEN }}
+        run: |
+          node --input-type=module <<'NODE'
+          const token = process.env.WHATNOT_API_TOKEN;
+          if (!token) {
+            console.error("WHATNOT_API_TOKEN secret is missing.");
+            process.exit(1);
+          }
+
+          const base = "https://api.whatnot.com/seller-api/rest/v2";
+          const checks = [
+            ["products", `${base}/products?limit=1`],
+            ["orders", `${base}/orders?limit=1`]
+          ];
+
+          let failed = false;
+          for (const [name, url] of checks) {
+            const response = await fetch(url, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json"
+              }
+            });
+
+            if (!response.ok) {
+              console.error(`${name}: HTTP ${response.status} — check token scopes and API access.`);
+              failed = true;
+              continue;
+            }
+
+            const payload = await response.json();
+            const rows = Array.isArray(payload.data) ? payload.data
+              : Array.isArray(payload.items) ? payload.items
+              : Array.isArray(payload.results) ? payload.results
+              : [];
+            console.log(`${name}: read access successful (HTTP ${response.status}; sample records returned: ${rows.length}).`);
+          }
+
+          if (failed) process.exit(1);
+          console.log("Read-only Whatnot access checks completed. No records or buyer details were printed.");
+          NODE
