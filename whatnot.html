@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#08111f"><title>Private Whatnot Dashboard | Shaq's Poke Stock</title>
+<style>
+:root{color-scheme:dark;--bg:#08111f;--panel:#111d30;--line:#2a3a53;--muted:#9aa9c1;--text:#f4f7ff;--gold:#ffd43b;--green:#4ade80;--red:#fca5a5}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 12% 0%,rgba(255,212,59,.08),transparent 32rem),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,sans-serif}
+header{border-bottom:1px solid var(--line);background:#0b1525}.nav{max-width:1180px;margin:auto;padding:15px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}.logo{font-weight:900;color:#fff;text-decoration:none}.logo span{color:var(--gold)}
+.wrap{max-width:1180px;margin:auto;padding:28px 18px 60px}.panel,.stat{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px}.panel{margin-bottom:15px}.eyebrow{color:var(--gold);font-size:12px;font-weight:900;letter-spacing:1.3px;text-transform:uppercase}
+h1{font-size:clamp(27px,4vw,38px);line-height:1.1;margin:8px 0}h2{font-size:18px;margin:0 0 12px}p,.muted{color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.stat span{display:block;color:var(--muted);font-size:12px}.stat strong{display:block;font-size:25px;margin-top:5px}
+.btn{border:1px solid var(--line);border-radius:9px;padding:10px 13px;background:#1c2b41;color:var(--text);font-weight:800;cursor:pointer}.btn.primary{background:var(--gold);color:#111827;border-color:var(--gold)}.btn:disabled{opacity:.55;cursor:not-allowed}
+.field{margin:12px 0}.field label{display:block;font-size:12px;color:#cbd5e1;font-weight:800;margin-bottom:5px}.field input{width:100%;padding:11px;border-radius:8px;border:1px solid #3b4b63;background:#0b1627;color:#fff}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.status{min-height:22px;color:var(--gold);font-size:13px}.notice{padding:13px;border:1px solid #354966;background:#1b2b40;border-radius:10px;color:#cbd5e1;font-size:13px}.hidden{display:none!important}
+.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:640px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--muted);font-weight:800}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.wrap{padding:20px 12px 45px}.nav{padding:12px}.stat{padding:13px}.stat strong{font-size:21px}}
+</style>
+</head>
+<body>
+<header><div class="nav"><a class="logo" href="index.html">⚡ SHAQ'S <span>POKE STOCK</span></a><span class="muted">Private owner area</span></div></header>
+<main class="wrap">
+<section id="gate" class="panel">
+ <div class="eyebrow">Restricted access</div><h1>Whatnot business dashboard</h1>
+ <p>This area is restricted to the approved Shaq's Poke Stock administrator. Sign in with your authorised account.</p>
+ <div id="notReady" class="notice hidden">Supabase is not configured. Contact the site owner.</div>
+ <form id="loginForm">
+  <div class="field"><label for="email">Owner email</label><input id="email" type="email" autocomplete="username" required></div>
+  <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required></div>
+  <button class="btn primary" type="submit">Sign in securely</button>
+ </form>
+ <p id="gateStatus" class="status" role="status"></p>
+</section>
+<section id="dashboard" class="hidden">
+ <div class="row" style="justify-content:space-between;margin-bottom:12px"><div><div class="eyebrow">Owner access verified</div><h1>Whatnot overview</h1><div id="ownerEmail" class="muted"></div></div><button id="logout" class="btn">Log out</button></div>
+ <div class="notice" style="margin-bottom:14px">Private dashboard foundation is active. Live Whatnot data will appear after the secure server-side sync is deployed. Your Whatnot API token is never sent to this page.</div>
+ <div class="stats">
+  <div class="stat"><span>Products synced</span><strong id="productCount">—</strong></div>
+  <div class="stat"><span>Orders synced</span><strong id="orderCount">—</strong></div>
+  <div class="stat"><span>Gross sales (AUD)</span><strong id="grossSales">—</strong></div>
+  <div class="stat"><span>Last sync</span><strong id="lastSync" style="font-size:15px">—</strong></div>
+ </div>
+ <section class="panel"><div class="row" style="justify-content:space-between"><h2>Recent orders</h2><button id="refresh" class="btn">Refresh dashboard</button></div><div class="tablewrap"><table><thead><tr><th>Order</th><th>Status</th><th>Sold</th><th>Total</th></tr></thead><tbody id="orders"><tr><td colspan="4" class="muted">No synced orders yet.</td></tr></tbody></table></div></section>
+ <section class="panel"><h2>Inventory snapshot</h2><div class="tablewrap"><table><thead><tr><th>Product</th><th>SKU</th><th>Status</th><th>Quantity</th><th>Price</th></tr></thead><tbody id="products"><tr><td colspan="5" class="muted">No synced products yet.</td></tr></tbody></table></div></section>
+</section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script>
+<script>
+const $=id=>document.getElementById(id);let client=null;
+const aud=n=>new Intl.NumberFormat("en-AU",{style:"currency",currency:"AUD"}).format(Number(n)||0);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function status(t){$("gateStatus").textContent=t}
+async function showDashboard(user){
+ const {data:allowed,error:allowErr}=await client.rpc("is_whatnot_admin");
+ if(allowErr)throw allowErr;
+ if(!allowed){await client.auth.signOut();throw new Error("This account is not authorised for the private Whatnot dashboard.");}
+ $("gate").classList.add("hidden");$("dashboard").classList.remove("hidden");$("ownerEmail").textContent=user.email||"Authorised administrator";
+ await loadData();
+}
+async function loadData(){
+ const [p,o,s]=await Promise.all([
+  client.from("whatnot_products").select("id,title,sku,status,quantity,price,currency,synced_at").order("title").limit(100),
+  client.from("whatnot_orders").select("id,order_number,status,total,currency,sold_at,synced_at").order("sold_at",{ascending:false}).limit(25),
+  client.from("whatnot_sync_runs").select("resource,outcome,records_seen,finished_at").order("started_at",{ascending:false}).limit(1)
+ ]);
+ for(const x of [p,o,s])if(x.error)throw x.error;
+ $("productCount").textContent=p.data.length;$("orderCount").textContent=o.data.length;
+ const gross=o.data.reduce((a,x)=>a+Number(x.total||0),0);$("grossSales").textContent=aud(gross);
+ $("lastSync").textContent=s.data[0]?.finished_at?new Date(s.data[0].finished_at).toLocaleString("en-AU"):"Not synced";
+ $("orders").innerHTML=o.data.length?o.data.map(x=>"<tr><td>"+esc(x.order_number||x.id)+"</td><td>"+esc(x.status)+"</td><td>"+(x.sold_at?new Date(x.sold_at).toLocaleDateString("en-AU"):"—")+"</td><td>"+aud(x.total)+"</td></tr>").join(""):'<tr><td colspan="4" class="muted">No synced orders yet.</td></tr>';
+ $("products").innerHTML=p.data.length?p.data.map(x=>"<tr><td>"+esc(x.title)+"</td><td>"+esc(x.sku)+"</td><td>"+esc(x.status)+"</td><td>"+esc(x.quantity)+"</td><td>"+(x.price==null?"—":aud(x.price))+"</td></tr>").join(""):'<tr><td colspan="5" class="muted">No synced products yet.</td></tr>';
+}
+async function init(){
+ client=window.shaqsCreateSupabaseClient?.();
+ if(!client){$("notReady").classList.remove("hidden");$("loginForm").classList.add("hidden");return;}
+ const {data:{session}}=await client.auth.getSession();
+ if(session){try{await showDashboard(session.user)}catch(e){status(e.message)}}
+}
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();if(!client)return;status("Signing in…");const {data,error}=await client.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){status(error.message);return}try{await showDashboard(data.user)}catch(err){status(err.message)}});
+$("logout").onclick=async()=>{await client.auth.signOut();$("dashboard").classList.add("hidden");$("gate").classList.remove("hidden");status("Signed out.")};
+$("refresh").onclick=async()=>{try{await loadData();}catch(e){status("Could not load dashboard: "+e.message)}};
+init();
+</script>
+</body></html>
