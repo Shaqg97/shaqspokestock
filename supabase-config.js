@@ -2,7 +2,7 @@
    Create a Supabase project, enable Email auth, run supabase/collection_items.sql,
    then replace these placeholders with the Project URL and anon/public key. */
 window.SHAQS_SUPABASE_CONFIG = {
-  url: "YOUR_SUPABASE_PROJECT_URL",
+  url: "https://ngvqczckbckvlylsktdm.supabase.co",
   anonKey: "YOUR_SUPABASE_ANON_KEY"
 };
 window.shaqsSupabaseReady = function () {
