@@ -3,7 +3,7 @@
    then replace these placeholders with the Project URL and anon/public key. */
 window.SHAQS_SUPABASE_CONFIG = {
   url: "https://ngvqczckbckvlylsktdm.supabase.co",
-  anonKey: "YOUR_SUPABASE_ANON_KEY"
+  anonKey: "sb_publishable_vI28MdEjJWX5JteVESJHNw_tvpACDMm"
 };
 window.shaqsSupabaseReady = function () {
   const c = window.SHAQS_SUPABASE_CONFIG || {};
