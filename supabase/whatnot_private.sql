@@ -33,7 +33,7 @@ create table if not exists public.whatnot_products (
   title text not null default '',
   sku text not null default '',
   status text not null default '',
-  quantity integer not null default 0,
+  quantity integer,
   price numeric(12,2),
   currency text not null default 'AUD',
   raw_data jsonb not null default '{}'::jsonb,
