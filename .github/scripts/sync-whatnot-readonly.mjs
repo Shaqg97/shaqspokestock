@@ -74,7 +74,7 @@ const productRows = products.filter(p => p?.id != null).map(p => ({
   title: String(p.title || ""),
   sku: String(p.external_id || ""),
   status: String(p.status || ""),
-  quantity: 0,
+  quantity: null,
   price: null,
   currency: "AUD",
   raw_data: {
