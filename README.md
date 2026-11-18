@@ -12,6 +12,9 @@ A mobile-first Pokémon TCG catalogue and deal-finding site for Australian colle
 - `marketplace.html` — Australian eBay research links for catalogue products.
 - `collection.html` — dedicated responsive collection dashboard for raw singles, graded slabs, sealed products, portfolio totals, filters, and CSV/JSON import/export. It supports local browser storage and optional Supabase cloud sync once configured.
 - `account.html` — email sign-up, login, password reset and sign-out UI, backed by Supabase Auth when configured.
+- `whatnot.html` — unlisted owner-only Whatnot dashboard; Supabase Auth plus an explicit admin allowlist check is required before data is displayed.
+- `supabase/whatnot_private.sql` — private Whatnot dashboard tables and Row Level Security policies; must be run manually after the owner account is confirmed.
+- `.github/scripts/sync-whatnot-readonly.mjs` and `.github/workflows/whatnot-readonly-sync.yml` — server-side, read-only Whatnot product/order import; requires GitHub Actions secrets and does not modify Whatnot.
 - `scan.html` — mobile camera/photo capture, optional browser OCR, TCGdex catalogue candidate matching, and add-to-collection workflow. Selected card artwork and catalogue IDs carry through into the collection. Matching is a candidate suggestion, not guaranteed identification or appraisal.
 - `supabase-config.js` — public Supabase project URL/anon-key configuration template. Never put a service-role key in browser code.
 - `supabase/collection_items.sql` — private per-user collection schema with row-level security and grading metadata.
