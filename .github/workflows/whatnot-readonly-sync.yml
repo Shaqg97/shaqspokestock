@@ -1,0 +1,35 @@
+name: Whatnot read-only dashboard sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 */4 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: whatnot-read-only-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check required secrets
+        env:
+          WHATNOT_API_TOKEN: ${{ secrets.WHATNOT_API_TOKEN }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          test -n "$WHATNOT_API_TOKEN" || { echo "::error::Missing WHATNOT_API_TOKEN"; exit 1; }
+          test -n "$SUPABASE_URL" || { echo "::error::Missing SUPABASE_URL"; exit 1; }
+          test -n "$SUPABASE_SERVICE_ROLE_KEY" || { echo "::error::Missing SUPABASE_SERVICE_ROLE_KEY. Add after running the private SQL setup."; exit 1; }
+      - uses: actions/checkout@v4
+      - name: Sync Whatnot products and orders into private Supabase tables
+        env:
+          WHATNOT_API_TOKEN: ${{ secrets.WHATNOT_API_TOKEN }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node .github/scripts/sync-whatnot-readonly.mjs
