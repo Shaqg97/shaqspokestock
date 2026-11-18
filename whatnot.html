@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#08111f"><title>Private Whatnot Dashboard | Shaq's Poke Stock</title>
+<meta name="theme-color" content="#08111f"><meta name="robots" content="noindex,nofollow"><title>Private Whatnot Dashboard | Shaq's Poke Stock</title>
 <style>
 :root{color-scheme:dark;--bg:#08111f;--panel:#111d30;--line:#2a3a53;--muted:#9aa9c1;--text:#f4f7ff;--gold:#ffd43b;--green:#4ade80;--red:#fca5a5}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 12% 0%,rgba(255,212,59,.08),transparent 32rem),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,sans-serif}
@@ -36,7 +36,7 @@ h1{font-size:clamp(27px,4vw,38px);line-height:1.1;margin:8px 0}h2{font-size:18px
  <div class="stats">
   <div class="stat"><span>Products synced</span><strong id="productCount">—</strong></div>
   <div class="stat"><span>Orders synced</span><strong id="orderCount">—</strong></div>
-  <div class="stat"><span>Gross sales (AUD)</span><strong id="grossSales">—</strong></div>
+  <div class="stat"><span>Gross sales by currency</span><strong id="grossSales">—</strong></div>
   <div class="stat"><span>Last sync</span><strong id="lastSync" style="font-size:15px">—</strong></div>
  </div>
  <section class="panel"><div class="row" style="justify-content:space-between"><h2>Recent orders</h2><button id="refresh" class="btn">Refresh dashboard</button></div><div class="tablewrap"><table><thead><tr><th>Order</th><th>Status</th><th>Sold</th><th>Total</th></tr></thead><tbody id="orders"><tr><td colspan="4" class="muted">No synced orders yet.</td></tr></tbody></table></div></section>
@@ -64,10 +64,10 @@ async function loadData(){
  ]);
  for(const x of [p,o,s])if(x.error)throw x.error;
  $("productCount").textContent=p.data.length;$("orderCount").textContent=o.data.length;
- const gross=o.data.reduce((a,x)=>a+Number(x.total||0),0);$("grossSales").textContent=aud(gross);
+ const totals={};for(const x of o.data){const cur=String(x.currency||"Unknown");totals[cur]=(totals[cur]||0)+Number(x.total||0)}$("grossSales").textContent=Object.keys(totals).length?Object.entries(totals).map(([cur,n])=>new Intl.NumberFormat("en-AU",{style:"currency",currency:cur==="Unknown"?"AUD":cur}).format(n)).join(" / "):"—";
  $("lastSync").textContent=s.data[0]?.finished_at?new Date(s.data[0].finished_at).toLocaleString("en-AU"):"Not synced";
  $("orders").innerHTML=o.data.length?o.data.map(x=>"<tr><td>"+esc(x.order_number||x.id)+"</td><td>"+esc(x.status)+"</td><td>"+(x.sold_at?new Date(x.sold_at).toLocaleDateString("en-AU"):"—")+"</td><td>"+aud(x.total)+"</td></tr>").join(""):'<tr><td colspan="4" class="muted">No synced orders yet.</td></tr>';
- $("products").innerHTML=p.data.length?p.data.map(x=>"<tr><td>"+esc(x.title)+"</td><td>"+esc(x.sku)+"</td><td>"+esc(x.status)+"</td><td>"+esc(x.quantity)+"</td><td>"+(x.price==null?"—":aud(x.price))+"</td></tr>").join(""):'<tr><td colspan="5" class="muted">No synced products yet.</td></tr>';
+ $("products").innerHTML=p.data.length?p.data.map(x=>"<tr><td>"+esc(x.title)+"</td><td>"+esc(x.sku)+"</td><td>"+esc(x.status)+"</td><td>"+(x.quantity==null?"Not synced":esc(x.quantity))+"</td><td>"+(x.price==null?"—":aud(x.price))+"</td></tr>").join(""):'<tr><td colspan="5" class="muted">No synced products yet.</td></tr>';
 }
 async function init(){
  client=window.shaqsCreateSupabaseClient?.();
