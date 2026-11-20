@@ -71,6 +71,7 @@ $('exportCsv').onclick=()=>{const items=batch.filter(r=>!r.pairedTo);if(!items.l
 $('exportBackup').onclick=()=>download('shaqs-poke-stock-bulk-batch.json',JSON.stringify(batch,null,2),'application/json');
 $('importJson').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data)||data.length>3000)throw Error('Choose a JSON array with up to 3,000 rows.');batch.push(...data.map(r=>freshRow(r)));renderPhotos();renderRows();$('actionStatus').textContent='Imported '+data.length+' batch row(s).';}catch(err){$('actionStatus').textContent='Import failed: '+err.message;}e.target.value='';});
 const feeSaved=(()=>{try{return JSON.parse(localStorage.getItem('shaqsPokeStockEbayFeesV1')||'{}')}catch{return {}}})();$('feeRate').value=feeSaved.rate??0;$('feeFixed').value=feeSaved.fixed??0;['feeRate','feeFixed'].forEach(id=>$(id).addEventListener('input',()=>{try{localStorage.setItem('shaqsPokeStockEbayFeesV1',JSON.stringify({rate:$('feeRate').value,fixed:$('feeFixed').value}));}catch{}renderRows();}));
+restoreBatchDraft();
 renderRows();
 })();
 </script></body></html>
