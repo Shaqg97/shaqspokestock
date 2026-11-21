@@ -1,0 +1,28 @@
+name: Sync eBay and Whatnot sales
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ebay, whatnot]
+    steps:
+      - name: Sync ${{ matrix.platform }} orders
+        env:
+          FUNCTION_URL: ${{ secrets.TRACKER_FUNCTION_URL }}
+          CRON_SECRET: ${{ secrets.TRACKER_CRON_SECRET }}
+          PLATFORM: ${{ matrix.platform }}
+        run: |
+          test -n "$FUNCTION_URL" || (echo "Missing TRACKER_FUNCTION_URL" && exit 1)
+          test -n "$CRON_SECRET" || (echo "Missing TRACKER_CRON_SECRET" && exit 1)
+          curl --fail-with-body --silent --show-error \
+            -X POST "$FUNCTION_URL" \
+            -H "Content-Type: application/json" \
+            -H "x-tracker-cron-secret: $CRON_SECRET" \
+            --data "{\"platform\":\"$PLATFORM\"}"
