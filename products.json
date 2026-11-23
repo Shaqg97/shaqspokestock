@@ -790,8 +790,8 @@
     "retailers": [
       {
         "name": "Light of Cards",
-        "price": 124.19,
-        "stock": "Sold Out",
+        "price": 129.59,
+        "stock": "In Stock",
         "url": "https://lightofcards.com.au/products/sealed-pokemon-tcg-ninja-spinner-m4-japanese-booster-box",
         "stockCheckStatus": "verified",
         "checkedAt": "2026-11-23"
