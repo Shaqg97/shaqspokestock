@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - products.json
+      - retailer-source-data.json
       - .github/scripts/send-discord-alerts.mjs
 
 permissions:

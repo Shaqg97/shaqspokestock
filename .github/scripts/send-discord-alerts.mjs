@@ -6,6 +6,9 @@ const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 const stockWebhookUrl = process.env.DISCORD_STOCK_WEBHOOK_URL || webhookUrl;
 const priceDropWebhookUrl = process.env.DISCORD_PRICE_DROP_WEBHOOK_URL || webhookUrl;
 const releaseWebhookUrl = process.env.DISCORD_RELEASE_WEBHOOK_URL || webhookUrl;
+if (!process.env.DISCORD_STOCK_WEBHOOK_URL) console.warn('DISCORD_STOCK_WEBHOOK_URL is not configured; stock alerts will use DISCORD_WEBHOOK_URL.');
+if (!process.env.DISCORD_PRICE_DROP_WEBHOOK_URL) console.warn('DISCORD_PRICE_DROP_WEBHOOK_URL is not configured; price-drop alerts will use DISCORD_WEBHOOK_URL.');
+if (!process.env.DISCORD_RELEASE_WEBHOOK_URL) console.warn('DISCORD_RELEASE_WEBHOOK_URL is not configured; release alerts will use DISCORD_WEBHOOK_URL.');
 const beforeSha = process.env.BEFORE_SHA;
 let stockAlertRoleId = process.env.DISCORD_STOCK_ALERT_ROLE_ID?.trim() || '';
 let priceDropRoleId = process.env.DISCORD_PRICE_DROP_ROLE_ID?.trim() || '';
@@ -41,9 +44,11 @@ if (!beforeSha) {
 }
 
 const previousJson = execFileSync('git', ['show', `${beforeSha}:products.json`], { encoding: 'utf8' });
-const [previousProducts, currentProducts] = await Promise.all([
+const [previousProducts, currentProducts, previousSourceData, currentSourceData] = await Promise.all([
   Promise.resolve(JSON.parse(previousJson)),
   readFile(new URL('../../products.json', import.meta.url), 'utf8').then(JSON.parse),
+  Promise.resolve(execFileSync('git', ['show', `${beforeSha}:retailer-source-data.json`], { encoding: 'utf8' })).then(JSON.parse).catch(() => ({ observations: [] })),
+  readFile(new URL('../../retailer-source-data.json', import.meta.url), 'utf8').then(JSON.parse).catch(() => ({ observations: [] })),
 ]);
 
 const productKey = (product) => [product.name, product.set, product.language, product.type].join('|');
@@ -126,6 +131,47 @@ for (const product of currentProducts) {
         title: `Price drop: ${product.name}`,
         description: `${offer.name} · $${Number(oldOffer.price).toFixed(2)} → $${Number(offer.price).toFixed(2)}`,
         url: offer.url || product.url,
+        color: 0x3498db,
+        pingPriceDrops: true,
+      });
+    }
+  }
+}
+
+// Direct first-party retailer observations are a separate signal from the curated
+// catalogue. Alert on verified transitions here so a retailer-page stock change
+// cannot be missed when products.json itself did not change.
+const previousSourceByKey = new Map((previousSourceData.observations ?? []).map((item) => [item.key, item]));
+const sourceObservationIsFresh = (item) => {
+  if (item?.fetchStatus !== 'ok' || !item?.checkedAt || !['in stock', 'pre-order', 'out of stock'].includes(item?.availability)) return false;
+  const ageMs = Date.now() - Date.parse(item.checkedAt);
+  return Number.isFinite(ageMs) && ageMs >= 0 && ageMs <= 24 * 60 * 60 * 1000;
+};
+for (const observation of currentSourceData.observations ?? []) {
+  if (!sourceObservationIsFresh(observation)) continue;
+  const previous = previousSourceByKey.get(observation.key);
+  const nextStock = String(observation.availability).toLowerCase();
+  const oldStock = String(previous?.availability ?? '').toLowerCase();
+  const price = Number(observation.price);
+  const hasPrice = Number.isFinite(price) && price > 0;
+  const itemUrl = observation.url;
+  const itemName = observation.product || 'Pokémon TCG product';
+  const retailer = observation.retailer || observation.host || 'Australian retailer';
+  if ((oldStock === 'out of stock' || oldStock === 'unknown' || !previous) && (nextStock === 'in stock' || nextStock === 'pre-order')) {
+    alerts.push({
+      title: `${nextStock === 'pre-order' ? 'Direct-page pre-order confirmed' : 'Direct-page stock confirmed'}: ${itemName}`,
+      description: `${retailer}${hasPrice ? ` · A${price.toFixed(2)}` : ''} · First-party product page`,
+      url: itemUrl,
+      color: nextStock === 'pre-order' ? 0xfee75c : 0x57f287,
+      pingMembers: true,
+    });
+  } else if (oldStock === 'in stock' || oldStock === 'pre-order') {
+    const oldPrice = Number(previous?.price);
+    if (hasPrice && Number.isFinite(oldPrice) && oldPrice > 0 && isMeaningfulPriceDrop(oldPrice, price)) {
+      alerts.push({
+        title: `Direct-page price drop: ${itemName}`,
+        description: `${retailer} · A${oldPrice.toFixed(2)} → A${price.toFixed(2)} · First-party product page`,
+        url: itemUrl,
         color: 0x3498db,
         pingPriceDrops: true,
       });
