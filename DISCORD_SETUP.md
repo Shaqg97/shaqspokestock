@@ -50,7 +50,7 @@ The website alert workflow supports separate optional role mentions for stock/pr
 2. Right-click the `🔔 Stock Alerts` role in Server Settings → Roles and choose Copy Role ID.
 3. In GitHub, open the repository `Shaqg97/shaqspokestock` → Settings → Secrets and variables → Actions → New repository secret.
 4. Add secret name `DISCORD_STOCK_ALERT_ROLE_ID` and paste the copied numeric role ID as its value.
-5. Keep the existing `DISCORD_WEBHOOK_URL` secret configured for the alerts channel. Never paste webhook URLs or credentials into public chat or source files.
+5. Keep the existing `DISCORD_WEBHOOK_URL` secret configured as the documented fallback channel. Dedicated `DISCORD_STOCK_WEBHOOK_URL`, `DISCORD_PRICE_DROP_WEBHOOK_URL`, and `DISCORD_RELEASE_WEBHOOK_URL` secrets are optional; when one is absent, that route intentionally falls back to the general webhook and the workflow logs the fallback. Never paste webhook URLs or credentials into public chat or source files.
 6. Run the `Test Discord webhook` workflow in Actions to confirm the webhook can post to the selected channel. The test confirms delivery, not role pings.
 7. Test role pings only after the role ID secret is set and a verified stock/pre-order change occurs. Do not manually expose the webhook URL.
 
@@ -80,6 +80,6 @@ Suggested text for `🔔・choose-alerts`:
 
 ## 6. Current automation limitations
 
-- Product and price alerts only qualify when the monitoring workflow has a fresh explicit verification marker.
+- Catalogue stock and price alerts only qualify when the monitoring workflow has a fresh explicit verification marker. Direct first-party retailer observations also trigger the alert workflow when `retailer-source-data.json` changes; only successful, fresh observations with explicit stock evidence qualify.
 - Kmart and BIG W monitoring may be limited when their storefronts block automated requests. Do not treat blocked or unknown pages as confirmed out of stock.
 - Stock/pre-order alerts can ping the configured `DISCORD_STOCK_ALERT_ROLE_ID`; price-drop alerts can separately ping `DISCORD_PRICE_DROP_ROLE_ID`. Missing role secrets result in no role ping. The workflow currently posts all automated alert types to the single configured webhook channel.
