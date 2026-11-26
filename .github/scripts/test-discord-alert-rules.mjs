@@ -28,7 +28,7 @@ test('no-alert runs exit before requiring the Discord webhook secret', () => {
 });
 
 test('single-channel Discord messages suppress all role and user mentions', () => {
-  assert.match(source, /allowed_mentions: \{\s*parse: \[\],\s*roles: \[\],\s*users: \[\],\s*\}/);
+  assert.ok(source.includes('allowed_mentions: { parse: [], roles: [], users: [] }'));
   assert.doesNotMatch(source, /DISCORD_STOCK_ALERT_ROLE_ID|DISCORD_PRICE_DROP_ROLE_ID/);
 });
 
