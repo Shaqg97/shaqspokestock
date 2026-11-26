@@ -79,7 +79,7 @@ test('The Card Spot price conflicts are marked for review rather than auto-overw
 
 test('direct retailer snapshot changes trigger Discord workflow runs', async () => {
   const workflow = await readFile(new URL('../workflows/discord-product-alerts.yml', import.meta.url), 'utf8');
-  assert.match(workflow, /- retailer-source-data\\.json/);
+  assert.ok(workflow.includes('      - retailer-source-data.json'));
 });
 
 test('direct-page stock alerts require a successful fresh first-party observation', () => {
