@@ -75,3 +75,28 @@ test('The Card Spot price conflicts are marked for review rather than auto-overw
   assert.ok(shopifyMonitor.includes('retailerPriceSourcesAgree'));
   assert.ok(shopifyMonitor.includes("stockCheckStatus = 'needs-review'"));
 });
+
+
+test('direct retailer snapshot changes trigger Discord workflow runs', async () => {
+  const workflow = await readFile(new URL('../workflows/discord-product-alerts.yml', import.meta.url), 'utf8');
+  assert.match(workflow, /- retailer-source-data\\.json/);
+});
+
+test('direct-page stock alerts require a successful fresh first-party observation', () => {
+  assert.match(source, /item\?\.fetchStatus !== 'ok'/);
+  assert.match(source, /item\?\.checkedAt/);
+  assert.match(source, /ageMs <= 24 \* 60 \* 60 \* 1000/);
+  assert.match(source, /oldStock === 'out of stock' \|\| oldStock === 'unknown' \|\| !previous/);
+  assert.match(source, /nextStock === 'in stock' \|\| nextStock === 'pre-order'/);
+});
+
+test('direct-page price drops use the same minimum savings rule as catalogue alerts', () => {
+  assert.match(source, /isMeaningfulPriceDrop\(oldPrice, price\)/);
+  assert.match(source, /Direct-page price drop:/);
+});
+
+test('webhook fallbacks are explicit in workflow logs', () => {
+  assert.match(source, /DISCORD_STOCK_WEBHOOK_URL is not configured; stock alerts will use DISCORD_WEBHOOK_URL/);
+  assert.match(source, /DISCORD_PRICE_DROP_WEBHOOK_URL is not configured; price-drop alerts will use DISCORD_WEBHOOK_URL/);
+  assert.match(source, /DISCORD_RELEASE_WEBHOOK_URL is not configured; release alerts will use DISCORD_WEBHOOK_URL/);
+});
