@@ -3,29 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { isMeaningfulPriceDrop } from './monitoring-safety.mjs';
 
 const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
-const stockWebhookUrl = process.env.DISCORD_STOCK_WEBHOOK_URL || webhookUrl;
-const priceDropWebhookUrl = process.env.DISCORD_PRICE_DROP_WEBHOOK_URL || webhookUrl;
-const releaseWebhookUrl = process.env.DISCORD_RELEASE_WEBHOOK_URL || webhookUrl;
-if (!process.env.DISCORD_STOCK_WEBHOOK_URL) console.warn('DISCORD_STOCK_WEBHOOK_URL is not configured; stock alerts will use DISCORD_WEBHOOK_URL.');
-if (!process.env.DISCORD_PRICE_DROP_WEBHOOK_URL) console.warn('DISCORD_PRICE_DROP_WEBHOOK_URL is not configured; price-drop alerts will use DISCORD_WEBHOOK_URL.');
-if (!process.env.DISCORD_RELEASE_WEBHOOK_URL) console.warn('DISCORD_RELEASE_WEBHOOK_URL is not configured; release alerts will use DISCORD_WEBHOOK_URL.');
 const beforeSha = process.env.BEFORE_SHA;
-let stockAlertRoleId = process.env.DISCORD_STOCK_ALERT_ROLE_ID?.trim() || '';
-let priceDropRoleId = process.env.DISCORD_PRICE_DROP_ROLE_ID?.trim() || '';
-let releaseAlertRoleId = process.env.DISCORD_RELEASE_ALERT_ROLE_ID?.trim() || '';
-
-// Optional role IDs should never block verified stock, deal, or release alerts.
-// Ignore malformed values safely; the general webhook still delivers the alert.
-for (const [label, value, clear] of [
-  ['DISCORD_STOCK_ALERT_ROLE_ID', stockAlertRoleId, () => { stockAlertRoleId = ''; }],
-  ['DISCORD_PRICE_DROP_ROLE_ID', priceDropRoleId, () => { priceDropRoleId = ''; }],
-  ['DISCORD_RELEASE_ALERT_ROLE_ID', releaseAlertRoleId, () => { releaseAlertRoleId = ''; }],
-]) {
-  if (value && !/^\d{17,20}$/.test(value)) {
-    console.warn(`${label} is not a valid Discord role ID; continuing without that role mention.`);
-    clear();
-  }
-}
 
 const validateWebhook = (value, label) => {
   if (!value) return;
@@ -188,70 +166,34 @@ if (!webhookUrl) {
   throw new Error('Add the DISCORD_WEBHOOK_URL repository secret before enabling Discord alerts.');
 }
 validateWebhook(webhookUrl, 'DISCORD_WEBHOOK_URL');
-validateWebhook(stockWebhookUrl, 'DISCORD_STOCK_WEBHOOK_URL');
-validateWebhook(priceDropWebhookUrl, 'DISCORD_PRICE_DROP_WEBHOOK_URL');
-validateWebhook(releaseWebhookUrl, 'DISCORD_RELEASE_WEBHOOK_URL');
 
+// One channel handles every notification. Category labels make each ping easy
+// to scan, and no role mentions are sent so the channel stays predictable.
+const categoryFor = (alert) => {
+  if (alert.pingMembers) return '📦 STOCK / RESTOCK';
+  if (alert.pingPriceDrops) return '💸 PRICE DROP';
+  if (alert.title.startsWith('New release tracked:')) return '🗓️ NEW RELEASE';
+  return 'ℹ️ CATALOGUE UPDATE';
+};
 
-// Keep stock pings, price-drop pings, and informational updates in separate
-// messages so one category can never accidentally ping another category's role.
-const groups = [
-  {
-    roleId: stockAlertRoleId,
-    webhookUrl: stockWebhookUrl,
-    message: 'New stock or pre-order alert(s) just landed.',
-    items: alerts.filter((alert) => alert.pingMembers),
-  },
-  {
-    roleId: priceDropRoleId,
-    webhookUrl: priceDropWebhookUrl,
-    message: 'A verified price drop just landed.',
-    items: alerts.filter((alert) => alert.pingPriceDrops),
-  },
-  {
-    roleId: releaseAlertRoleId,
-    webhookUrl: releaseWebhookUrl,
-    message: 'A new Pokémon release is being tracked.',
-    items: alerts.filter((alert) => alert.title.startsWith('New release tracked:')),
-  },
-  {
-    roleId: null,
-    webhookUrl,
-    message: '',
-    items: alerts.filter((alert) =>
-      !alert.pingMembers &&
-      !alert.pingPriceDrops &&
-      !alert.title.startsWith('New release tracked:')
-    ),
-  },
-].filter((group) => group.items.length > 0);
-
-for (const group of groups) {
-  for (let index = 0; index < group.items.length; index += 10) {
-    const shouldPingRole = Boolean(group.roleId);
-    const response = await fetch(group.webhookUrl, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        username: 'Shaqs Poke Stock',
-        content: shouldPingRole ? `<@&${group.roleId}> ${group.message}` : undefined,
-        allowed_mentions: {
-          parse: [],
-          roles: shouldPingRole ? [group.roleId] : [],
-        },
-        embeds: group.items.slice(index, index + 10).map((alert) => ({
-          title: alert.title,
-          description: alert.description || undefined,
-          url: alert.url || undefined,
-          color: alert.color,
-        })),
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Discord rejected an alert message (HTTP ${response.status}).`);
-    }
-  }
+for (let index = 0; index < alerts.length; index += 10) {
+  const batch = alerts.slice(index, index + 10);
+  const response = await fetch(webhookUrl, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      username: 'Shaqs Poke Stock',
+      content: '🔔 **Shaqs Poke Stock update** — stock, price and release notifications',
+      allowed_mentions: { parse: [], roles: [], users: [] },
+      embeds: batch.map((alert) => ({
+        title: '[' + categoryFor(alert) + '] ' + alert.title,
+        description: alert.description || undefined,
+        url: alert.url || undefined,
+        color: alert.color,
+      })),
+    }),
+  });
+  if (!response.ok) throw new Error('Discord rejected an alert message (HTTP ' + response.status + ').');
 }
 
-console.log(`Sent ${alerts.length} product alert(s) to Discord.`);
+console.log('Sent ' + alerts.length + ' product alert(s) to the single Discord channel.');

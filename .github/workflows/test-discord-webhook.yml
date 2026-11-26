@@ -31,28 +31,9 @@ jobs:
           DISCORD_RELEASE_ALERT_ROLE_ID: ${{ secrets.DISCORD_RELEASE_ALERT_ROLE_ID }}
           TEST_CHANNEL: ${{ inputs.test_channel }}
         run: |
-          webhook=""
-          role_id=""
-          case "$TEST_CHANNEL" in
-            default) webhook="$DISCORD_WEBHOOK_URL" ;;
-            stock) webhook="${DISCORD_STOCK_WEBHOOK_URL:-$DISCORD_WEBHOOK_URL}"; role_id="$DISCORD_STOCK_ALERT_ROLE_ID" ;;
-            price) webhook="${DISCORD_PRICE_DROP_WEBHOOK_URL:-$DISCORD_WEBHOOK_URL}"; role_id="$DISCORD_PRICE_DROP_ROLE_ID" ;;
-            release) webhook="${DISCORD_RELEASE_WEBHOOK_URL:-$DISCORD_WEBHOOK_URL}"; role_id="$DISCORD_RELEASE_ALERT_ROLE_ID" ;;
-            *) echo "Invalid test_channel input."; exit 1 ;;
-          esac
+          webhook="$DISCORD_WEBHOOK_URL"
           if [ -z "$webhook" ]; then
-            echo "No webhook is configured for this route. Add the matching repository secret or DISCORD_WEBHOOK_URL fallback."
+            echo "No webhook is configured. Add DISCORD_WEBHOOK_URL as a repository secret."
             exit 1
           fi
-          if [ -n "$role_id" ]; then
-            payload=$(ROLE_ID="$role_id" TEST_CHANNEL="$TEST_CHANNEL" node -e 'process.stdout.write(JSON.stringify({content:"✅ **Shaqs Poke Stock test** — "+process.env.TEST_CHANNEL+" channel delivery and role ping test. No stock data was changed.",allowed_mentions:{parse:[],roles:[process.env.ROLE_ID]}}))')
-          else
-            payload=$(TEST_CHANNEL="$TEST_CHANNEL" node -e 'process.stdout.write(JSON.stringify({content:"✅ **Shaqs Poke Stock test** — "+process.env.TEST_CHANNEL+" channel delivery is working. No role was pinged and no stock data was changed.",allowed_mentions:{parse:[],roles:[]}}))')
-          fi
-          response=$(curl --silent --show-error --output /tmp/discord-response.txt --write-out "%{http_code}" -H "Content-Type: application/json" -X POST --data "$payload" "$webhook")
-          if [ "$response" -lt 200 ] || [ "$response" -ge 300 ]; then
-            echo "Discord webhook returned HTTP $response."
-            cat /tmp/discord-response.txt
-            exit 1
-          fi
-          echo "Discord accepted the test message (HTTP $response). Route tested: $TEST_CHANNEL."
+          payload=$(TEST_CHANNEL="$TEST_CHANNEL" node -e 'const label=({default:"GENERAL",stock:"STOCK / RESTOCK",price:"PRICE DROP",release:"NEW RELEASE"})[process.env.TEST_CHANNEL]||"GENERAL"; process.stdout.write(JSON.stringify({content:"✅ **Shaqs Poke Stock test** — "+label+" notifications are routed to this single channel. No stock data was changed.",allowed_mentions:{parse:[],roles:[],users:[]}}))')

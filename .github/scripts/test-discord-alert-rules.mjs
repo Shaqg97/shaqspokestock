@@ -27,22 +27,19 @@ test('no-alert runs exit before requiring the Discord webhook secret', () => {
   assert.ok(noAlertExit >= 0 && webhookRequirement > noAlertExit);
 });
 
-test('Discord messages suppress all mentions', () => {
-  assert.match(source, /allowed_mentions: \{\s*parse: \[\],\s*roles: shouldPingRole \? \[group\.roleId\] : \[\],\s*\}/);
+test('single-channel Discord messages suppress all role and user mentions', () => {
+  assert.ok(source.includes('allowed_mentions: { parse: [], roles: [], users: [] }'));
+  assert.doesNotMatch(source, /DISCORD_STOCK_ALERT_ROLE_ID|DISCORD_PRICE_DROP_ROLE_ID/);
 });
 
-test('member pings are optional and restricted to the configured stock-alert role', () => {
-  assert.match(source, /DISCORD_STOCK_ALERT_ROLE_ID/);
-  assert.match(source, /roles: shouldPingRole \? \[group\.roleId\] : \[\]/);
-  assert.match(source, /pingMembers: true/);
-  assert.match(source, /alert\.pingMembers/);
-});
-
-test('price-drop pings are optional and isolated from stock-alert pings', () => {
-  assert.match(source, /DISCORD_PRICE_DROP_ROLE_ID/);
-  assert.match(source, /pingPriceDrops: true/);
-  assert.match(source, /alert\.pingPriceDrops/);
-  assert.match(source, /roles: shouldPingRole \? \[group\.roleId\] : \[\]/);
+test('all alert categories are routed to one webhook with clear labels', () => {
+  assert.match(source, /validateWebhook\(webhookUrl, 'DISCORD_WEBHOOK_URL'\)/);
+  assert.match(source, /\['\s*\+ categoryFor\(alert\) \+ '\] '/);
+  assert.match(source, /STOCK \/ RESTOCK/);
+  assert.match(source, /PRICE DROP/);
+  assert.match(source, /NEW RELEASE/);
+  assert.match(source, /CATALOGUE UPDATE/);
+  assert.doesNotMatch(source, /DISCORD_(?:STOCK|PRICE_DROP|RELEASE)_WEBHOOK_URL/);
 });
 
 
@@ -95,8 +92,8 @@ test('direct-page price drops use the same minimum savings rule as catalogue ale
   assert.match(source, /Direct-page price drop:/);
 });
 
-test('webhook fallbacks are explicit in workflow logs', () => {
-  assert.match(source, /DISCORD_STOCK_WEBHOOK_URL is not configured; stock alerts will use DISCORD_WEBHOOK_URL/);
-  assert.match(source, /DISCORD_PRICE_DROP_WEBHOOK_URL is not configured; price-drop alerts will use DISCORD_WEBHOOK_URL/);
-  assert.match(source, /DISCORD_RELEASE_WEBHOOK_URL is not configured; release alerts will use DISCORD_WEBHOOK_URL/);
+test('the general Discord webhook is the only required notification destination', () => {
+  assert.match(source, /if \(!webhookUrl\)/);
+  assert.match(source, /DISCORD_WEBHOOK_URL/);
+  assert.doesNotMatch(source, /DISCORD_(?:STOCK|PRICE_DROP|RELEASE)_WEBHOOK_URL/);
 });
