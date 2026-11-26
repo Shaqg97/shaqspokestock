@@ -134,8 +134,8 @@
     "retailers": [
       {
         "name": "PokéBox",
-        "price": 109.99,
-        "stock": "Sold Out",
+        "price": 119.99,
+        "stock": "In Stock",
         "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-box-japanese-pokemon-tcg",
         "stockCheckStatus": "verified",
         "checkedAt": "2026-11-26"
@@ -150,7 +150,7 @@
       },
       {
         "name": "Pocket Games",
-        "price": 126,
+        "price": 164,
         "stock": "In Stock",
         "url": "https://pocketgames.com.au/products/pokemon-tcg-mega-brave-m1l-booster-box-booster-pack",
         "stockCheckStatus": "verified",
@@ -216,7 +216,7 @@
       {
         "name": "PokéBox",
         "price": 4.99,
-        "stock": "Sold Out",
+        "stock": "In Stock",
         "url": "https://www.pokebox.com.au/products/mega-brave-m1l-booster-pack-japanese-pokemon-tcg",
         "stockCheckStatus": "verified",
         "checkedAt": "2026-11-26"
@@ -664,7 +664,7 @@
       },
       {
         "name": "Gameology",
-        "price": 99,
+        "price": 139.95,
         "stock": "In Stock",
         "url": "https://www.gameology.com.au/products/pokemon-tcg-30th-celebration-booster-bundle",
         "stockCheckStatus": "verified",
@@ -908,7 +908,7 @@
     "retailers": [
       {
         "name": "Gameology",
-        "price": 78,
+        "price": 109.95,
         "stock": "In Stock",
         "url": "https://www.gameology.com.au/products/pokemon-tcg-mega-symphonia-booster-box-m1s-japanese",
         "stockCheckStatus": "verified",
