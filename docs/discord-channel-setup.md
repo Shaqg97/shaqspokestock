@@ -1,37 +1,27 @@
-# Discord channel routing for Shaqs Poke Stock
+# Discord alert channel setup
 
-The alert workflow supports a separate Discord webhook per channel. The existing `DISCORD_WEBHOOK_URL` remains the fallback, so existing setup continues to work.
+Shaqs Poke Stock sends every automated notification to one Discord channel through the repository secret `DISCORD_WEBHOOK_URL`. Category labels distinguish the messages:
 
-## Recommended channels
+- 📦 STOCK / RESTOCK
+- 💸 PRICE DROP
+- 🗓️ NEW RELEASE
+- ℹ️ CATALOGUE UPDATE
 
-- `#stock-alerts`: verified restocks, new in-stock listings and pre-orders
-- `#price-drops`: verified price reductions
-- `#new-releases`: newly tracked Pokémon releases
-- `#general` or `#bot-updates`: new products and informational updates (existing webhook)
+## Configure the channel
 
-## GitHub Actions repository secrets
+1. Choose or create one channel, such as `#poke-stock-alerts`.
+2. In that channel, open **Edit Channel → Integrations → Webhooks** and create a webhook.
+3. Copy its URL and store it in GitHub repository **Settings → Secrets and variables → Actions** as `DISCORD_WEBHOOK_URL`.
+4. Keep the URL private. Do not commit it or paste it into issues or chat.
 
-Create a webhook inside each target Discord channel (Server Settings → Integrations → Webhooks), then add its URL under GitHub → repository Settings → Secrets and variables → Actions:
+The channel may be renamed in Discord later; the webhook remains connected to that channel. No separate stock, price or release webhooks are needed. Older dedicated webhook and role-ID secrets can be left in GitHub, but the current alert sender ignores them. Role and user mentions are disabled.
 
-- Required existing fallback: `DISCORD_WEBHOOK_URL`
-- Optional stock channel: `DISCORD_STOCK_WEBHOOK_URL`
-- Optional price channel: `DISCORD_PRICE_DROP_WEBHOOK_URL`
-- Optional release channel: `DISCORD_RELEASE_WEBHOOK_URL`
+## Notifications
 
-If an optional channel webhook is absent, that category falls back to `DISCORD_WEBHOOK_URL`. This keeps alerts working while the channels are being configured.
+Set the chosen alert channel's notification override to **All Messages** if you want push notifications for webhook posts. Other channels can be muted or set to **Nothing**. Because the webhook does not mention a role or user, **Only @mentions** may suppress its notifications.
 
-## Optional role pings
+## Test
 
-Create roles in Discord (Server Settings → Roles), enable Developer Mode, then right-click each role and choose Copy Role ID. Add only the IDs you want:
+Run [Test Discord webhook](https://github.com/Shaqg97/shaqspokestock/actions/workflows/test-discord-webhook.yml). Select `default`, `stock`, `price` or `release`; every option posts one labelled test message to the same `DISCORD_WEBHOOK_URL` destination.
 
-- `DISCORD_STOCK_ALERT_ROLE_ID`
-- `DISCORD_PRICE_DROP_ROLE_ID`
-- `DISCORD_RELEASE_ALERT_ROLE_ID`
-
-The role must be mentionable by the webhook/bot or the server's permissions must permit it. The workflow restricts allowed mentions to the selected role ID, never @everyone or arbitrary users. Role IDs are optional; without them the alert posts without a ping.
-
-## Test each route
-
-Run [Test Discord webhook](https://github.com/Shaqg97/shaqspokestock/actions/workflows/test-discord-webhook.yml) and select `default`, `stock`, `price`, or `release`. Each run posts a clearly labelled test message. If the channel-specific webhook is not set, it uses the default webhook; add the relevant secret first if you want to verify delivery to a distinct channel.
-
-Webhook URLs are credentials: store them only as GitHub Actions secrets and never commit or paste them into public issues.
+Webhook URLs are credentials. Store them only as GitHub Actions secrets.

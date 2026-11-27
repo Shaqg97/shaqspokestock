@@ -43,6 +43,38 @@ test('all alert categories are routed to one webhook with clear labels', () => {
 });
 
 
+
+const marketplaceSource = await readFile(new URL('./refresh-marketplace-prices.mjs', import.meta.url), 'utf8');
+
+test('eBay marketplace price drops use the same single webhook without role mentions', () => {
+  assert.ok(marketplaceSource.includes('const webhookUrl = process.env.DISCORD_WEBHOOK_URL;'));
+  assert.ok(marketplaceSource.includes("allowed_mentions: { parse: [], roles: [], users: [] }"));
+  assert.ok(marketplaceSource.includes("title: '[💸 PRICE DROP] eBay price drop: ' + alert.product"));
+  assert.doesNotMatch(marketplaceSource, /DISCORD_PRICE_DROP_WEBHOOK_URL|DISCORD_PRICE_DROP_ROLE_ID/);
+});
+
+test('Discord workflows use only the single general webhook secret', async () => {
+  const paths = [
+    '../workflows/discord-product-alerts.yml',
+    '../workflows/test-discord-webhook.yml',
+    '../workflows/marketplace-price-tracker.yml',
+    '../workflows/gameology-stock-monitor.yml',
+    '../workflows/priority-retailer-stock-monitor.yml',
+  ];
+  for (const path of paths) {
+    const workflow = await readFile(new URL(path, import.meta.url), 'utf8');
+    assert.ok(workflow.includes('DISCORD_WEBHOOK_URL'), path + ' must use the general webhook');
+    assert.doesNotMatch(workflow, /DISCORD_(?:STOCK|PRICE_DROP|RELEASE)_WEBHOOK_URL|DISCORD_.*ROLE_ID/, path + ' must not use legacy webhook or role secrets');
+  }
+});
+
+test('manual Discord delivery test posts one message to one webhook', async () => {
+  const workflow = await readFile(new URL('../workflows/test-discord-webhook.yml', import.meta.url), 'utf8');
+  assert.match(workflow, /curl --fail/);
+  assert.match(workflow, /DISCORD_WEBHOOK_URL/);
+  assert.doesNotMatch(workflow, /DISCORD_(?:STOCK|PRICE_DROP|RELEASE)_WEBHOOK_URL|DISCORD_.*ROLE_ID/);
+});
+
 test('freshness checks compare Sydney calendar dates rather than UTC dates', () => {
   assert.ok(source.includes("timeZone: 'Australia/Sydney'"));
   assert.ok(source.includes('todaySydneyMs - checkedDate'));

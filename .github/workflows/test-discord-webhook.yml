@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       test_channel:
-        description: "Channel route to test"
+        description: "Alert label to test in the single Discord channel"
         required: true
         type: choice
         options:
@@ -20,20 +20,14 @@ jobs:
   test-discord:
     runs-on: ubuntu-24.04
     steps:
-      - name: Send test message to selected Discord channel
+      - name: Send one test message to the configured Discord channel
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          DISCORD_STOCK_WEBHOOK_URL: ${{ secrets.DISCORD_STOCK_WEBHOOK_URL }}
-          DISCORD_PRICE_DROP_WEBHOOK_URL: ${{ secrets.DISCORD_PRICE_DROP_WEBHOOK_URL }}
-          DISCORD_RELEASE_WEBHOOK_URL: ${{ secrets.DISCORD_RELEASE_WEBHOOK_URL }}
-          DISCORD_STOCK_ALERT_ROLE_ID: ${{ secrets.DISCORD_STOCK_ALERT_ROLE_ID }}
-          DISCORD_PRICE_DROP_ROLE_ID: ${{ secrets.DISCORD_PRICE_DROP_ROLE_ID }}
-          DISCORD_RELEASE_ALERT_ROLE_ID: ${{ secrets.DISCORD_RELEASE_ALERT_ROLE_ID }}
           TEST_CHANNEL: ${{ inputs.test_channel }}
         run: |
-          webhook="$DISCORD_WEBHOOK_URL"
-          if [ -z "$webhook" ]; then
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
             echo "No webhook is configured. Add DISCORD_WEBHOOK_URL as a repository secret."
             exit 1
           fi
           payload=$(TEST_CHANNEL="$TEST_CHANNEL" node -e 'const label=({default:"GENERAL",stock:"STOCK / RESTOCK",price:"PRICE DROP",release:"NEW RELEASE"})[process.env.TEST_CHANNEL]||"GENERAL"; process.stdout.write(JSON.stringify({content:"✅ **Shaqs Poke Stock test** — "+label+" notifications are routed to this single channel. No stock data was changed.",allowed_mentions:{parse:[],roles:[],users:[]}}))')
+          curl --fail --silent --show-error -H "Content-Type: application/json" -d "$payload" "$DISCORD_WEBHOOK_URL"
