@@ -4,13 +4,7 @@ const catalogueUrl = new URL('../../products.json', import.meta.url);
 const snapshotUrl = new URL('../../marketplace-prices.json', import.meta.url);
 const clientId = process.env.EBAY_CLIENT_ID;
 const clientSecret = process.env.EBAY_CLIENT_SECRET;
-const webhookUrl = process.env.DISCORD_PRICE_DROP_WEBHOOK_URL || process.env.DISCORD_WEBHOOK_URL;
-let priceDropRoleId = process.env.DISCORD_PRICE_DROP_ROLE_ID?.trim() || '';
-
-if (priceDropRoleId && !/^\\d{17,20}$/.test(priceDropRoleId)) {
-  console.warn('DISCORD_PRICE_DROP_ROLE_ID is not a valid Discord role ID; continuing without role mentions.');
-  priceDropRoleId = '';
-}
+const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 
 if (!clientId || !clientSecret) {
   throw new Error('eBay marketplace tracking is not configured. Add EBAY_CLIENT_ID and EBAY_CLIENT_SECRET as repository Actions secrets; the refresh is stopping so the workflow cannot report a false success.');
@@ -302,10 +296,10 @@ if (webhookUrl && alerts.length) {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         username: 'Shaqs Poke Stock',
-        content: priceDropRoleId ? `<@&${priceDropRoleId}> eBay price-drop alert(s) just landed.` : undefined,
-        allowed_mentions: { parse: [], roles: priceDropRoleId ? [priceDropRoleId] : [] },
+        content: '💸 **PRICE DROP** — verified eBay AU delivered-price reduction(s)',
+        allowed_mentions: { parse: [], roles: [], users: [] },
         embeds: batch.map(alert => ({
-          title: 'eBay price drop: ' + alert.product,
+          title: '[💸 PRICE DROP] eBay price drop: ' + alert.product,
           description: alert.title + '\nA$' + alert.oldPrice.toFixed(2) + ' → A$' + alert.newPrice.toFixed(2),
           url: alert.url,
           color: 0x57f287,
