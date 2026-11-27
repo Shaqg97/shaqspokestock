@@ -1387,6 +1387,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 © 2026 Shaqs Poke Stock • Built for Pokémon collectors 🇦🇺
 </footer>
 
+<script src="retailer-source-evidence.js"></script>
 <script>
 
 let products = [];
@@ -1404,6 +1405,18 @@ async function loadProducts() {
     }
 
     products = await response.json();
+
+    // Fresh, explicit first-party availability overrides conflicting catalogue states.
+    // The helper never promotes a page fetch or an unconfirmed price to verified stock.
+    try {
+      const sourceResponse = await fetch("retailer-source-data.json", { cache: "no-store" });
+      if (sourceResponse.ok && window.ShaqsRetailerEvidence?.reconcileProducts) {
+        const sourceSnapshot = await sourceResponse.json();
+        products = window.ShaqsRetailerEvidence.reconcileProducts(products, sourceSnapshot);
+      }
+    } catch (sourceError) {
+      console.warn("Direct retailer evidence unavailable; catalogue labels remain conservative.", sourceError);
+    }
 
     // Marketplace data is optional; retailer catalogue still works without it.
     try {
@@ -2145,7 +2158,7 @@ return matchesSearch && matchesFilter;
         >
           ${escapeHtml(dealActionLabel)}
         </a>
-        <p class="checkout-note">${useMarketplaceFallback ? "Retailer checks are not currently verified, so this is the next-best recent eBay AU price alternative — not a retailer stock confirmation. Check condition, seller, shipping and final checkout price." : verifiedPurchasable ? "Recently verified available stock — stock can still change." : verifiedPreorder ? "Recently verified pre-order listing — confirm release and terms with the retailer." : "No retailer currently has freshly verified availability for this item. Check the retailer for current stock and price."} You’ll complete checkout on the retailer’s website.</p>
+        <p class="checkout-note">${useMarketplaceFallback ? "Retailer checks are not currently verified, so this is the next-best recent eBay AU price alternative — not a retailer stock confirmation. Check condition, seller, shipping and final checkout price." : verifiedPurchasable ? "Recently verified available stock — stock can still change." : verifiedPreorder ? "Recently verified pre-order listing — confirm release and terms with the retailer." : "No retailer currently has freshly verified availability for this item. Check the retailer for current stock and price."} ${bestRetailer?.sourceNote ? escapeHtml(bestRetailer.sourceNote) + " " : ""}You’ll complete checkout on the retailer’s website.</p>
         ${verifiedAvailableRetailers.filter(retailer => retailer.url && retailer.url !== (bestRetailer && bestRetailer.url)).length ? `
           <div class="available-retailers" aria-label="Other retailers with recently verified stock">
             <strong>Also verified available at:</strong>
