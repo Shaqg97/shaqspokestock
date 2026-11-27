@@ -107,12 +107,16 @@ jobs:
           node --check .github/scripts/test-marketplace-snapshot-quality.mjs
           node --check .github/scripts/test-product-image-quality.mjs
           node --check .github/scripts/test-marketplace-price-drop-rules.mjs
+          node --check .github/scripts/test-release-checkout-safety.mjs
 
       - name: Test retailer source freshness guards
         run: node --test .github/scripts/test-retailer-source-freshness.mjs
 
       - name: Test marketplace price-drop alert rules
         run: node --test .github/scripts/test-marketplace-price-drop-rules.mjs
+
+      - name: Test release calendar checkout safety
+        run: node --test .github/scripts/test-release-checkout-safety.mjs
 
       - name: Test product image data quality
         run: node --test .github/scripts/test-product-image-quality.mjs
