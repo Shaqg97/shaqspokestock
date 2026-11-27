@@ -90,7 +90,7 @@ Without them, the refresh deliberately fails rather than reporting a false succe
 
 Discord delivery is managed separately from local browser targets. The alert workflow requires `DISCORD_WEBHOOK_URL`; optional channel-specific webhook secrets and role IDs are supported by `.github/scripts/send-discord-alerts.mjs`. Add secrets only through GitHub repository Actions settings. Never commit webhook URLs or tokens. Test role IDs and each alert category before announcing a public launch.
 
-For low-noise delivery, only send alerts when a qualifying observation changes meaningfully; deduplicate repeated observations, cap messages per run, and never ping a role when its configured ID is missing or malformed. A successful workflow means the job completed, not that every retailer was verifiable or that every Discord channel received a message. Review the run summary and alert counts before treating a run as healthy.
+For low-noise delivery, only send alerts when a qualifying observation changes meaningfully; deduplicate repeated observations, cap messages per run, and route all categories through the single `DISCORD_WEBHOOK_URL` with clear labels. Role and user mentions are disabled. A successful workflow means the job completed, not that every retailer was verifiable or that Discord received a message; review the run summary and alert counts before treating a run as healthy.
 
 ## Validation
 
