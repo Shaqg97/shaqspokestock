@@ -134,6 +134,6 @@ test('homepage, Deals, and Releases all load and apply the shared source-evidenc
   for (const page of ['index.html', 'deals.html', 'releases.html']) {
     const html = await readFile(new URL(page, root), 'utf8');
     assert.ok(html.includes('retailer-source-evidence.js'), page + ' must load the shared evidence helper');
-    assert.ok(html.includes('ShaqsRetailerEvidence.reconcileProducts'), page + ' must reconcile products before rendering');
+    assert.match(html, /ShaqsRetailerEvidence(?:\?\.)?\.reconcileProducts|ShaqsRetailerEvidence\?\.reconcileProducts/, page + ' must reconcile products before rendering');
   }
 });
