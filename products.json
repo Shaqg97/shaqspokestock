@@ -1524,5 +1524,88 @@
     ],
     "restock": false,
     "image": ""
+  },
+  {
+    "name": "Hop's Zacian ex Box",
+    "set": "Special Collection",
+    "language": "English",
+    "type": "Collection Box",
+    "store": "Target",
+    "price": 39,
+    "stock": "Check Retailer",
+    "url": "https://www.target.com.au/p/pokemon-tcg-hop-s-zacian-ex-box-assorted/71160962",
+    "status": "Retail listing found — checkout unverified",
+    "retailers": [
+      {
+        "name": "Target",
+        "price": 39,
+        "stock": "In Stock",
+        "url": "https://www.target.com.au/p/pokemon-tcg-hop-s-zacian-ex-box-assorted/71160962",
+        "checkedAt": "2026-11-27",
+        "stockCheckStatus": "needs-review",
+        "notes": "Manual page review on 27 Nov 2026 showed Add To Basket at A$39. This is not an automated stock verification; postcode, delivery and final checkout still need confirmation."
+      },
+      {
+        "name": "Kmart",
+        "price": 44,
+        "stock": "Check Retailer",
+        "url": "https://www.kmart.com.au/product/pokemon-trading-card-game%3A-hop%27s-zacian-ex-box-43580651/",
+        "checkedAt": "2026-11-27",
+        "stockCheckStatus": "needs-review",
+        "notes": "Black Friday listing at A$44; product page states ships from 28 Nov 2026. No current Add to bag control was visible in the page text checked on 27 Nov."
+      }
+    ],
+    "restock": false,
+    "image": ""
+  },
+  {
+    "name": "Flowing Fists Sleeved Booster",
+    "set": "Mega Evolution—Flowing Fists",
+    "language": "English",
+    "type": "Booster Pack",
+    "releaseDate": "2027-02-06",
+    "store": "Toymate",
+    "price": 8.99,
+    "stock": "Pre-Order",
+    "url": "https://toymate.com.au/pokemon-tcg-mega-evolution-flowing-fists-blister/",
+    "status": "Pre-Order listing — retailer checkout not verified",
+    "retailers": [
+      {
+        "name": "Toymate",
+        "price": 8.99,
+        "stock": "Pre-Order",
+        "url": "https://toymate.com.au/pokemon-tcg-mega-evolution-flowing-fists-blister/",
+        "checkedAt": "2026-11-27",
+        "stockCheckStatus": "needs-review",
+        "notes": "Toymate's product listing showed a Preorder label and A$8.99 price when checked 27 Nov 2026. Toymate displays 5 Feb 2027 as its release date; The Pokémon Company's Australian press schedule lists 6 Feb 2027. Confirm the date and order acceptance at checkout."
+      }
+    ],
+    "restock": false,
+    "image": ""
+  },
+  {
+    "name": "Flowing Fists Three-Booster Blister",
+    "set": "Mega Evolution—Flowing Fists",
+    "language": "English",
+    "type": "Blister",
+    "releaseDate": "2027-02-06",
+    "store": "Toymate",
+    "price": 29.99,
+    "stock": "Pre-Order",
+    "url": "https://toymate.com.au/pokemon-tcg-mega-evolution-flowing-fists-three-booster-blister/",
+    "status": "Pre-Order listing — retailer checkout not verified",
+    "retailers": [
+      {
+        "name": "Toymate",
+        "price": 29.99,
+        "stock": "Pre-Order",
+        "url": "https://toymate.com.au/pokemon-tcg-mega-evolution-flowing-fists-three-booster-blister/",
+        "checkedAt": "2026-11-27",
+        "stockCheckStatus": "needs-review",
+        "notes": "Toymate's product listing showed a Preorder label and A$29.99 price when checked 27 Nov 2026. Toymate displays 5 Feb 2027 as its release date; The Pokémon Company's Australian press schedule lists 6 Feb 2027. Confirm the date and order acceptance at checkout."
+      }
+    ],
+    "restock": false,
+    "image": ""
   }
 ]
