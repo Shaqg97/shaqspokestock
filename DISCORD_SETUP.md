@@ -1,85 +1,46 @@
 # Shaqs Poke Stock Discord Setup
 
-This guide describes the recommended Discord server layout and the one-time configuration needed for opt-in member stock alerts.
+All automated Shaqs Poke Stock notifications go to **one Discord channel**. The message prefix identifies the alert type:
 
-## 1. Create these categories and channels
+- 📦 **STOCK / RESTOCK** — verified stock, restocks and pre-orders
+- 💸 **PRICE DROP** — meaningful verified price reductions
+- 🗓️ **NEW RELEASE** — newly tracked releases
+- ℹ️ **CATALOGUE UPDATE** — other catalogue changes
 
-### START HERE
-- `👋・welcome` — read-only welcome, rules, and server purpose.
-- `📢・announcements` — staff-only posting for important updates.
-- `🔔・choose-alerts` — explain notification roles and how to opt in.
-- `📌・how-to-use` — website link, add-to-home-screen guide, and alert FAQ.
+## 1. Choose the alert channel
 
-### STOCK & RELEASE ALERTS
-- `🚨・pokemon-stock-alerts` — the current webhook channel for verified restocks, new in-stock listings, pre-orders, and price drops.
-- `📅・release-calendar` — release dates and launch reminders.
-- `🏬・retailer-updates` — which stores are monitored and known coverage limitations.
+Create or choose one channel, for example `#poke-stock-alerts`. The channel name is yours to change later; the webhook remains attached to the channel if you rename it.
 
-### STORE & COMMUNITY
-- `🟣・big-w`
-- `🟢・kmart`
-- `🔴・target`
-- `🔵・jb-hi-fi`
-- `🎴・pokemon-chat`
-- `💎・deals-and-finds`
+## 2. Configure the one webhook
 
-### HELP & STAFF
-- `❓・support` — member questions and bug reports.
-- `📝・product-requests` — request products/retailers to track.
-- `🛡️・staff-chat` — private to Admin and Moderator.
-- `🧪・alert-testing` — private test channel for staff.
+1. Open the chosen channel in Discord.
+2. Open **Edit Channel → Integrations → Webhooks** and create a webhook for that channel.
+3. Copy the webhook URL.
+4. In GitHub, open `Shaqg97/shaqspokestock` → **Settings → Secrets and variables → Actions**.
+5. Create or update the repository secret named `DISCORD_WEBHOOK_URL` with that URL.
 
-Start with welcome, announcements, choose-alerts, pokemon-stock-alerts, retailer-updates, support, staff-chat, and alert-testing. Add the community/store channels when useful. Keep the single automated-alert channel for now because the current webhook posts to one configured channel; separate alert channels can be added later with separate webhooks.
+Keep the webhook URL private. Never paste it into chat, issues, source files or screenshots.
 
-## 2. Create roles
+Only `DISCORD_WEBHOOK_URL` is required by the current alert sender. Older separate webhook and role-ID secrets may remain in GitHub, but the current sender does not use them. The sender deliberately disables role and user mentions; each alert is labelled in the message instead.
 
-Create these in Server Settings → Roles:
-- `Admin` — server owner only.
-- `Moderator` — trusted staff.
-- `🔔 Stock Alerts` — restock, new in-stock, and pre-order notifications.
-- `💸 Price Drops` — optional price-drop notification role.
-- Optional interest roles: `🇦🇺 BIG W`, `🛒 Kmart`, `🎯 Target`, `🔵 JB Hi-Fi`.
+## 3. Receive the notifications
 
-Do not give notification roles administrative permissions. Move the bot/webhook-managed roles below your staff roles. A webhook itself does not need a Discord bot role.
+In Discord, set the notification override for `#poke-stock-alerts` to **All Messages** if you want push notifications for webhook posts. Set other channels to **Nothing** or mute them if you only want Shaqs Poke Stock alerts.
 
-## 3. Configure the stock-alert ping
+No role mention is sent, so an “Only @mentions” setting on the alert channel may suppress notifications for these messages.
 
-The website alert workflow supports separate optional role mentions for stock/pre-order alerts and price-drop alerts. Each role is pinged only for its own alert type, and only after its role ID secret is configured.
+## 4. Test delivery
 
-1. In Discord, enable Developer Mode: User Settings → Advanced → Developer Mode.
-2. Right-click the `🔔 Stock Alerts` role in Server Settings → Roles and choose Copy Role ID.
-3. In GitHub, open the repository `Shaqg97/shaqspokestock` → Settings → Secrets and variables → Actions → New repository secret.
-4. Add secret name `DISCORD_STOCK_ALERT_ROLE_ID` and paste the copied numeric role ID as its value.
-5. Keep the existing `DISCORD_WEBHOOK_URL` secret configured as the documented fallback channel. Dedicated `DISCORD_STOCK_WEBHOOK_URL`, `DISCORD_PRICE_DROP_WEBHOOK_URL`, and `DISCORD_RELEASE_WEBHOOK_URL` secrets are optional; when one is absent, that route intentionally falls back to the general webhook and the workflow logs the fallback. Never paste webhook URLs or credentials into public chat or source files.
-6. Run the `Test Discord webhook` workflow in Actions to confirm the webhook can post to the selected channel. The test confirms delivery, not role pings.
-7. Test role pings only after the role ID secret is set and a verified stock/pre-order change occurs. Do not manually expose the webhook URL.
+1. Open the repository's **Actions** tab.
+2. Select **Test Discord webhook**.
+3. Choose `default` for a general test, or `stock`, `price` or `release` to test the corresponding label.
+4. Run the workflow and confirm that one message appears in the chosen channel.
 
-Only the configured Stock Alerts role can be pinged for stock/pre-order alerts, and only the configured Price Drops role can be pinged for price drops. If either secret is absent, those alerts still post without that role ping.
+A successful workflow run confirms Discord accepted the webhook request. It does not prove retailer monitoring has found stock.
 
-## 4. Let members opt in
+## 5. Monitoring limits
 
-Preferred: enable Community features and configure Server Settings → Onboarding so members can choose the notification roles they want when joining. If Onboarding role assignment is not available in your server setup, use a reputable role-selection bot with a role menu in `🔔・choose-alerts`, or assign roles manually while the community is small.
-
-Suggested text for `🔔・choose-alerts`:
-
-> **Choose your Shaqs Poke Stock alerts**
->
-> - Choose **Stock Alerts** for restocks, new in-stock listings, and pre-order changes.
-> - Choose **Price Drops** if you want price-reduction updates.
-> - Store-interest roles are optional and can be used to tailor store-specific discussion and future alerts.
-> - You can remove a role at any time to stop receiving its role mentions.
->
-> Stock and price information can change quickly. Always open the retailer listing to confirm availability, delivery costs, and checkout details.
-
-## 5. Channel permissions
-
-- In announcement and automated alert channels, deny `@everyone` the `Send Messages` permission; allow staff to post.
-- In `staff-chat` and `alert-testing`, make the channels private and grant access only to Admin/Moderator.
-- In community channels, allow members to send messages but enable sensible anti-spam settings.
-- Keep role pings opt-in. Do not use `@everyone` for routine stock alerts.
-
-## 6. Current automation limitations
-
-- Catalogue stock and price alerts only qualify when the monitoring workflow has a fresh explicit verification marker. Direct first-party retailer observations also trigger the alert workflow when `retailer-source-data.json` changes; only successful, fresh observations with explicit stock evidence qualify.
-- Kmart and BIG W monitoring may be limited when their storefronts block automated requests. Do not treat blocked or unknown pages as confirmed out of stock.
-- Stock/pre-order alerts can ping the configured `DISCORD_STOCK_ALERT_ROLE_ID`; price-drop alerts can separately ping `DISCORD_PRICE_DROP_ROLE_ID`. Missing role secrets result in no role ping. The workflow currently posts all automated alert types to the single configured webhook channel.
+- Alerts are sent only when the monitoring logic detects qualifying changes from fresh, explicit evidence.
+- A successful monitoring run does not mean every retailer was accessible or every product was verified.
+- Kmart, BIG W, EB Games and other sites may block, rate-limit or restrict automated page checks. Blocked or unknown results are not treated as sold out.
+- Always open the retailer's own listing and confirm availability, delivery costs, limits and the final checkout total before purchasing.
