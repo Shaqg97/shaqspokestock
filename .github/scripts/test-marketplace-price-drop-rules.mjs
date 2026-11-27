@@ -20,10 +20,12 @@ test("used, opened, damaged and no-shrink offers are excluded from price-drop co
   assert.match(source, /if \(group === 'excluded' \|\| !Number\.isFinite\(newTotal\) \|\| newTotal <= 0\) continue/);
 });
 
-test("Discord price-drop embeds suppress all mentions except the explicitly configured role", () => {
-  assert.match(source, /allowed_mentions: \{ parse: \[\], roles: priceDropRoleId \? \[priceDropRoleId\] : \[\] \}/);
-  assert.match(source, /content: priceDropRoleId \? `<@&\$\{priceDropRoleId\}> eBay price-drop alert\(s\) just landed\.` : undefined/);
-  assert.match(source, /title: 'eBay price drop: ' \+ alert\.product/);
+test("Discord marketplace price-drop embeds use the single channel and suppress all mentions", () => {
+  assert.match(source, /const webhookUrl = process\.env\.DISCORD_WEBHOOK_URL/);
+  assert.match(source, /allowed_mentions: \{ parse: \[\], roles: \[\], users: \[\] \}/);
+  assert.match(source, /content: '💸 \*\*PRICE DROP\*\*/);
+  assert.match(source, /title: '\[💸 PRICE DROP\] eBay price drop: ' \+ alert\.product/);
+  assert.doesNotMatch(source, /DISCORD_PRICE_DROP_WEBHOOK_URL|DISCORD_PRICE_DROP_ROLE_ID|priceDropRoleId/);
 });
 
 test("marketplace refresh fails clearly when eBay API credentials are absent", () => {
