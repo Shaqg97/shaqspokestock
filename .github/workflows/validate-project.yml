@@ -108,6 +108,8 @@ jobs:
           node --check .github/scripts/test-product-image-quality.mjs
           node --check .github/scripts/test-marketplace-price-drop-rules.mjs
           node --check .github/scripts/test-release-checkout-safety.mjs
+          node --check retailer-source-evidence.js
+          node --check .github/scripts/test-retailer-source-reconciliation.mjs
 
       - name: Test retailer source freshness guards
         run: node --test .github/scripts/test-retailer-source-freshness.mjs
@@ -117,6 +119,9 @@ jobs:
 
       - name: Test release calendar checkout safety
         run: node --test .github/scripts/test-release-checkout-safety.mjs
+
+      - name: Test direct retailer source reconciliation
+        run: node --test .github/scripts/test-retailer-source-reconciliation.mjs
 
       - name: Test product image data quality
         run: node --test .github/scripts/test-product-image-quality.mjs
@@ -135,4 +140,4 @@ jobs:
 
       - name: Check required page features
         run: |
-          node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); for(const token of ['products.json','marketplace-prices.json','retailer-source-data.json','external-stock-sources.json','external-stock-sources','function loadExternalStockSources','source-tracker','function loadSourceTracker','function renderProducts','function setFilter','function toggleFavorite','function isFreshVerifiedStock','function renderMarketplaceOffers','function renderMarketplacePriceHistory','watchlist','My Watchlist','retailerStockLabel','stockCheckStatus','meta name=','prefers-reduced-motion','Buy Now at ','Pre-order at ','Also verified available at','You’ll complete checkout on the retailer’s website.','Search eBay AU','Search Amazon AU','Marketplace quality: sealed + delivery + seller','function conditionRankForSort','sellerFeedbackScore','Seller feedback not supplied']) if(!html.includes(token)) throw new Error('Missing expected page feature: '+token); console.log('Core page features found');"
+          node --input-type=module -e "import fs from 'node:fs'; const html=fs.readFileSync('index.html','utf8'); for(const token of ['products.json','marketplace-prices.json','retailer-source-data.json','external-stock-sources.json','external-stock-sources','function loadExternalStockSources','source-tracker','function loadSourceTracker','function renderProducts','function setFilter','function toggleFavorite','function isFreshVerifiedStock','retailer-source-evidence.js','ShaqsRetailerEvidence.reconcileProducts','function renderMarketplaceOffers','function renderMarketplacePriceHistory','watchlist','My Watchlist','retailerStockLabel','stockCheckStatus','meta name=','prefers-reduced-motion','Buy Now at ','Pre-order at ','Also verified available at','You’ll complete checkout on the retailer’s website.','Search eBay AU','Search Amazon AU','Marketplace quality: sealed + delivery + seller','function conditionRankForSort','sellerFeedbackScore','Seller feedback not supplied']) if(!html.includes(token)) throw new Error('Missing expected page feature: '+token); console.log('Core page features found');"
